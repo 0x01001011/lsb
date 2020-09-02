@@ -2,6 +2,7 @@
   "compilerOptions": {
     "target": "es5",
     "lib": [
+      "ES6",
       "dom",
       "dom.iterable",
       "esnext"
@@ -10,7 +11,7 @@
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "strict": true,
+    "strict": false,
     "forceConsistentCasingInFileNames": true,
     "module": "esnext",
     "moduleResolution": "node",
@@ -20,6 +21,7 @@
     "jsx": "react"
   },
   "include": [
-    "src"
+    "src",
+    "global.d.ts"
   ]
 }
