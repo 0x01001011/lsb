@@ -60,6 +60,7 @@ module.exports = {
         "react/prop-types": "off",
         "no-param-reassign": "off",
         "@typescript-eslint/explicit-function-return-type": "off",
-        "@typescript-eslint/no-unused-expressions": "off"
+        "@typescript-eslint/no-unused-expressions": "off",
+        "@typescript-eslint/explicit-module-boundary-types": "off"
     },
 }

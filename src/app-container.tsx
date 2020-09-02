@@ -1,5 +1,6 @@
 import React from "react"
 
+import { ReactQueryDevtools } from "react-query-devtools"
 import {
   Provider,
   useDispatch,
@@ -38,7 +39,7 @@ const AppRender = () => {
 
   return (
     <AppRenderContainer>
-      render app
+      render appss
     </AppRenderContainer>
   );
 }
@@ -51,7 +52,9 @@ export const AppContainer = () => {
           <AppRender/>
         </MasterLayout>
       </AppRouter>
+      <ReactQueryDevtools initialIsOpen />
     </Provider>
   )
 }
+
 
