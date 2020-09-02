@@ -28,10 +28,7 @@ type AsyncThunkConfig = {
   rejectValue?: any;
 };
 
-
-  export const createNewWalletWithPasscode = createAsyncThunk<
-      incognito.WalletInstance|undefined, CreateWalletWithPasscode,
-      AsyncThunkConfig>('wallet/createNewWallet', async (payload) => {
+  export const createNewWalletWithPasscode = createAsyncThunk<incognito.WalletInstance|undefined, CreateWalletWithPasscode, AsyncThunkConfig>('wallet/createNewWallet', async (payload) => {
     try {
       const instance = new incognito.WalletInstance()
       const wallet = await instance.init(payload.name, payload.name)
