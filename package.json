@@ -9,7 +9,7 @@
     "incognito-js": "file:../sdk-v2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-query": "2.14.0",
+    "react-query": "2.14.1",
     "react-query-devtools": "^2.4.5",
     "react-redux": "7.2.1",
     "react-router-dom": "^5.2.0",
@@ -18,23 +18,22 @@
     "redux-persist-webextension-storage": "1.0.2",
     "redux-thunk": "2.3.0",
     "styled-components": "5.1.1",
-    "axios": "0.20.0"
+    "axios": "0.20.0",
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/react": "^11.0.1",
+    "@testing-library/user-event": "^12.1.3"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^5.11.4",
-    "@testing-library/react": "^10.4.9",
-    "@testing-library/user-event": "^12.1.3",
-    "@types/jest": "^26.0.12",
-    "@types/node": "^14.6.2",
+    "@types/jest": "^26.0.13",
+    "@types/node": "^14.6.3",
     "@types/react": "^16.9.49",
     "@types/react-dom": "^16.9.8",
     "@types/react-redux": "7.1.9",
     "@types/react-router-dom": "5.1.5",
-    "@types/styled-components": "5.1.2",
+    "@types/styled-components": "5.1.3",
     "@types/webpack-env": "1.15.2",
     "@typescript-eslint/eslint-plugin": "^4.0.1",
     "@typescript-eslint/parser": "4.0.1",
-    "eslint": "^7.8.1",
     "eslint-config-airbnb-typescript": "^9.0.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-formatter-pretty": "^4.0.0",
@@ -52,7 +51,7 @@
     "import-sort-parser-typescript": "^6.0.0",
     "import-sort-style-module": "^6.0.0",
     "jest": "^26.4.2",
-    "lint-staged": "^10.2.13",
+    "lint-staged": "^10.3.0",
     "markdownlint-cli": "^0.23.2",
     "prettier": "^2.1.1",
     "react-scripts": "3.4.3",
@@ -77,6 +76,16 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,ts,tsx}": [
+      "eslint --fix"
     ]
   }
 }

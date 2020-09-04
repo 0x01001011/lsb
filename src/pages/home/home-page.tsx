@@ -1,8 +1,8 @@
-import React from "react"
+import React from 'react'
 
-import styled from "styled-components"
+import styled from 'styled-components'
 
-import { useGetListCoinToken } from "../../services/get-list-coin-tokens"
+import { useGetListCoinToken } from '../../services/get-list-coin-tokens'
 
 const HomePageContainer = styled.div`
 

@@ -1,18 +1,18 @@
-import React from "react"
+import React from 'react'
 
 import {
   BrowserRouter as Router,
   Route,
   Switch,
-} from "react-router-dom"
+} from 'react-router-dom'
 
-import { HomePage } from "./pages/home/home-page"
+import { HomePage } from './pages/home/home-page'
 
-export const AppRouter = ({children}) => {
+export const AppRouter = ({ children }) => {
   return (
     <Router>
       <div>
-        <div>{children}</div>
+        <div>{ children }</div>
         <Switch>
           <Route path="/about">
             <HomePage />

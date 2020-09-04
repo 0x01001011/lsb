@@ -1,20 +1,20 @@
-import React from "react"
+import React from 'react'
 
-import { ReactQueryDevtools } from "react-query-devtools"
+import { ReactQueryDevtools } from 'react-query-devtools'
 import {
   Provider,
   useDispatch,
-} from "react-redux"
-import styled from "styled-components"
+} from 'react-redux'
+import styled from 'styled-components'
 
-import { AppRouter } from "./app-router"
-import { MasterLayout } from "./components/layouts/master-layout"
-import { store } from "./redux"
+import { AppRouter } from './app-router'
+import { MasterLayout } from './components/layouts/master-layout'
+import { store } from './redux'
 import {
   createNewWalletWithPasscode,
   loadWalletWebAssembly,
   useWalletRedux,
-} from "./redux/wallet"
+} from './redux/wallet'
 
 const AppRenderContainer = styled.div`
 
@@ -41,7 +41,7 @@ const AppRender = () => {
     <AppRenderContainer>
       render appss
     </AppRenderContainer>
-  );
+  )
 }
 
 export const AppContainer = () => {

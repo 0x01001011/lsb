@@ -1,14 +1,14 @@
-import * as incognito from "incognito-js"
+import * as incognito from 'incognito-js'
 import {
   TypedUseSelectorHook,
   useSelector,
-} from "react-redux"
+} from 'react-redux'
 
 import {
   createAsyncThunk,
   createSlice,
   Dispatch,
-} from "@reduxjs/toolkit"
+} from '@reduxjs/toolkit'
 
 interface CreateWalletWithPasscode {
   name: string
@@ -22,13 +22,16 @@ export interface WalletState {
 
 
 type AsyncThunkConfig = {
-  state: WalletState;
-  dispatch?: Dispatch;
-  extra?: any;
-  rejectValue?: any;
+  state: WalletState
+  dispatch?: Dispatch
+  extra?: any
+  rejectValue?: any
 };
 
-  export const createNewWalletWithPasscode = createAsyncThunk<incognito.WalletInstance|undefined, CreateWalletWithPasscode, AsyncThunkConfig>('wallet/createNewWallet', async (payload) => {
+
+export const createNewWalletWithPasscode = createAsyncThunk
+  <incognito.WalletInstance | undefined, CreateWalletWithPasscode, AsyncThunkConfig>
+  ('wallet/createNewWallet', async (payload) => {
     try {
       const instance = new incognito.WalletInstance()
       const wallet = await instance.init(payload.name, payload.name)
@@ -36,10 +39,11 @@ type AsyncThunkConfig = {
       return wallet
     } catch (error) {
       console.error(error)
+      return undefined
     }
   })
 
-  export const loadWalletWebAssembly =
+export const loadWalletWebAssembly =
       createAsyncThunk('wallet/load_assembly', async () => {
         try {
           incognito.setConfig({
@@ -53,26 +57,26 @@ type AsyncThunkConfig = {
         }
       })
 
-  const walletInitialState: WalletState = {
-    passParaphrase: '',
-    loading: true,
-  }
+const walletInitialState: WalletState = {
+  passParaphrase: '',
+  loading: true,
+}
 
-  export const wallets = createSlice({
-    name: 'wallets',
-    initialState: walletInitialState,
-    reducers: {
+export const wallets = createSlice({
+  name: 'wallets',
+  initialState: walletInitialState,
+  reducers: {
 
-    },
-    extraReducers: {
-      [createNewWalletWithPasscode.fulfilled.toString()]:
+  },
+  extraReducers: {
+    [createNewWalletWithPasscode.fulfilled.toString()]:
           (state, {payload}) => {
             state.wallet = payload
           },
-      [loadWalletWebAssembly.fulfilled.toString()]: (state) => {
-        state.loading = false
-      },
-    }
-  })
+    [loadWalletWebAssembly.fulfilled.toString()]: (state) => {
+      state.loading = false
+    },
+  }
+})
 
-  export const useWalletRedux: TypedUseSelectorHook<WalletState> = useSelector
+export const useWalletRedux: TypedUseSelectorHook<WalletState> = useSelector

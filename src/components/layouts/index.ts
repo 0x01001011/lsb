@@ -1,1 +1,1 @@
-export * from './master-layout';
+export * from './master-layout'
