@@ -8,7 +8,10 @@ module.exports = {
     tsconfigRootDir: __dirname,
     project: ['./tsconfig.json'],
   },
-  "env": { "es6": true, "browser": true, } ,
+  "env": {
+    "es6": true,
+    "browser": true,
+  },
   settings: {
     react: {
       version: "detect" // Tells eslint-plugin-react to automatically detect the version of React to use
@@ -36,6 +39,7 @@ module.exports = {
     '@typescript-eslint/no-unused-expressions': 'off',
     'import/prefer-default-export': 'off',
     'react/prop-types': 'off',
-    'no-param-reassign': 'off'
+    'no-param-reassign': 'off',
+    'react/jsx-props-no-spreading': 'off'
   }
 };
