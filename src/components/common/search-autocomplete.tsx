@@ -2,46 +2,39 @@ import React from 'react'
 import { Autocomplete } from '@material-ui/lab'
 import { Typography, TextField, Zoom, Popper, Divider, useTheme, fade } from '@material-ui/core'
 import styled, { ThemeProvider } from 'styled-components'
-
-import {
-  Band,
-  Btc,
-  Dai, 
-  Eth,
-  Link
-} from '../../assets/token-logos'
+import { Band, Btc, Dai, Eth, Link } from 'src/assets/token-logos'
 
 const tokenSamples = [
-  {
-    tokenName: 'pETH',
-    icon: Eth,
-    color: 'rgb(69, 105, 207)',
-    gradients: ['rgb(228, 234, 253)', 'rgb(188, 200, 241)'],
-  },
-  {
-    tokenName: 'pBTC',
-    icon: Btc,
-    color: 'rgb(255, 210, 51)',
-    gradients: ['rgb(255, 246, 231)', 'rgb(255, 237, 209)'],
-  },
-  {
-    tokenName: 'pDAI',
-    icon: Dai,
-    color : 'rgb(255, 219, 0)',
-    gradients: ['rgb(255, 239, 177)', 'rgb(255, 236, 166)'],
-  },
-  {
-    tokenName: 'pBAND',
-    icon: Band,
-    color: 'rgb(0, 124, 236)',
-    gradients: ['rgb(159, 202, 255)', 'rgb(82, 159, 255)'],
-  },
-  {
-    tokenName: 'pLINK',
-    icon: Link,
-    color: 'rgb(74, 52, 251)',
-    gradients: ['rgb(184, 203, 255)', 'rgb(96, 139, 255)'],
-  }
+	{
+		tokenName: 'pETH',
+		icon: Eth,
+		color: 'rgb(69, 105, 207)',
+		gradients: ['rgb(228, 234, 253)', 'rgb(188, 200, 241)'],
+	},
+	{
+		tokenName: 'pBTC',
+		icon: Btc,
+		color: 'rgb(255, 210, 51)',
+		gradients: ['rgb(255, 246, 231)', 'rgb(255, 237, 209)'],
+	},
+	{
+		tokenName: 'pDAI',
+		icon: Dai,
+		color : 'rgb(255, 219, 0)',
+		gradients: ['rgb(255, 239, 177)', 'rgb(255, 236, 166)'],
+	},
+	{
+		tokenName: 'pBAND',
+		icon: Band,
+		color: 'rgb(0, 124, 236)',
+		gradients: ['rgb(159, 202, 255)', 'rgb(82, 159, 255)'],
+	},
+	{
+		tokenName: 'pLINK',
+		icon: Link,
+		color: 'rgb(74, 52, 251)',
+		gradients: ['rgb(184, 203, 255)', 'rgb(96, 139, 255)'],
+	}
 ]
 
 
@@ -54,33 +47,33 @@ type SAOptionProps = {
 }
 
 const StyledOption = (props: SAOptionProps) => {
-  const theme = useTheme()
-  const [hover, setHover] = React.useState(false)
-  const { tokenName, icon, gradients, color, selected } = props
-  const [ , darkShade] = gradients
+	const theme = useTheme()
+	const [hover, setHover] = React.useState(false)
+	const { tokenName, icon, gradients, color, selected } = props
+	const [ , darkShade] = gradients
 
-  // React.useEffect(() => console.log(`Option ${tokenName} : ${hover}`), [hover])
+	// React.useEffect(() => console.log(`Option ${tokenName} : ${hover}`), [hover])
 
-  return (
-    <Option onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)} onAuxClick={() => console.log('Trigger')}>
-      <Expanded 
-        style={hover || selected ? { 
-          color, 
-          textShadow: `0 0 7px ${darkShade}`,
-          letterSpacing: '0.1em',
-          fontStyle: 'italic'
-        } : undefined }
-      >
-        {tokenName}
-      </Expanded>
-      <Zoom in={hover || selected} style={{ position: 'absolute', right: '16px', top: 'auto' }}>
-        <Image src={icon} alt={tokenName}/>
-      </Zoom>
-      <Incognito className="incognito" style={{ background: theme.palette.text.primary, ...(hover && { opacity: 0 }) }} />
-      <Divider />
-      {/* <IconButton><PlayForWorkRounded fontSize="small"/></IconButton> */}
-    </Option>
-  )
+	return (
+		<Option onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)} onAuxClick={() => console.log('Trigger')}>
+			<Expanded 
+				style={hover || selected ? { 
+					color, 
+					textShadow: `0 0 7px ${darkShade}`,
+					letterSpacing: '0.1em',
+					fontStyle: 'italic'
+				} : undefined }
+			>
+				{tokenName}
+			</Expanded>
+			<Zoom key={tokenName} in={hover || selected} style={{ position: 'absolute', right: '16px', top: 'auto' }}>
+				<Image src={icon} alt={tokenName}/>
+			</Zoom>
+			<Incognito className="incognito" style={{ background: theme.palette.text.primary, ...(hover && { opacity: 0 }) }} />
+			<Divider />
+			{/* <IconButton><PlayForWorkRounded fontSize="small"/></IconButton> */}
+		</Option>
+	)
 }
 
 const Incognito = styled.div`
@@ -186,24 +179,29 @@ const StyledAutoComplete = styled(Autocomplete)`
 	}
 `
 
-const SearchAutoComplete = () => {
-  const theme = useTheme()
+export type SearchAutoCompleteProps = {
+  maxWidth?: string
+}
 
-  return (
-    <ThemeProvider theme={theme}>
-      <StyledAutoComplete
-        id="token-autocomplete"
-        options={tokenSamples}
-        getOptionLabel={(token: SAOptionProps) => token.tokenName}
-        renderInput={(params) => (
-          <TextField {...params} label="Trading Token" variant="outlined" margin="normal" />
-        )}
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        renderOption={({ tokenName, color, icon, gradients }, { inputValue, selected}) => <StyledOption {...{ tokenName, color, icon, gradients, selected }}  />}
-        PopperComponent={StyledPopper}
-      />
-    </ThemeProvider>
-  )
+const SearchAutoComplete = ({ maxWidth }: SearchAutoCompleteProps) => {
+	const theme = useTheme()
+
+	return (
+		<ThemeProvider theme={theme}>
+			<StyledAutoComplete
+				id="token-autocomplete"
+				style={{ maxWidth, width: '100%' }}
+				options={tokenSamples}
+				getOptionLabel={(token: SAOptionProps) => token.tokenName}
+				renderInput={(params) => (
+					<TextField {...params} label="Trading Token" variant="outlined" margin="normal" />
+				)}
+				// eslint-disable-next-line @typescript-eslint/no-unused-vars
+				renderOption={({ tokenName, color, icon, gradients }, { inputValue, selected}) => <StyledOption {...{ tokenName, color, icon, gradients, selected }}  />}
+				PopperComponent={StyledPopper}
+			/>
+		</ThemeProvider>
+	)
 }
 
 export default SearchAutoComplete
