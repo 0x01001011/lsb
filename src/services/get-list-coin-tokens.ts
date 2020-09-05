@@ -23,15 +23,15 @@ export interface ListCoinTokenRes {
 }
 
 export const getListCoinToke = async () => {
-  try {
-    const res = await axios.get<Array<ListCoinTokenRes>>('https://api.incscan.io/blockchain/tokens')
-    return res.data
-  } catch (error) {
-    console.error(error)
-  }
-  return []
+	try {
+		const res = await axios.get<Array<ListCoinTokenRes>>('https://api.incscan.io/blockchain/tokens')
+		return res.data
+	} catch (error) {
+		console.error(error)
+	}
+	return []
 }
 
 export const useGetListCoinToken = () => {
-  return useQuery(getListCoinToke.name, () => getListCoinToke())
+	return useQuery(getListCoinToke.name, () => getListCoinToke())
 }

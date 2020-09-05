@@ -1,10 +1,6 @@
 import React from 'react'
 
-import {
-	BrowserRouter as Router,
-	Route,
-	Switch,
-} from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
 import { HomePage } from './pages/home/home-page'
 
@@ -23,7 +19,7 @@ export const AppRouter = ({ children }) => {
 						<HomePage />
 					</Route>
 				</Switch>
-				<>{ children }</>
+				<>{children}</>
 			</>
 		</Router>
 	)

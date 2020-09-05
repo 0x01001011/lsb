@@ -14,25 +14,25 @@ export const MasterLayout = ({ children }) => {
 		palette: {
 			type: palletType,
 			primary: {
-				main: mainPrimaryColor
+				main: mainPrimaryColor,
 			},
 			secondary: {
-				main: mainSecondaryColor
+				main: mainSecondaryColor,
 			},
 		},
 		props: {
 			MuiButtonBase: {
 				// The default props to change
 				disableRipple: true, // No more ripple, on the whole application 💣!
-			}
-		}
+			},
+		},
 	})
-  
+
 	return (
 		<ThemeProvider theme={themePalette}>
 			<CssBaseline />
 			<Container maxWidth="lg">
-				<Navigator/>
+				<Navigator />
 				{children}
 			</Container>
 		</ThemeProvider>
