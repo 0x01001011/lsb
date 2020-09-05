@@ -1,32 +1,40 @@
 import React from 'react'
 
-import { Link } from 'react-router-dom'
-
-import Container from '@material-ui/core/Container'
-import CssBaseline from '@material-ui/core/CssBaseline'
-import Typography from '@material-ui/core/Typography'
+import { CssBaseline, Container } from '@material-ui/core'
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
+import { cyan, deepPurple, pink } from '@material-ui/core/colors'
+import { Navigator } from '../common/navigator'
 
 export const MasterLayout = ({ children }) => {
-  return (
-    <>
-      <CssBaseline />
-      <Container maxWidth="sm">
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/about">About</Link>
-            </li>
-            <li>
-              <Link to="/users">Users</Link>
-            </li>
-          </ul>
-        </nav>
-        <Typography component="div" style={{ backgroundColor: '#cfe8fc', height: '100vh' }} />
-        {children}
-      </Container>
-    </>
-  )
+	const darkMode = false
+	const palletType = darkMode ? 'dark' : 'light'
+	const mainPrimaryColor = darkMode ? cyan[400] : '#000000'
+	const mainSecondaryColor = darkMode ? pink[400] : deepPurple.A400
+	const themePalette = createMuiTheme({
+		palette: {
+			type: palletType,
+			primary: {
+				main: mainPrimaryColor
+			},
+			secondary: {
+				main: mainSecondaryColor
+			},
+		},
+		props: {
+			MuiButtonBase: {
+				// The default props to change
+				disableRipple: true, // No more ripple, on the whole application 💣!
+			}
+		}
+	})
+  
+	return (
+		<ThemeProvider theme={themePalette}>
+			<CssBaseline />
+			<Container maxWidth="lg">
+				<Navigator/>
+				{children}
+			</Container>
+		</ThemeProvider>
+	)
 }
