@@ -7,7 +7,7 @@ import styled from 'styled-components'
 import { AppRouter } from './app-router'
 import { store } from './redux'
 import { createNewWalletWithPasscode, loadWalletWebAssembly, useWalletRedux } from './redux/wallet'
-import { useGetListCoinToken } from './services/get-list-coin-tokens'
+// import { useGetListCoinToken } from './services/get-list-coin-tokens'
 
 const AppRenderContainer = styled.div``
 const AppRender = () => {

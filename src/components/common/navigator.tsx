@@ -12,10 +12,10 @@ import {
 	fade,
 	useScrollTrigger,
 } from '@material-ui/core'
-import { useLocation, Link } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
+import LogoSrc from 'src/assets/lsb-logo.png'
 import { useWalletRedux } from '../../redux/wallet'
-import LogoSrc from '../../assets/lsb-logo.png'
-import SearchAutoComplete from './search-autocomplete'
+import { SearchAutoComplete } from './search-autocomplete'
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
@@ -91,7 +91,7 @@ export const Navigator = () => {
 					<Logo src={LogoSrc} alt="logo" />
 					<ExpandedDiv>{auth && stickNavigator && <SearchAutoComplete maxWidth="360px" />}</ExpandedDiv>
 					<Button href="#">
-						<Typography>Connect Wallet</Typography>
+						<Typography>Wallet</Typography>
 					</Button>
 				</Toolbar>
 			</AppBar>

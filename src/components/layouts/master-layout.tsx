@@ -4,6 +4,7 @@ import { CssBaseline, Container } from '@material-ui/core'
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
 import { cyan, deepPurple, pink } from '@material-ui/core/colors'
 import { Navigator } from '../common/navigator'
+import { Footer } from '../common/footer'
 
 export const MasterLayout = ({ children }) => {
 	const darkMode = false
@@ -31,9 +32,10 @@ export const MasterLayout = ({ children }) => {
 	return (
 		<ThemeProvider theme={themePalette}>
 			<CssBaseline />
-			<Container maxWidth="lg">
+			<Container>
 				<Navigator />
 				{children}
+				<Footer />
 			</Container>
 		</ThemeProvider>
 	)
