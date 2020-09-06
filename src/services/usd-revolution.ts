@@ -23,6 +23,7 @@ const getUsdEvolution = async (token: string, aggregation: 'all' | 'month') => {
 		}
 
 		const res = await axios.get<UsdEvolutionReceived>(url)
+
 		return res.data
 	} catch (error) {
 		console.error(error)
