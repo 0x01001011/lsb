@@ -6,17 +6,17 @@ import { getListCustomTokens } from './custom-tokens'
 
 const getListTokens = async (variant: string): Promise<TokenUiModel[]> => {
 	try {
-		if (variant === 'coin') {
+		if (variant === 'Coins') {
 			return getListCoinTokens()
 		}
-		if (variant === 'shielded') {
+		if (variant === 'Shielded Tokens') {
 			return getListShieldedCoins()
 		}
-		if (variant === 'custom') {
+		if (variant === 'Custom Tokens') {
 			return getListCustomTokens()
 		}
 		// eslint-disable-next-line quotes
-		throw new Error(`Invalid token variant. Must be one of 'coin' | 'shielded' | 'custom'`)
+		throw new Error(`Invalid token variant. Must be one of 'Coins' | 'Shielded Tokens' | 'Custom Tokens'`)
 	} catch (error) {
 		console.error(error)
 	}

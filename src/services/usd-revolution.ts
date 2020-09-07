@@ -6,7 +6,7 @@ function getSecondTimestamp() {
 	return Math.round(new Date().getTime() / 1000)
 }
 
-const getUsdEvolution = async (token: string, aggregation: 'all' | 'month') => {
+export const getUsdEvolution = async (token: string, aggregation: 'all' | 'month') => {
 	try {
 		const end = getSecondTimestamp()
 		const start = aggregation === 'all' ? 1572566400 : end - 86400 * 30

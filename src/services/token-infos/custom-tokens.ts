@@ -11,6 +11,7 @@ export const getListCustomTokens = async (): Promise<TokenUiModel[]> => {
 			tokenName: name,
 			icon: image,
 			colors: ['#f1f1f1', '#303030'],
+			gradients: ['rgb(238, 238, 238)', 'rgb(194, 194, 194)'],
 		}))
 	} catch (error) {
 		console.error(error)

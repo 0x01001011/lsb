@@ -12,6 +12,7 @@ export const getListCoinTokens = async (): Promise<TokenUiModel[]> => {
 				tokenName: name,
 				icon: `https://s3.amazonaws.com/incognito-org/wallet/cryptocurrency-icons/32@2x/color/${symbol.toLowerCase()}@2x.png`,
 				gradients: ['rgb(238, 238, 238)', 'rgb(194, 194, 194)'],
+				colors: ['#f1f1f1', '#303030'],
 			}
 		})
 	} catch (error) {
