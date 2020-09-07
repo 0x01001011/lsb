@@ -8,9 +8,7 @@ import { TokenUiModel } from 'src/models/token'
 import { Eth, Btc, Incognito } from 'src/assets/token-logos'
 
 const HomePageContainer = styled.div`
-	display: flex;
-	justify-content: center;
-	align-items: center;
+	min-height: 100vh;
 `
 
 const Slogan = styled(Typography)`
@@ -63,13 +61,11 @@ const featureTokens: TokenUiModel[] = [
 ]
 
 export const HomePage = () => {
-	// const { status, data, error, isFetching } = useShieldCoins()
-
 	const responsiveType = responsiveFontSizes(createMuiTheme())
 
 	return (
-		<HomePageContainer>
-			<MasterLayout>
+		<MasterLayout>
+			<HomePageContainer>
 				<Grid container alignItems="center" justify="center">
 					<Grid item xs={12}>
 						<Margin>
@@ -88,12 +84,12 @@ export const HomePage = () => {
 				</Grid>
 				<Grid style={{ margin: '32px 0' }} container alignItems="center" justify="center" spacing={2}>
 					{featureTokens.map((token) => (
-						<Center item xs={9} sm={6} md={4} lg={3}>
+						<Center key={token.tokenSymbol} item xs={9} sm={6} md={4} lg={3}>
 							<TokenCard state={token} />
 						</Center>
 					))}
 				</Grid>
-			</MasterLayout>
-		</HomePageContainer>
+			</HomePageContainer>
+		</MasterLayout>
 	)
 }

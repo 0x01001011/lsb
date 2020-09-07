@@ -1,15 +1,13 @@
 import React from 'react'
-
+import styled from 'styled-components'
 import { ReactQueryDevtools } from 'react-query-devtools'
 import { Provider, useDispatch } from 'react-redux'
-import styled from 'styled-components'
-
 import { AppRouter } from './app-router'
 import { store } from './redux'
 import { createNewWalletWithPasscode, loadWalletWebAssembly, useWalletRedux } from './redux/wallet'
-// import { useGetListCoinToken } from './services/get-list-coin-tokens'
 
 const AppRenderContainer = styled.div``
+
 const AppRender = () => {
 	const dispatch = useDispatch()
 	React.useEffect(() => {
@@ -17,7 +15,9 @@ const AppRender = () => {
 	}, [dispatch])
 
 	// const { status, data, error, isFetching } = useGetListCoinToken()
+	// const { data, error, isFetching } = useUsdEvolution('pETH', 'month')
 	const isLoading = useWalletRedux((s) => s.loading)
+	console.log({ isLoading })
 
 	React.useEffect(() => {
 		!isLoading && dispatch(createNewWalletWithPasscode({ name: 'khoa', passcode: '122' }))
