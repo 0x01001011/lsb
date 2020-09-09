@@ -43,6 +43,14 @@ const useStyles = makeStyles((theme: Theme) =>
 				fontSize: '2.0rem',
 			},
 		},
+		expanded: {
+			width: '100%',
+			height: '100%',
+		},
+		showroom: {
+			minHeight: '90vh',
+			padding: '16px 84px',
+		},
 	}),
 )
 
@@ -60,33 +68,30 @@ export const ShowroomPage = () => {
 		}
 	}, [data])
 
-	React.useEffect(() => {
-		console.log({ pageId: `Changed ${pageId}` })
-	}, [pageId])
-
 	// implement infinite scrolling with intersection observer
 	const bottomBoundaryRef = React.useRef(null)
 
+	const interactObserver = new IntersectionObserver((entries) => {
+		entries.forEach((en) => {
+			if (en.intersectionRatio > 0) {
+				dispatch(fetchMore())
+			}
+		})
+	})
+
 	const scrollObserver = React.useCallback(
 		(node) => {
-			new IntersectionObserver((entries) => {
-				entries.forEach((en) => {
-					if (en.intersectionRatio > 0) {
-						console.log('Fetch more..')
-						dispatch(fetchMore())
-					}
-				})
-			}).observe(node)
+			interactObserver.observe(node)
 		},
-		[dispatch],
+		[dispatch, interactObserver],
 	)
 
 	React.useEffect(() => {
-		console.log({ bottomBoundaryRef })
 		if (bottomBoundaryRef.current) {
-			console.log('Create observer..')
 			scrollObserver(bottomBoundaryRef.current)
 		}
+
+		return () => bottomBoundaryRef.current && interactObserver.unobserve(bottomBoundaryRef.current)
 	}, [scrollObserver, bottomBoundaryRef])
 
 	const showTokens = React.useCallback(
@@ -129,20 +134,22 @@ export const ShowroomPage = () => {
 				</Grid>
 			</Grid>
 			<Divider />
-			<ShowroomContainer>
-				<Grid container alignItems="center" justify="center">
-					{isFetching ? (
-						<BarLoader />
-					) : (
-						data.slice(0, (pageId + 1) * batchSize).map((token) => (
-							<Center key={token.tokenSymbol} item xs={9} sm={6} md={4} lg={3}>
-								<TokenCard state={token} size="small" />
-							</Center>
-						))
-					)}
-				</Grid>
-				<div ref={bottomBoundaryRef} style={{ width: '100%', height: 64, background: 'transparent' }} />
-			</ShowroomContainer>
+
+			<Grid container className={classes.showroom} alignItems="center" justify="center">
+				{isFetching ? (
+					<BarLoader width="30%" />
+				) : (
+					data.slice(0, (pageId + 1) * batchSize).map((token, i) => (
+						// eslint-disable-next-line react/no-array-index-key
+						<Center key={`${token.tokenSymbol}-{${i}}`} item xs={9} sm={6} md={4} lg={3}>
+							<TokenCard state={token} size="small" timeout={300 * (i % batchSize)} />
+						</Center>
+					))
+				)}
+			</Grid>
+			{!isFetching && pageId < maxPages && (
+				<div ref={bottomBoundaryRef} style={{ width: '100%', height: 8, background: 'transparent' }} />
+			)}
 		</MasterLayout>
 	)
 }

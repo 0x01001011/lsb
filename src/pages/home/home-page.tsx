@@ -89,10 +89,10 @@ const useStyles = makeStyles((theme: Theme) =>
 			alignItems: 'center',
 		},
 		cardWrapper: {
-			margin: '2vw 0',
+			margin: '3vw 0',
 		},
 		bottomMargin: {
-			marginBottom: '1vw',
+			marginBottom: '2vw',
 		},
 	}),
 )
@@ -116,16 +116,18 @@ export const HomePage = () => {
 
 				{/* Featured token cards */}
 				<Grid className={classes.cardWrapper} container alignItems="center" justify="center" spacing={2}>
-					{featureTokens.map((token) => (
+					{featureTokens.map((token, i) => (
 						<Center key={token.tokenSymbol} item xs={9} sm={6} md={4} lg={3}>
-							<TokenCard state={token} />
+							<TokenCard state={token} timeout={300 * i} />
 						</Center>
 					))}
 				</Grid>
 
 				{/* Show more button */}
 				<Grid container className={classes.bottomMargin} xs={12} justify="center" alignItems="center">
-					<StyledButton type="secondary">Show more</StyledButton>
+					<StyledButton type="secondary" href="/showroom">
+						Show More
+					</StyledButton>
 				</Grid>
 
 				{/* Paralax scrolling animation */}

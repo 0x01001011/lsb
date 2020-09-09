@@ -12,6 +12,7 @@ import {
 	Theme,
 	fade,
 	useScrollTrigger,
+	Hidden,
 } from '@material-ui/core'
 import { useLocation } from 'react-router-dom'
 import { SearchAutoComplete } from './search-autocomplete'
@@ -29,6 +30,9 @@ const useStyles = makeStyles((theme: Theme) =>
 		stickyToolbar: {
 			width: '75%',
 			paddingRight: 24, // keep right padding when drawer closed
+			[theme.breakpoints.down('sm')]: {
+				width: '90%',
+			},
 		},
 		toolbar: {
 			width: '100%',
@@ -77,18 +81,21 @@ const ScrollProvider = (props: Props) => {
 export const Navigator = () => {
 	const auth = false
 	const location = useLocation()
-	const stickNavigator = location.pathname !== '/'
+	const notAtHome = location.pathname !== '/'
+	const visitLoginPage = location.pathname === '/login'
 
 	const classes = useStyles()
 
 	return (
-		<ScrollProvider enable={stickNavigator}>
+		<ScrollProvider enable={notAtHome}>
 			<AppBar elevation={0}>
-				<Toolbar className={stickNavigator ? classes.stickyToolbar : classes.toolbar}>
+				<Toolbar className={notAtHome ? classes.stickyToolbar : classes.toolbar}>
 					<StyledButton href="/">
 						<Logo src={LogoSrc} alt="logo" />
 					</StyledButton>
-					<ExpandedDiv>{auth && stickNavigator && <SearchAutoComplete maxWidth="360px" />}</ExpandedDiv>
+					<ExpandedDiv>
+						<Hidden smDown>{!visitLoginPage && notAtHome && <SearchAutoComplete maxWidth="360px" />}</Hidden>
+					</ExpandedDiv>
 					<StyledButton href="/login">
 						<Typography>Wallet</Typography>
 					</StyledButton>
