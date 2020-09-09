@@ -1,9 +1,13 @@
+/* eslint-disable no-return-assign */
 import React from 'react'
 import { Autocomplete, AutocompleteRenderOptionState } from '@material-ui/lab'
-import { Typography, TextField, Zoom, Popper, Divider, useTheme, fade } from '@material-ui/core'
+import { Typography, TextField, Zoom, Popper, Divider, useTheme, fade, Tooltip } from '@material-ui/core'
 import styled, { ThemeProvider } from 'styled-components'
 import { Band, Btc, Dai, Eth, Link } from 'src/assets/token-logos'
 import { TokenUiModel } from 'src/models/token'
+import { useTokenInfos } from 'src/services/token-infos'
+import DefaultIcon from 'src/assets/default-token.png'
+import { ListboxComponent, renderGroup } from './virtualized-utils'
 
 const tokenSamples = [
 	{
@@ -41,55 +45,24 @@ const tokenSamples = [
 const StyledOption = (props: TokenUiModel) => {
 	const theme = useTheme()
 	const [hover, setHover] = React.useState(false)
-	const { tokenName, icon, gradients, colors } = props
+	const { tokenSymbol, tokenName, icon, gradients, colors } = props
 	const [, darkShade] = gradients
 	const [light, dark] = colors
 
 	// React.useEffect(() => console.log(`Option ${tokenName} : ${hover}`), [hover])
 
 	return (
-		<Option
-			onMouseEnter={() => setHover(true)}
-			onMouseLeave={() => setHover(false)}
-			onAuxClick={() => console.log('Trigger')}
-		>
-			<Expanded
-				style={
-					hover
-						? {
-								color: theme.palette.type === 'light' ? light : dark,
-								textShadow: `0 0 7px ${darkShade}`,
-								letterSpacing: '0.1em',
-								fontStyle: 'italic',
-						  }
-						: undefined
-				}
-			>
-				{tokenName}
+		<Option>
+			<Tooltip title={tokenName}>
+				<Image src={icon} alt={tokenSymbol} onError={(e) => ((e.target as HTMLImageElement).src = DefaultIcon)} />
+			</Tooltip>
+			<Expanded>
+				<Typography variant="h6">{tokenSymbol}</Typography>
 			</Expanded>
-			<Zoom key={tokenName} in={hover} style={{ position: 'absolute', right: '16px', top: 'auto' }}>
-				<Image src={icon} alt={tokenName} />
-			</Zoom>
-			<Incognito
-				className="incognito"
-				style={{ background: theme.palette.text.primary, ...(hover && { opacity: 0 }) }}
-			/>
 			<Divider />
-			{/* <IconButton><PlayForWorkRounded fontSize="small"/></IconButton> */}
 		</Option>
 	)
 }
-
-const Incognito = styled.div`
-	position: absolute;
-	top: auto;
-	right: 16px;
-	padding: 5px;
-	width: 32px;
-	height: 32px;
-	transition: all 0.1s ease-in-out;
-	border-radius: 16px;
-`
 
 const Option = styled.div`
 	position: relative;
@@ -98,7 +71,7 @@ const Option = styled.div`
 	flex-grow: 1;
 	align-items: center;
 	height: 56px;
-	padding: 7px 24px 8px;
+	padding: 8px 16px;
 `
 
 const Expanded = styled(Typography)`
@@ -110,6 +83,7 @@ const Expanded = styled(Typography)`
 const Image = styled.img`
 	width: 42px;
 	height: 42px;
+	margin-right: 16px;
 `
 
 const StyledPopper = styled(Popper)`
@@ -122,7 +96,7 @@ const StyledPopper = styled(Popper)`
 	}
 
 	.MuiPaper-rounded {
-		border-radius: 0 0 16px 16px;
+		border-radius: 0 0 8px 8px;
 	}
 
 	.MuiAutocomplete-listbox {
@@ -134,7 +108,7 @@ const StyledPopper = styled(Popper)`
 		transition: all 0.1s ease-out;
 	}
 
-	div.incognito {
+	/* div.incognito {
 		opacity: 0;
 		transform: scale(0, 0);
 	}
@@ -148,7 +122,7 @@ const StyledPopper = styled(Popper)`
 			transform: scale(1, 1);
 			display: block;
 		}
-	}
+	} */
 `
 
 const StyledAutoComplete = styled(Autocomplete)`
@@ -157,12 +131,20 @@ const StyledAutoComplete = styled(Autocomplete)`
 		transition: all 0.1s ease-in-out;
 
 		&:hover {
-			box-shadow: ${(props) => '0 0 12px '.concat(fade(props.theme.palette.primary.main, 0.28))};
+			box-shadow: ${(props) => '0 0 7px '.concat(fade(props.theme.palette.primary.main, 0.28))};
+
+			.MuiOutlinedInput-notchedOutline {
+				border: none;
+			}
 		}
 
 		&:active {
-			border-radius: 16px 16px 0 0;
+			border-radius: 8px 8px 0 0;
 			box-shadow: ${(props) => '0 1px 6px 0 '.concat(fade(props.theme.palette.primary.main, 0.28))};
+
+			.MuiOutlinedInput-notchedOutline {
+				border: none;
+			}
 		}
 	}
 
@@ -180,10 +162,6 @@ const StyledAutoComplete = styled(Autocomplete)`
 			border: none;
 		}
 	}
-
-	div.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
-		border: none;
-	}
 `
 
 export type SearchAutoCompleteProps = {
@@ -192,18 +170,25 @@ export type SearchAutoCompleteProps = {
 
 export const SearchAutoComplete = ({ maxWidth }: SearchAutoCompleteProps) => {
 	const theme = useTheme()
+	const { isFetching, data = [], error } = useTokenInfos('Ally')
 
 	return (
 		<ThemeProvider theme={theme}>
 			<StyledAutoComplete
-				id="token-autocomplete"
+				id="virtualized-autocomplete"
+				disableListWrap
+				loading={isFetching}
 				style={{ maxWidth, width: '100%' }}
-				options={tokenSamples}
+				options={data}
 				getOptionLabel={(token: TokenUiModel) => token.tokenName}
-				renderInput={(params) => <TextField {...params} variant="outlined" margin="normal" />}
+				renderInput={(params) => (
+					<TextField {...params} placeholder="Search everything" variant="outlined" margin="normal" />
+				)}
+				PopperComponent={StyledPopper}
+				ListboxComponent={ListboxComponent as React.ComponentType<React.HTMLAttributes<HTMLElement>>}
+				renderGroup={renderGroup}
 				// eslint-disable-next-line @typescript-eslint/no-unused-vars
 				renderOption={(token: TokenUiModel, state: AutocompleteRenderOptionState) => <StyledOption {...token} />}
-				PopperComponent={StyledPopper}
 			/>
 		</ThemeProvider>
 	)
