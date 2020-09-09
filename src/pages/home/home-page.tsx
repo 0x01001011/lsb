@@ -61,19 +61,15 @@ const featureTokens: TokenUiModel[] = [
 ]
 
 export const HomePage = () => {
-	const responsiveType = responsiveFontSizes(createMuiTheme())
-
 	return (
 		<MasterLayout>
 			<HomePageContainer>
 				<Grid container alignItems="center" justify="center">
 					<Grid item xs={12}>
 						<Margin>
-							<ThemeProvider theme={responsiveType}>
-								<Slogan variant="h2" align="center">
-									Simple crypto trading <br /> for <Emphrasis>Incognito.</Emphrasis>
-								</Slogan>
-							</ThemeProvider>
+							<Slogan variant="h2" align="center">
+								Simple crypto trading <br /> for <Emphrasis>Incognito.</Emphrasis>
+							</Slogan>
 						</Margin>
 					</Grid>
 					<Grid item xs={10}>

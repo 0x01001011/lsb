@@ -1,13 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Typography, makeStyles, Theme, createStyles, Grid, Divider, Hidden, Button } from '@material-ui/core'
+import { Typography, makeStyles, Theme, createStyles, Grid, Divider, Hidden } from '@material-ui/core'
 import { BarLoader } from 'react-spinners'
 import { useTokenInfos } from 'src/services/token-infos'
 import { MasterLayout } from 'src/components/layouts'
 import { TokenCard } from 'src/components/common/token-card'
 import { Code, FilterList } from '@material-ui/icons'
 import {
-	useShowroomRedux,
 	fetchMore,
 	TokenVariantType,
 	refreshShowroom,
@@ -54,12 +53,6 @@ export const ShowroomPage = () => {
 		(state) => state.showroom,
 	)
 	const { data, isFetching } = useTokenInfos(tokenVariant)
-
-	React.useEffect(() => {
-		console.log({ pageId, maxPages, showOption, tokenVariant })
-
-		return () => console.log('[Showroom] Will Unmount!')
-	}, [])
 
 	React.useEffect(() => {
 		if (data) {

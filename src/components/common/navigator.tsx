@@ -1,6 +1,7 @@
 import React from 'react'
 import clsx from 'clsx'
 import styled from 'styled-components'
+import LogoSrc from 'src/assets/lsb-logo.png'
 import {
 	AppBar,
 	Toolbar,
@@ -13,8 +14,6 @@ import {
 	useScrollTrigger,
 } from '@material-ui/core'
 import { useLocation } from 'react-router-dom'
-import LogoSrc from 'src/assets/lsb-logo.png'
-import { useWalletRedux } from '../../redux/wallet'
 import { SearchAutoComplete } from './search-autocomplete'
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -82,17 +81,17 @@ export const Navigator = () => {
 
 	const classes = useStyles()
 
-	// React.useEffect(() => console.log({ stickNavigator }), [stickNavigator])
-
 	return (
 		<ScrollProvider enable={stickNavigator}>
 			<AppBar elevation={0}>
 				<Toolbar className={stickNavigator ? classes.stickyToolbar : classes.toolbar}>
-					<Logo src={LogoSrc} alt="logo" />
+					<StyledButton href="/">
+						<Logo src={LogoSrc} alt="logo" />
+					</StyledButton>
 					<ExpandedDiv>{auth && stickNavigator && <SearchAutoComplete maxWidth="360px" />}</ExpandedDiv>
-					<Button href="#">
+					<StyledButton href="/login">
 						<Typography>Wallet</Typography>
-					</Button>
+					</StyledButton>
 				</Toolbar>
 			</AppBar>
 		</ScrollProvider>
@@ -107,4 +106,13 @@ const Logo = styled.img`
 const ExpandedDiv = styled.div`
 	margin: 0 32px;
 	flex-grow: 1;
+`
+
+const StyledButton = styled(Button)`
+	&.MuiButton-root {
+		text-transform: none;
+		&:hover {
+			background: transparent;
+		}
+	}
 `
