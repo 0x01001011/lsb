@@ -167,11 +167,22 @@ const StyledAutoComplete = styled(Autocomplete)`
 	}
 
 	div.Mui-focused {
+		background: white;
 		border-radius: 16px 16px 0 0;
 		box-shadow: ${(props) => '0 0px 6px 0 '.concat(fade(props.theme.palette.primary.main, 0.28))};
+
+		&:hover {
+			border-radius: 16px 16px 0 0;
+			box-shadow: ${(props) => '0 1px 6px 0 '.concat(fade(props.theme.palette.primary.main, 0.28))};
+		}
+
+		.MuiOutlinedInput-notchedOutline {
+			border: none;
+		}
 	}
 
 	div.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+		border: none;
 	}
 `
 
@@ -189,7 +200,7 @@ export const SearchAutoComplete = ({ maxWidth }: SearchAutoCompleteProps) => {
 				style={{ maxWidth, width: '100%' }}
 				options={tokenSamples}
 				getOptionLabel={(token: TokenUiModel) => token.tokenName}
-				renderInput={(params) => <TextField {...params} label="Trading Token" variant="outlined" margin="normal" />}
+				renderInput={(params) => <TextField {...params} variant="outlined" margin="normal" />}
 				// eslint-disable-next-line @typescript-eslint/no-unused-vars
 				renderOption={(token: TokenUiModel, state: AutocompleteRenderOptionState) => <StyledOption {...token} />}
 				PopperComponent={StyledPopper}

@@ -25,11 +25,25 @@ const StyledCard = styled(Card)`
 			opacity: 0;
 			z-index: -1;
 		}
+
+		.hoverable {
+			transform: scale(1) translate3d(0, 1px, 1px);
+			opacity: 1;
+		}
 	}
 
-	&:hover .hoverable {
-		transform: scale(1) translate3d(0, 1px, 1px);
-		opacity: 1;
+	&:active {
+		transform: scale(0.97);
+
+		.overlay {
+			opacity: 0;
+			z-index: -1;
+		}
+
+		.hoverable {
+			transform: scale(1.05) translate3d(0, 1.2px, 1.2px);
+			opacity: 1;
+		}
 	}
 `
 
