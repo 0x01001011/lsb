@@ -31,6 +31,7 @@ module.exports = {
     'prettier/@typescript-eslint',
     'plugin:@typescript-eslint/recommended',
     'plugin:jest/recommended',
+    'plugin:prettier/recommended',
   ],
   rules: {
     semi: ['error', 'never'],

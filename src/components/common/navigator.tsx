@@ -1,58 +1,61 @@
 import React from 'react'
 import clsx from 'clsx'
 import styled from 'styled-components'
-import { 
-	AppBar, 
-	Toolbar, 
-	Typography, 
-	Button, 
-	makeStyles, 
-	createStyles, 
-	Theme, 
-	fade, 
-	useScrollTrigger
+import LogoSrc from 'src/assets/lsb-logo.png'
+import {
+	AppBar,
+	Toolbar,
+	Typography,
+	Button,
+	makeStyles,
+	createStyles,
+	Theme,
+	fade,
+	useScrollTrigger,
+	Hidden,
 } from '@material-ui/core'
-import { useLocation, Link } from 'react-router-dom'
-import { useWalletRedux } from '../../redux/wallet'
-import LogoSrc from '../../assets/lsb-logo.png'
-import SearchAutoComplete from './search-autocomplete'
-
+import { useLocation } from 'react-router-dom'
+import { SearchAutoComplete } from './search-autocomplete'
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
 		appBar: {
 			backgroundColor: theme.palette.background.default,
 			flexDirection: 'row',
-			justifyContent: 'center'
+			justifyContent: 'center',
 		},
 		dropGlow: {
-			boxShadow: `0px 1px 20px 5px ${fade(theme.palette.primary.main, 0.2)}`
+			boxShadow: `0px 1px 20px 5px ${fade(theme.palette.primary.main, 0.2)}`,
 		},
 		stickyToolbar: {
 			width: '75%',
-			paddingRight: 24 // keep right padding when drawer closed
+			paddingRight: 24, // keep right padding when drawer closed
+			[theme.breakpoints.down('sm')]: {
+				width: '90%',
+			},
 		},
 		toolbar: {
 			width: '100%',
-			paddingRight: 24 // keep right padding when drawer closed
+			paddingRight: 24, // keep right padding when drawer closed
 		},
 		toolbarIcon: {
 			display: 'flex',
 			alignItems: 'center',
 			justifyContent: 'flex-end',
 			padding: '0 8px',
-			...theme.mixins.toolbar
+			...theme.mixins.toolbar,
 		},
-	}))
+	}),
+)
 
 interface Props {
-  /**
-   * Injected by the documentation to work in an iframe.
-   * You won't need it on your project.
-   */
-  window?: () => Window;
-	children: React.ReactElement;
-	enable: boolean;
+	/**
+	 * Injected by the documentation to work in an iframe.
+	 * You won't need it on your project.
+	 */
+	window?: () => Window
+	children: React.ReactElement
+	enable: boolean
 }
 
 const ScrollProvider = (props: Props) => {
@@ -66,37 +69,36 @@ const ScrollProvider = (props: Props) => {
 		threshold: 0,
 		target: window ? window() : undefined,
 	})
-	
+
 	React.useEffect(() => console.log({ trigger }), [trigger])
 
 	return React.cloneElement(children, {
 		className: clsx(classes.appBar, enable && trigger && classes.dropGlow),
-		position: enable ? 'fixed' : 'relative'
+		position: enable ? 'fixed' : 'relative',
 	})
 }
-
 
 export const Navigator = () => {
 	const auth = false
 	const location = useLocation()
-	const stickNavigator = location.pathname !== '/'	
+	const notAtHome = location.pathname !== '/'
+	const visitLoginPage = location.pathname === '/login'
 
 	const classes = useStyles()
 
-
-	// React.useEffect(() => console.log({ stickNavigator }), [stickNavigator])
-	
 	return (
-		<ScrollProvider enable={stickNavigator}>
+		<ScrollProvider enable={notAtHome}>
 			<AppBar elevation={0}>
-				<Toolbar className={stickNavigator ? classes.stickyToolbar : classes.toolbar}>
-					<Logo src={LogoSrc} alt="logo" />
+				<Toolbar className={notAtHome ? classes.stickyToolbar : classes.toolbar}>
+					<StyledButton href="/">
+						<Logo src={LogoSrc} alt="logo" />
+					</StyledButton>
 					<ExpandedDiv>
-						{ auth && stickNavigator && <SearchAutoComplete maxWidth='360px' /> }
+						<Hidden smDown>{!visitLoginPage && notAtHome && <SearchAutoComplete maxWidth="360px" />}</Hidden>
 					</ExpandedDiv>
-					<Button href="#">
-						<Typography>Connect Wallet</Typography>
-					</Button>
+					<StyledButton href="/login">
+						<Typography>Wallet</Typography>
+					</StyledButton>
 				</Toolbar>
 			</AppBar>
 		</ScrollProvider>
@@ -104,7 +106,7 @@ export const Navigator = () => {
 }
 
 const Logo = styled.img`
-	padding: 8px;	
+	padding: 8px;
 	height: 60px;
 `
 
@@ -113,3 +115,11 @@ const ExpandedDiv = styled.div`
 	flex-grow: 1;
 `
 
+const StyledButton = styled(Button)`
+	&.MuiButton-root {
+		text-transform: none;
+		&:hover {
+			background: transparent;
+		}
+	}
+`
