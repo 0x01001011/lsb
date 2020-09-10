@@ -7,6 +7,7 @@ import { TokenCard } from 'components/common/token-card'
 import { TokenUiModel } from 'models/token'
 import { Eth, Btc, Incognito } from 'assets/token-logos'
 import clsx from 'clsx'
+import { Link, useHistory } from 'react-router-dom'
 
 const featureTokens: TokenUiModel[] = [
 	{
@@ -85,7 +86,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export const HomePage = () => {
 	const classes = useStyles()
-
+	const history = useHistory()
 	return (
 		<MasterLayout>
 			<HomePageContainer>
@@ -111,7 +112,7 @@ export const HomePage = () => {
 
 				{/* Show more button */}
 				<Grid container className={classes.bottomMargin} xs={12} justify="center" alignItems="center">
-					<StyledButton>Show More</StyledButton>
+					<StyledButton onClick={() => history.push('/showroom')}>Show More</StyledButton>
 				</Grid>
 
 				{/* Paralax scrolling animation */}
