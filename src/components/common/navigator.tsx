@@ -15,7 +15,7 @@ import {
 	Hidden,
 } from '@material-ui/core'
 import { useLocation } from 'react-router-dom'
-import { SearchAutoComplete } from './search-autocomplete'
+import { SearchAutoComplete } from './autocomplete/search-autocomplete'
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({

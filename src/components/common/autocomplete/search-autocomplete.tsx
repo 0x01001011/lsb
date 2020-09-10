@@ -1,55 +1,15 @@
 /* eslint-disable no-return-assign */
 import React from 'react'
 import { Autocomplete, AutocompleteRenderOptionState } from '@material-ui/lab'
-import { Typography, TextField, Zoom, Popper, Divider, useTheme, fade, Tooltip } from '@material-ui/core'
+import { Typography, TextField, Popper, Divider, useTheme, fade, Tooltip } from '@material-ui/core'
 import styled, { ThemeProvider } from 'styled-components'
-import { Band, Btc, Dai, Eth, Link } from 'src/assets/token-logos'
 import { TokenUiModel } from 'src/models/token'
 import { useTokenInfos } from 'src/services/token-infos'
 import DefaultIcon from 'src/assets/default-token.png'
 import { ListboxComponent, renderGroup } from './virtualized-utils'
 
-const tokenSamples = [
-	{
-		tokenName: 'pETH',
-		icon: Eth,
-		colors: ['rgb(69, 105, 207)', 'rgb(69, 105, 207)'],
-		gradients: ['rgb(228, 234, 253)', 'rgb(188, 200, 241)'],
-	},
-	{
-		tokenName: 'pBTC',
-		icon: Btc,
-		colors: ['rgb(255, 210, 51)', 'rgb(255, 210, 51)'],
-		gradients: ['rgb(255, 246, 231)', 'rgb(255, 237, 209)'],
-	},
-	{
-		tokenName: 'pDAI',
-		icon: Dai,
-		colors: ['rgb(255, 219, 0)', 'rgb(255, 219, 0)'],
-		gradients: ['rgb(255, 239, 177)', 'rgb(255, 236, 166)'],
-	},
-	{
-		tokenName: 'pBAND',
-		icon: Band,
-		colors: ['rgb(0, 124, 236)', 'rgb(0, 124, 236)'],
-		gradients: ['rgb(159, 202, 255)', 'rgb(82, 159, 255)'],
-	},
-	{
-		tokenName: 'pLINK',
-		icon: Link,
-		colors: ['rgb(74, 52, 251)', 'rgb(74, 52, 251)'],
-		gradients: ['rgb(184, 203, 255)', 'rgb(96, 139, 255)'],
-	},
-]
-
 const StyledOption = (props: TokenUiModel) => {
-	const theme = useTheme()
-	const [hover, setHover] = React.useState(false)
-	const { tokenSymbol, tokenName, icon, gradients, colors } = props
-	const [, darkShade] = gradients
-	const [light, dark] = colors
-
-	// React.useEffect(() => console.log(`Option ${tokenName} : ${hover}`), [hover])
+	const { tokenSymbol, tokenName, icon } = props
 
 	return (
 		<Option>
@@ -81,8 +41,8 @@ const Expanded = styled(Typography)`
 `
 
 const Image = styled.img`
-	width: 42px;
-	height: 42px;
+	width: 36px;
+	height: 36px;
 	margin-right: 16px;
 `
 
@@ -107,22 +67,6 @@ const StyledPopper = styled(Popper)`
 		padding: 0;
 		transition: all 0.1s ease-out;
 	}
-
-	/* div.incognito {
-		opacity: 0;
-		transform: scale(0, 0);
-	}
-
-	li.MuiAutocomplete-option[data-focus='true'] {
-		letter-spacing: 0.1em;
-		font-style: italic;
-
-		div.incognito {
-			opacity: 1;
-			transform: scale(1, 1);
-			display: block;
-		}
-	} */
 `
 
 const StyledAutoComplete = styled(Autocomplete)`
@@ -170,7 +114,7 @@ export type SearchAutoCompleteProps = {
 
 export const SearchAutoComplete = ({ maxWidth }: SearchAutoCompleteProps) => {
 	const theme = useTheme()
-	const { isFetching, data = [], error } = useTokenInfos('Ally')
+	const { isFetching, data = [] } = useTokenInfos('Ally')
 
 	return (
 		<ThemeProvider theme={theme}>
@@ -188,7 +132,7 @@ export const SearchAutoComplete = ({ maxWidth }: SearchAutoCompleteProps) => {
 				ListboxComponent={ListboxComponent as React.ComponentType<React.HTMLAttributes<HTMLElement>>}
 				renderGroup={renderGroup}
 				// eslint-disable-next-line @typescript-eslint/no-unused-vars
-				renderOption={(token: TokenUiModel, state: AutocompleteRenderOptionState) => <StyledOption {...token} />}
+				renderOption={(token: TokenUiModel) => <StyledOption {...token} />}
 			/>
 		</ThemeProvider>
 	)
