@@ -10,7 +10,7 @@ import {
 	makeStyles,
 	Theme,
 } from '@material-ui/core'
-import { SearchAutoComplete } from 'src/components/common/search-autocomplete'
+import { SearchAutoComplete } from 'src/components/common/autocomplete/search-autocomplete'
 import { MasterLayout } from 'src/components/layouts'
 import { TokenCard } from 'src/components/common/token-card'
 import { TokenUiModel } from 'src/models/token'
@@ -50,10 +50,6 @@ const Slogan = styled(Typography)`
 	font-weight: 400;
 `
 
-const Margin = styled.div`
-	margin: 4vw 0;
-`
-
 const Emphrasis = styled.span`
 	color: #00bcd4;
 	font-size: 3.75rem;
@@ -79,7 +75,7 @@ const StyledButton = styled(AwesomeButton)`
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
 		slogan: {
-			margin: '4vw 0',
+			margin: '3vw 0',
 		},
 		flex: {
 			display: 'flex',
@@ -89,7 +85,7 @@ const useStyles = makeStyles((theme: Theme) =>
 			alignItems: 'center',
 		},
 		cardWrapper: {
-			margin: '3vw 0',
+			margin: '3vw 0 1.5vw',
 		},
 		bottomMargin: {
 			marginBottom: '2vw',
