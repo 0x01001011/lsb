@@ -1,19 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <meta charset="utf-8" />
-  <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#000000" />
-  <meta name="description" content="Web site created using create-react-app" />
-  <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-  <!--
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="theme-color" content="#000000" />
+		<meta name="description" content="Web site created using create-react-app" />
+		<link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+		<!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
-  <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-  <!--
+		<link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+		<!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
       Only files inside the `public` folder can be referenced from the HTML.
@@ -22,194 +21,17 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-  <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" /> -->
-  <link href="https://unpkg.com/sanitize.css" rel="stylesheet" />
-  <link href="https://unpkg.com/sanitize.css/typography.css" rel="stylesheet" />
-  <link href="https://unpkg.com/sanitize.css/forms.css" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Signika:wght@300;400;500;600;700&display=swap"
-    rel="stylesheet" />
-  <title>LightShadowBox</title>
-  <style>
-    body {
-      font-family: 'Signika', sans-serif;
-    }
-  </style>
-  <style>
-    @-moz-keyframes leftAnim {
-      0% {
-        -moz-transform: translateX(97px);
-        transform: translateX(97px);
-      }
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+		<link href="https://unpkg.com/sanitize.css" rel="stylesheet" />
+		<link href="https://unpkg.com/sanitize.css/typography.css" rel="stylesheet" />
+		<link href="https://unpkg.com/sanitize.css/forms.css" rel="stylesheet" />
+		<title>LightShadowBox</title>
+	</head>
 
-      100% {
-        -moz-transform: translateX(0);
-        transform: translateX(0);
-      }
-    }
-
-    @-webkit-keyframes leftAnim {
-      0% {
-        -webkit-transform: translateX(97px);
-        transform: translateX(97px);
-      }
-
-      100% {
-        -webkit-transform: translateX(0);
-        transform: translateX(0);
-      }
-    }
-
-    @keyframes leftAnim {
-      0% {
-        -moz-transform: translateX(97px);
-        -ms-transform: translateX(97px);
-        -webkit-transform: translateX(97px);
-        transform: translateX(97px);
-      }
-
-      100% {
-        -moz-transform: translateX(0);
-        -ms-transform: translateX(0);
-        -webkit-transform: translateX(0);
-        transform: translateX(0);
-      }
-    }
-
-    @-moz-keyframes rightAnim {
-      0% {
-        -moz-transform: translateX(0);
-        transform: translateX(0);
-      }
-
-      100% {
-        -moz-transform: translateX(-93px);
-        transform: translateX(-93px);
-      }
-    }
-
-    @-webkit-keyframes rightAnim {
-      0% {
-        -webkit-transform: translateX(0);
-        transform: translateX(0);
-      }
-
-      100% {
-        -webkit-transform: translateX(-93px);
-        transform: translateX(-93px);
-      }
-    }
-
-    @keyframes rightAnim {
-      0% {
-        -moz-transform: translateX(0);
-        -ms-transform: translateX(0);
-        -webkit-transform: translateX(0);
-        transform: translateX(0);
-      }
-
-      100% {
-        -moz-transform: translateX(-93px);
-        -ms-transform: translateX(-93px);
-        -webkit-transform: translateX(-93px);
-        transform: translateX(-93px);
-      }
-    }
-
-    .loader {
-      width: 300px;
-      height: 150px;
-      margin: 0 auto;
-      position: relative;
-    }
-
-    .loader::after {
-      content: "";
-      display: inline-block;
-      position: absolute;
-      left: 50%;
-      margin-left: -1px;
-      width: 2px;
-      z-index: 1;
-      height: 150px;
-      border-left: 2px dotted #000;
-    }
-
-    .loader__box {
-      position: absolute;
-      top: 0;
-      width: 150px;
-      height: 150px;
-      overflow: hidden;
-      z-index: 2;
-    }
-
-    .loader--left {
-      left: 0;
-    }
-
-    .loader--left .loader__circle {
-      background-color: #fff;
-      right: 10px;
-      -moz-animation: leftAnim 1.3s ease-in-out alternate infinite;
-      -webkit-animation: leftAnim 1.3s ease-in-out alternate infinite;
-      animation: leftAnim 1.3s ease-in-out alternate infinite;
-    }
-
-    .loader--right {
-      right: 0;
-    }
-
-    .loader--right .loader__circle {
-      left: 10px;
-      -moz-animation: rightAnim 1.3s ease-in-out alternate infinite;
-      -webkit-animation: rightAnim 1.3s ease-in-out alternate infinite;
-      animation: rightAnim 1.3s ease-in-out alternate infinite;
-    }
-
-    .loader__circle {
-      width: 75px;
-      height: 75px;
-      border: solid 2px black;
-      display: block;
-      background-color: #000;
-      -moz-border-radius: 50%;
-      -webkit-border-radius: 50%;
-      border-radius: 50%;
-      position: absolute;
-      top: 50%;
-      margin-top: -37.5px;
-    }
-
-    .v-align {
-      position: absolute;
-      text-align: center;
-      left: 0;
-      width: 100%;
-      max-height: 90vh;
-      top: 50%;
-      -moz-transform: translateY(-50%);
-      -ms-transform: translateY(-50%);
-      -webkit-transform: translateY(-50%);
-      transform: translateY(-50%);
-    }
-  </style>
-</head>
-
-<body>
-  <noscript>You need to enable JavaScript to run this app.</noscript>
-  <div id="root">
-    <div class="v-align">
-      <div class="loader">
-        <aside class="loader__box loader--left">
-          <span class="loader__circle"></span>
-        </aside>
-        <aside class="loader__box loader--right">
-          <span class="loader__circle"></span>
-        </aside>
-      </div>
-    </div>
-  </div>
-  <!--
+	<body>
+		<noscript>You need to enable JavaScript to run this app.</noscript>
+		<div id="root"></div>
+		<!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
 
@@ -219,6 +41,5 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
-</body>
-
+	</body>
 </html>

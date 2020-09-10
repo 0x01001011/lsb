@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { useQuery } from 'react-query'
-import { CustomTokenReceivedModel } from 'src/models/incscan-api'
-import { TokenUiModel } from 'src/models/token'
+import { CustomTokenReceivedModel } from 'models/incscan-api'
+import { TokenUiModel } from 'models/token'
 
 export const getListCustomTokens = async (): Promise<TokenUiModel[]> => {
 	try {

@@ -1,20 +1,25 @@
 module.exports = {
   parserOptions: {
     ecmaVersion: 2020, // Allows for the parsing of modern ECMAScript features
-    sourceType: "module", // Allows for the use of imports
+    sourceType: 'module', // Allows for the use of imports
     ecmaFeatures: {
       jsx: true // Allows for the parsing of JSX
     },
     tsconfigRootDir: __dirname,
     project: ['./tsconfig.json'],
   },
-  "env": {
-    "es6": true,
-    "browser": true,
+  env: {
+    'es6': true,
+    'browser': true,
   },
   settings: {
     react: {
-      version: "detect" // Tells eslint-plugin-react to automatically detect the version of React to use
+      version: 'detect' // Tells eslint-plugin-react to automatically detect the version of React to use
+    },
+    'import/resolver': {
+      'node': {
+        'paths': ['src']
+      }
     }
   },
   root: true,
@@ -22,7 +27,7 @@ module.exports = {
   plugins: [
     '@typescript-eslint',
     'jest',
-    "unicorn",
+    'unicorn',
   ],
   extends: [
     'airbnb-typescript',
@@ -43,6 +48,25 @@ module.exports = {
     'import/prefer-default-export': 'off',
     'react/prop-types': 'off',
     'no-param-reassign': 'off',
-    'react/jsx-props-no-spreading': 'off'
-  }
+    'react/jsx-props-no-spreading': 'off',
+    'consistent-return': 'off',
+    'object-curly-spacing': ['error', 'always'],
+    'no-return-assign': 'off',
+    '@typescript-eslint/no-use-before-define': 'off',
+    // Too restrictive, writing ugly code to defend against a very unlikely scenario: https://eslint.org/docs/rules/no-prototype-builtins
+    'no-prototype-builtins': 'off',
+    // https://basarat.gitbooks.io/typescript/docs/tips/defaultIsBad.html
+    'import/prefer-default-export': 'off',
+    'import/no-default-export': 'off',
+    // Too restrictive: https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/destructuring-assignment.md
+    'react/destructuring-assignment': 'off',
+    // No jsx extension: https://github.com/facebook/create-react-app/issues/87#issuecomment-234627904
+    'react/jsx-filename-extension': 'off',
+    // Makes no sense to allow type inferrence for expression parameters, but require typing the response
+    '@typescript-eslint/explicit-function-return-type': 'off',
+    // Common abbreviations are known and readable
+    'unicorn/prevent-abbreviations': 'off',
+    'class-methods-use-this': 'off',
+    'unicorn/no-null': 'off'
+  },
 };

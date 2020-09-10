@@ -2,9 +2,9 @@ import React from 'react'
 import styled from 'styled-components'
 import { Typography, makeStyles, Theme, createStyles, Grid, Divider, Hidden } from '@material-ui/core'
 import { BarLoader } from 'react-spinners'
-import { useTokenInfos } from 'src/services/token-infos'
-import { MasterLayout } from 'src/components/layouts'
-import { TokenCard } from 'src/components/common/token-card'
+import { useTokenInfos } from 'services/token-infos'
+import { MasterLayout } from 'components/layouts'
+import { TokenCard } from 'components/common/token-card'
 import { Code, FilterList } from '@material-ui/icons'
 import {
 	fetchMore,
@@ -13,16 +13,10 @@ import {
 	changeTokenVariant,
 	ShowOptionType,
 	sortsWith,
-	ShowroomState,
-} from 'src/redux/showroom'
-import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from 'src/redux'
+	useShowRoomState,
+} from 'stores/implements/showroom'
+import { useDispatch } from 'react-redux'
 import { PopupMenu } from './components/popup-menu'
-
-const ShowroomContainer = styled.div`
-	min-height: 100vh;
-	padding: 32px 72px;
-`
 
 const Center = styled(Grid)`
 	display: flex;
@@ -57,9 +51,7 @@ const useStyles = makeStyles((theme: Theme) =>
 export const ShowroomPage = () => {
 	const classes = useStyles()
 	const dispatch = useDispatch()
-	const { pageId, maxPages, showOption, tokenVariant, batchSize } = useSelector<RootState, ShowroomState>(
-		(state) => state.showroom,
-	)
+	const { pageId, maxPages, showOption, tokenVariant, batchSize } = useShowRoomState((state) => state)
 	const { data, isFetching } = useTokenInfos(tokenVariant)
 
 	React.useEffect(() => {

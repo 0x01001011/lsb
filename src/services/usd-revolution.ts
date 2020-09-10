@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { useQuery } from 'react-query'
-import { UsdEvolutionReceived, TimeValue } from 'src/models/incscan-api'
+import { UsdEvolutionReceived, TimeValue } from 'models/incscan-api'
 
 function getSecondTimestamp() {
 	return Math.round(new Date().getTime() / 1000)

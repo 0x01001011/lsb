@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { TypedUseSelectorHook, useSelector } from 'react-redux'
+import { createSelectorForSlice } from 'stores/utils'
 
 export type ShowOptionType = 'A-Z' | 'Market Capacity' | 'Top Mover' | 'Volume'
 export type TokenVariantType = 'Coins' | 'Shielded Tokens' | 'Custom Tokens'
@@ -46,3 +47,4 @@ export const showroom = createSlice({
 export const { sortsWith, changeTokenVariant, fetchMore, refreshShowroom } = showroom.actions
 
 export const useShowroomRedux: TypedUseSelectorHook<ShowroomState> = useSelector
+export const useShowRoomState: TypedUseSelectorHook<ShowroomState> = createSelectorForSlice(showroom)
