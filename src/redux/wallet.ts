@@ -1,70 +1,80 @@
-import * as incognito from 'incognito-js'
-import { TypedUseSelectorHook, useSelector } from 'react-redux'
+import { createAsyncThunk, createSlice, Dispatch, PayloadAction } from '@reduxjs/toolkit'
+import { tokenService } from '../services/incognito/token'
+import { AccountInfoInterface } from '../services/incognito/wallet'
 
-import { createAsyncThunk, createSlice, Dispatch } from '@reduxjs/toolkit'
+import { encrytePassword, walletService, sdk } from '../services'
+import { settings } from './settings'
+import { createSelectorForSlice } from './utils'
 
 interface CreateWalletWithPasscode {
 	name: string
 	passcode: string
 }
 
-export interface WalletState {
-	wallet?: incognito.WalletInstance
-	passParaphrase: ''
-	loading: boolean
+interface WalletState {
+	password?: string
+	backupStr?: string
+	selectAccountName?: string
+	account?: AccountInfoInterface
 }
 
+const walletInitialState: WalletState = {}
+
 type AsyncThunkConfig = {
-	state: WalletState
+	state: typeof walletInitialState
 	dispatch?: Dispatch
 	extra?: any
 	rejectValue?: any
 }
 
-export const createNewWalletWithPasscode = createAsyncThunk<
-	incognito.WalletInstance | undefined,
-	CreateWalletWithPasscode,
-	AsyncThunkConfig
->('wallet/createNewWallet', async (payload) => {
+export const createNewWalletWithPasscode = createAsyncThunk<any, CreateWalletWithPasscode, AsyncThunkConfig>(
+	'wallet/createNewWallet',
+	async (payload, { dispatch }) => {
+		const encrytedPass = encrytePassword(payload.passcode)
+		const wallet = await walletService.createWallet(payload.name)
+		const backupStr = wallet.backup(encrytedPass)
+		dispatch(wallets.actions.savePassword({ password: encrytedPass }))
+		dispatch(wallets.actions.setWalletBackupStr({ backupStr }))
+		dispatch(selectAccount({ accountName: walletService.getNameFirstAccount() }))
+	},
+)
+
+export const selectAccount = createAsyncThunk<AccountInfoInterface, { accountName: string }, AsyncThunkConfig>(
+	'wallet/reloadWallet',
+	async ({ accountName }) => {
+		return walletService.getAccountInfo(accountName)
+	},
+)
+
+export const loadWalletWebAssembly = createAsyncThunk('wallet/load_assembly', async (_, { dispatch }) => {
 	try {
-		const instance = new incognito.WalletInstance()
-		const wallet = await instance.init(payload.name, payload.name)
-		console.log(wallet)
-		return wallet
+		dispatch(settings.actions.setGlobalLoading({ isLoading: true }))
+		await sdk.initSDK('/privacy.wasm')
+		dispatch(fetchTokens())
 	} catch (error) {
 		console.error(error)
-		return undefined
 	}
+	dispatch(settings.actions.setGlobalLoading({ isLoading: false }))
 })
 
-export const loadWalletWebAssembly = createAsyncThunk('wallet/load_assembly', async () => {
-	try {
-		incognito.setConfig({
-			mainnet: true,
-			wasmPath: '/privacy.wasm',
-		})
-		const response = await incognito.goServices.implementGoMethodUseWasm()
-		console.log(response)
-	} catch (error) {
-		console.error(error)
-	}
+export const fetchTokens = createAsyncThunk<any, void, AsyncThunkConfig>('wallet/fetchTokens', async () => {
+	return tokenService.getTokenList()
 })
-
-const walletInitialState: WalletState = {
-	passParaphrase: '',
-	loading: true,
-}
 
 export const wallets = createSlice({
 	name: 'wallets',
 	initialState: walletInitialState,
-	reducers: {},
-	extraReducers: {
-		[createNewWalletWithPasscode.fulfilled.toString()]: (state, { payload }) => {
-			state.wallet = payload
+	reducers: {
+		savePassword: (state, action: PayloadAction<{ password: string }>) => {
+			state.password = action.payload.password
 		},
-		[loadWalletWebAssembly.fulfilled.toString()]: (state) => {
-			state.loading = false
+		setWalletBackupStr: (state, action: PayloadAction<{ backupStr: any }>) => {
+			state.backupStr = action.payload.backupStr
+		},
+	},
+	extraReducers: {
+		[selectAccount.fulfilled.toString()]: (state, action: PayloadAction<AccountInfoInterface>) => {
+			state.account = action.payload
 		},
 	},
 })

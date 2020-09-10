@@ -1,10 +1,13 @@
 import React from 'react'
+
+import { Provider, useDispatch  Provider, useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { ReactQueryDevtools } from 'react-query-devtools'
-import { Provider, useDispatch } from 'react-redux'
+
 import { AppRouter } from './app-router'
 import { store } from './redux'
-import { createNewWalletWithPasscode, loadWalletWebAssembly, useWalletRedux } from './redux/wallet'
+import { useSettingState } from './redux/settings'
+import { loadWalletWebAssembly } from './redux/wallet'
 
 const AppRenderContainer = styled.div``
 
@@ -14,36 +17,23 @@ const AppRender = () => {
 		dispatch(loadWalletWebAssembly())
 	}, [dispatch])
 
-	// const { status, data, error, isFetching } = useGetListCoinToken()
-	// const { data, error, isFetching } = useUsdEvolution('pETH', 'month')
-	const isLoading = useWalletRedux((s) => s.loading)
-	console.log({ isLoading })
-
-	React.useEffect(() => {
-		!isLoading && dispatch(createNewWalletWithPasscode({ name: 'khoa', passcode: '122' }))
-	}, [isLoading])
+	const isLoading = useSettingState((settings) => settings.loading)
 
 	if (isLoading) {
 		return <div>Loading Chain Binary...</div>
 	}
 
-	// if (isFetching) {
-	// 	return <AppRenderContainer>IsLoading...</AppRenderContainer>
-	// }
-	// if (error) {
-	// 	return <AppRenderContainer>{JSON.stringify(error)}</AppRenderContainer>
-	// }
-
-	return <AppRenderContainer>{/* {status} + {JSON.stringify(data)} */}</AppRenderContainer>
+	return <AppRenderContainer>render appss</AppRenderContainer>
 }
 
 export const AppContainer = () => {
 	return (
 		<Provider store={store}>
 			<AppRouter>
-				<AppRender />
+				<MasterLayout>
+					<AppRender />
+				</MasterLayout>
 			</AppRouter>
-			<ReactQueryDevtools initialIsOpen />
 		</Provider>
 	)
 }
