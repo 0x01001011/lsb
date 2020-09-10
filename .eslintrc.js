@@ -1,20 +1,25 @@
 module.exports = {
   parserOptions: {
     ecmaVersion: 2020, // Allows for the parsing of modern ECMAScript features
-    sourceType: "module", // Allows for the use of imports
+    sourceType: 'module', // Allows for the use of imports
     ecmaFeatures: {
       jsx: true // Allows for the parsing of JSX
     },
     tsconfigRootDir: __dirname,
     project: ['./tsconfig.json'],
   },
-  "env": {
-    "es6": true,
-    "browser": true,
+  env: {
+    'es6': true,
+    'browser': true,
   },
   settings: {
     react: {
-      version: "detect" // Tells eslint-plugin-react to automatically detect the version of React to use
+      version: 'detect' // Tells eslint-plugin-react to automatically detect the version of React to use
+    },
+    'import/resolver': {
+      'node': {
+        'paths': ['src']
+      }
     }
   },
   root: true,
@@ -22,7 +27,7 @@ module.exports = {
   plugins: [
     '@typescript-eslint',
     'jest',
-    "unicorn",
+    'unicorn',
   ],
   extends: [
     'airbnb-typescript',

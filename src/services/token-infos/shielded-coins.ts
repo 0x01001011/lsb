@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { useQuery } from 'react-query'
-import { ShieldCoinReceivedModel } from 'src/models/incscan-api'
-import { TokenUiModel } from 'src/models/token'
+import { ShieldCoinReceivedModel } from 'models/incscan-api'
+import { TokenUiModel } from 'models/token'
 
 export const getListShieldedCoins = async (): Promise<TokenUiModel[]> => {
 	try {

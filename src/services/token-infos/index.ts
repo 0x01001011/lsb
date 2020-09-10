@@ -1,6 +1,6 @@
 /* eslint-disable no-inner-declarations */
 import { useQuery } from 'react-query'
-import { TokenUiModel } from 'src/models/token'
+import { TokenUiModel } from 'models/token'
 import { getListCoinTokens } from './coin-tokens'
 import { getListShieldedCoins } from './shielded-coins'
 import { getListCustomTokens } from './custom-tokens'

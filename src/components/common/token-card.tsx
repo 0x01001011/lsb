@@ -1,10 +1,10 @@
 import React from 'react'
 import { Typography, Card, Grid, useTheme, Grow } from '@material-ui/core'
 import { LineChart, Line, YAxis } from 'recharts'
-import { TokenUiModel } from 'src/models/token'
-import { useUsdEvolution } from 'src/services'
+import { TokenUiModel } from 'models/token'
+import { useUsdEvolution } from 'services'
 import styled from 'styled-components'
-import DefaultIcon from 'src/assets/default-token.png'
+import DefaultIcon from 'assets/default-token.png'
 
 export type TokenCardProps = {
 	state: TokenUiModel

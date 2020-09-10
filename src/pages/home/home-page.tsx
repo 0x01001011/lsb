@@ -1,21 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
-import {
-	Typography,
-	Grid,
-	responsiveFontSizes,
-	createMuiTheme,
-	ThemeProvider,
-	createStyles,
-	makeStyles,
-	Theme,
-} from '@material-ui/core'
-import { SearchAutoComplete } from 'src/components/common/autocomplete/search-autocomplete'
-import { MasterLayout } from 'src/components/layouts'
-import { TokenCard } from 'src/components/common/token-card'
-import { TokenUiModel } from 'src/models/token'
-import { Eth, Btc, Incognito } from 'src/assets/token-logos'
-import { AwesomeButton } from 'react-awesome-button'
+import { Typography, Grid, createStyles, makeStyles, Theme, Button } from '@material-ui/core'
+import { SearchAutoComplete } from 'components/common/autocomplete/search-autocomplete'
+import { MasterLayout } from 'components/layouts'
+import { TokenCard } from 'components/common/token-card'
+import { TokenUiModel } from 'models/token'
+import { Eth, Btc, Incognito } from 'assets/token-logos'
 import clsx from 'clsx'
 
 const featureTokens: TokenUiModel[] = [
@@ -67,7 +57,7 @@ const Center = styled(Grid)`
 	align-items: center;
 `
 
-const StyledButton = styled(AwesomeButton)`
+const StyledButton = styled(Button)`
 	align-self: center;
 	--button-horizontal-padding: 36px;
 `
@@ -121,9 +111,7 @@ export const HomePage = () => {
 
 				{/* Show more button */}
 				<Grid container className={classes.bottomMargin} xs={12} justify="center" alignItems="center">
-					<StyledButton type="secondary" href="/showroom">
-						Show More
-					</StyledButton>
+					<StyledButton>Show More</StyledButton>
 				</Grid>
 
 				{/* Paralax scrolling animation */}

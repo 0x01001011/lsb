@@ -1,12 +1,12 @@
-import { persistReducer } from 'redux-persist'
-import { localStorage, syncStorage } from 'redux-persist-webextension-storage'
-
 import { combineReducers } from '@reduxjs/toolkit'
-import { accountPages } from './account-page'
-import { settings } from './settings'
+import { persistReducer } from 'redux-persist'
+import { localStorage } from 'redux-persist-webextension-storage'
 
-import { wallets } from './wallet'
-import { showroom } from './showroom'
+import { accountPages } from './implements/account-page'
+import { settings } from './implements/settings'
+
+import { wallets } from './implements/wallet'
+import { showroom } from './implements/showroom'
 
 const localStorageConfig = {
 	key: 'localStorage',

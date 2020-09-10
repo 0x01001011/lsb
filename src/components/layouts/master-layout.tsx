@@ -1,11 +1,10 @@
-import 'antd/dist/antd.dark.min.css'
-
+import React from 'react'
+import styled from 'styled-components'
 import { CssBaseline, Container } from '@material-ui/core'
 import { createMuiTheme, ThemeProvider, responsiveFontSizes } from '@material-ui/core/styles'
 import { cyan, deepPurple, pink } from '@material-ui/core/colors'
 import { Navigator } from '../common/navigator'
 import { Footer } from '../common/footer'
-import 'src/styles/re-theme/styles.scss'
 
 const MasterLayoutContainer = styled.div`
 	min-height: 100vh;
@@ -45,12 +44,14 @@ export const MasterLayout = ({ children }) => {
 
 	return (
 		<ThemeProvider theme={themePalette}>
-			<CssBaseline />
-			<Container>
-				<Navigator />
-				{children}
-				<Footer />
-			</Container>
+			<MasterLayoutContainer>
+				<CssBaseline />
+				<Container>
+					<Navigator />
+					{children}
+					<Footer />
+				</Container>
+			</MasterLayoutContainer>
 		</ThemeProvider>
 	)
 }

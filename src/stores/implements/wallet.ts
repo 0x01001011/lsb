@@ -1,10 +1,9 @@
-import { createAsyncThunk, createSlice, Dispatch, PayloadAction } from '@reduxjs/toolkit'
-import { tokenService } from '../services/incognito/token'
-import { AccountInfoInterface } from '../services/incognito/wallet'
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSelectorForSlice } from 'stores/utils'
+import { AccountInfoInterface, encrytePassword, sdk, walletService } from 'services/incognito'
+import { tokenService } from 'services/incognito/token'
 
-import { encrytePassword, walletService, sdk } from '../services'
 import { settings } from './settings'
-import { createSelectorForSlice } from './utils'
 
 interface CreateWalletWithPasscode {
 	name: string
@@ -22,7 +21,7 @@ const walletInitialState: WalletState = {}
 
 type AsyncThunkConfig = {
 	state: typeof walletInitialState
-	dispatch?: Dispatch
+	dispatch?: any
 	extra?: any
 	rejectValue?: any
 }
@@ -79,4 +78,5 @@ export const wallets = createSlice({
 	},
 })
 
-export const useWalletRedux: TypedUseSelectorHook<WalletState> = useSelector
+export const { actions } = wallets
+export const useWalletState = createSelectorForSlice(wallets)

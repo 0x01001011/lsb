@@ -1,7 +1,7 @@
 import React from 'react'
 import clsx from 'clsx'
 import styled from 'styled-components'
-import LogoSrc from 'src/assets/lsb-logo.png'
+import LogoSrc from 'assets/lsb-logo.png'
 import {
 	AppBar,
 	Toolbar,

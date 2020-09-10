@@ -6,7 +6,7 @@ import { HomePage } from './pages/home/home-page'
 import { ShowroomPage } from './pages/showroom/showroom-page'
 import { LoginPage } from './pages/login/login-page'
 
-export const AppRouter = ({ children }) => {
+export const AppRouter = () => {
 	return (
 		<Router>
 			<>
@@ -21,7 +21,6 @@ export const AppRouter = ({ children }) => {
 						<HomePage />
 					</Route>
 				</Switch>
-				<>{children}</>
 			</>
 		</Router>
 	)
