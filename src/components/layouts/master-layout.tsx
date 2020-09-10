@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { CssBaseline, Container } from '@material-ui/core'
 import { createMuiTheme, ThemeProvider, responsiveFontSizes } from '@material-ui/core/styles'
 import { cyan, deepPurple, pink } from '@material-ui/core/colors'
-import { Navigator } from '../common/navigator'
+import { Navigator } from './navigator'
 import { Footer } from '../common/footer'
 
 const MasterLayoutContainer = styled.div`

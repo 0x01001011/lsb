@@ -112,7 +112,9 @@ export const HomePage = () => {
 
 				{/* Show more button */}
 				<Grid container className={classes.bottomMargin} xs={12} justify="center" alignItems="center">
-					<StyledButton onClick={() => history.push('/showroom')}>Show More</StyledButton>
+					<Button variant="outlined" onClick={() => history.push('/showroom')}>
+						Show More
+					</Button>
 				</Grid>
 
 				{/* Paralax scrolling animation */}

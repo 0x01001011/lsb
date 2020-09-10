@@ -15,7 +15,8 @@ import {
 	Hidden,
 } from '@material-ui/core'
 import { useLocation } from 'react-router-dom'
-import { SearchAutoComplete } from './autocomplete/search-autocomplete'
+import { ConnectWalletModal } from 'components/connect/modal'
+import { SearchAutoComplete } from '../common/autocomplete/search-autocomplete'
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
@@ -79,7 +80,6 @@ const ScrollProvider = (props: Props) => {
 }
 
 export const Navigator = () => {
-	const auth = false
 	const location = useLocation()
 	const notAtHome = location.pathname !== '/'
 	const visitLoginPage = location.pathname === '/login'
@@ -96,9 +96,7 @@ export const Navigator = () => {
 					<ExpandedDiv>
 						<Hidden smDown>{!visitLoginPage && notAtHome && <SearchAutoComplete maxWidth="360px" />}</Hidden>
 					</ExpandedDiv>
-					<StyledButton href="/login">
-						<Typography>Wallet</Typography>
-					</StyledButton>
+					<ConnectWalletModal />
 				</Toolbar>
 			</AppBar>
 		</ScrollProvider>
