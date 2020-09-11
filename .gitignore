@@ -22,3 +22,5 @@ yarn-error.log*
 /coverage
 /dist
 /node_modules
+
+.vercel
