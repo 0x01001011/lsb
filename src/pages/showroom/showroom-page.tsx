@@ -2,8 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 import { Typography, makeStyles, Theme, createStyles, Grid, Divider, Hidden } from '@material-ui/core'
 import { BarLoader } from 'react-spinners'
-import { useTokenInfos } from 'services/token-infos'
-import { MasterLayout } from 'components/layouts'
+import { useTokenInfos } from 'services/token-collections'
+import { SingleColumnLayout } from 'components/layouts'
 import { TokenCard } from 'components/common/token-card'
 import { Code, FilterList } from '@material-ui/icons'
 import {
@@ -101,7 +101,7 @@ export const ShowroomPage = () => {
 	)
 
 	return (
-		<MasterLayout>
+		<SingleColumnLayout>
 			<Grid container className={classes.header} alignItems="center" justify="space-between">
 				<Grid item xs={12} sm={8}>
 					<Typography className={classes.reponsive}>Availables Tokens</Typography>
@@ -142,6 +142,6 @@ export const ShowroomPage = () => {
 			{!isFetching && pageId < maxPages && (
 				<div ref={bottomBoundaryRef} style={{ width: '100%', height: 8, background: 'transparent' }} />
 			)}
-		</MasterLayout>
+		</SingleColumnLayout>
 	)
 }

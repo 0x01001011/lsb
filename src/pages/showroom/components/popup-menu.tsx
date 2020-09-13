@@ -50,8 +50,8 @@ export const PopupMenu = ({ selected, options, menuClickCallback, endIcon }: Pop
 				open={open}
 				onClose={handleClose}
 				getContentAnchorEl={null}
-				anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-				transformOrigin={{ vertical: 'top', horizontal: 'center' }}
+				anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+				transformOrigin={{ vertical: 'top', horizontal: 'right' }}
 				PaperProps={{
 					style: {
 						maxHeight: 48 * 4.5,

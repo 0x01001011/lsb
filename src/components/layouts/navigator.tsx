@@ -5,7 +5,6 @@ import LogoSrc from 'assets/lsb-logo.png'
 import {
 	AppBar,
 	Toolbar,
-	Typography,
 	Button,
 	makeStyles,
 	createStyles,
@@ -13,8 +12,11 @@ import {
 	fade,
 	useScrollTrigger,
 	Hidden,
+	Grid,
+	Divider,
+	Grow,
 } from '@material-ui/core'
-import { useLocation } from 'react-router-dom'
+import { useHistory, useLocation } from 'react-router-dom'
 import { ConnectWalletModal } from 'components/connect/modal'
 import { SearchAutoComplete } from '../common/autocomplete/search-autocomplete'
 
@@ -24,9 +26,10 @@ const useStyles = makeStyles((theme: Theme) =>
 			backgroundColor: theme.palette.background.default,
 			flexDirection: 'row',
 			justifyContent: 'center',
+			padding: 0,
 		},
 		dropGlow: {
-			boxShadow: `0px 1px 20px 5px ${fade(theme.palette.primary.main, 0.2)}`,
+			boxShadow: `0px 1px 3px 2px ${fade(theme.palette.primary.main, 0.18)}`,
 		},
 		stickyToolbar: {
 			width: '75%',
@@ -39,67 +42,101 @@ const useStyles = makeStyles((theme: Theme) =>
 			width: '100%',
 			paddingRight: 24, // keep right padding when drawer closed
 		},
-		toolbarIcon: {
-			display: 'flex',
-			alignItems: 'center',
-			justifyContent: 'flex-end',
-			padding: '0 8px',
-			...theme.mixins.toolbar,
+		twoColumnLeft: {
+			background: theme.palette.background.default,
+			height: '100%',
+		},
+		twoColumnRight: {
+			background: '#f6f6f9',
+			height: '100%',
+		},
+		fullHeight: {
+			height: '100%',
 		},
 	}),
 )
 
-interface Props {
-	/**
-	 * Injected by the documentation to work in an iframe.
-	 * You won't need it on your project.
-	 */
-	window?: () => Window
-	children: React.ReactElement
-	enable: boolean
-}
-
-const ScrollProvider = (props: Props) => {
-	const classes = useStyles()
-	const { children, window, enable } = props
-	// Note that you normally won't need to set the window ref as useScrollTrigger
-	// will default to window.
-	// This is only being set here because the demo is in an iframe.
-	const trigger = useScrollTrigger({
-		disableHysteresis: true,
-		threshold: 0,
-		target: window ? window() : undefined,
-	})
-
-	React.useEffect(() => console.log({ trigger }), [trigger])
-
-	return React.cloneElement(children, {
-		className: clsx(classes.appBar, enable && trigger && classes.dropGlow),
-		position: enable ? 'fixed' : 'relative',
-	})
-}
-
 export const Navigator = () => {
 	const location = useLocation()
-	const notAtHome = location.pathname !== '/'
-	const visitLoginPage = location.pathname === '/login'
-
+	const history = useHistory()
 	const classes = useStyles()
+	const scrollTrigger = useScrollTrigger({
+		disableHysteresis: true,
+		threshold: 0,
+	})
 
-	return (
-		<ScrollProvider enable={notAtHome}>
-			<AppBar elevation={0}>
-				<Toolbar className={notAtHome ? classes.stickyToolbar : classes.toolbar}>
-					<StyledButton href="/">
+	if (location.pathname === '/') {
+		return (
+			<AppBar className={classes.appBar} elevation={0} position="relative">
+				<Toolbar className={classes.toolbar}>
+					<StyledButton onClick={() => history.push('/')}>
+						<Logo src={LogoSrc} alt="logo" />
+					</StyledButton>
+					<ExpandedDiv />
+					<ConnectWalletModal />
+				</Toolbar>
+			</AppBar>
+		)
+	}
+
+	if (location.pathname === '/showroom') {
+		return (
+			<AppBar className={clsx(classes.appBar, scrollTrigger && classes.dropGlow)} elevation={0}>
+				<Toolbar className={classes.stickyToolbar}>
+					<StyledButton onClick={() => history.push('/')}>
 						<Logo src={LogoSrc} alt="logo" />
 					</StyledButton>
 					<ExpandedDiv>
-						<Hidden smDown>{!visitLoginPage && notAtHome && <SearchAutoComplete maxWidth="360px" />}</Hidden>
+						<Hidden smDown>
+							<SearchAutoComplete maxWidth="360px" />
+						</Hidden>
 					</ExpandedDiv>
 					<ConnectWalletModal />
 				</Toolbar>
 			</AppBar>
-		</ScrollProvider>
+		)
+	}
+
+	/* Navigator on trading page */
+	return (
+		<AppBar className={classes.appBar} elevation={0}>
+			<Grid container alignItems="center">
+				<Hidden mdDown>
+					<Grid item xs={2} className={classes.twoColumnLeft} />
+				</Hidden>
+				<Grid className={classes.fullHeight} container md={12} lg={8}>
+					<Grid className={classes.twoColumnLeft} item xs={12} sm={12} md={7} lg={8}>
+						<Toolbar disableGutters>
+							<StyledButton onClick={() => history.push('/')}>
+								<Logo src={LogoSrc} alt="logo" />
+							</StyledButton>
+							<ExpandedDiv>
+								<Hidden smDown>
+									<SearchAutoComplete maxWidth="360px" />
+								</Hidden>
+							</ExpandedDiv>
+							<Hidden mdUp>
+								<ConnectWalletModal />
+							</Hidden>
+						</Toolbar>
+						<Grow in={scrollTrigger} timeout={300}>
+							<Divider variant="middle" />
+						</Grow>
+					</Grid>
+					<Hidden smDown>
+						<Grid className={classes.twoColumnRight} item md={5} lg={4}>
+							<Toolbar className={classes.fullHeight}>
+								<ExpandedDiv />
+								<ConnectWalletModal />
+							</Toolbar>
+						</Grid>
+					</Hidden>
+				</Grid>
+				<Hidden mdDown>
+					<Grid item xs={2} className={classes.twoColumnRight} />
+				</Hidden>
+			</Grid>
+		</AppBar>
 	)
 }
 

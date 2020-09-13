@@ -2,12 +2,12 @@ import React from 'react'
 import styled from 'styled-components'
 import { Typography, Grid, createStyles, makeStyles, Theme, Button } from '@material-ui/core'
 import { SearchAutoComplete } from 'components/common/autocomplete/search-autocomplete'
-import { MasterLayout } from 'components/layouts'
 import { TokenCard } from 'components/common/token-card'
 import { TokenUiModel } from 'models/token'
 import { Eth, Btc, Incognito } from 'assets/token-logos'
 import clsx from 'clsx'
 import { Link, useHistory } from 'react-router-dom'
+import { SingleColumnLayout } from 'components/layouts/single-column-layout'
 
 const featureTokens: TokenUiModel[] = [
 	{
@@ -88,7 +88,7 @@ export const HomePage = () => {
 	const classes = useStyles()
 	const history = useHistory()
 	return (
-		<MasterLayout>
+		<SingleColumnLayout>
 			<HomePageContainer>
 				<Grid container alignItems="center" justify="center">
 					<Grid className={classes.slogan} item xs={12}>
@@ -121,6 +121,6 @@ export const HomePage = () => {
 
 				{/* Market infomation */}
 			</HomePageContainer>
-		</MasterLayout>
+		</SingleColumnLayout>
 	)
 }

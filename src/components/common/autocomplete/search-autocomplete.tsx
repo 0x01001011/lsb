@@ -4,7 +4,7 @@ import { Autocomplete } from '@material-ui/lab'
 import { Typography, TextField, Popper, Divider, useTheme, fade, Tooltip } from '@material-ui/core'
 import styled, { ThemeProvider } from 'styled-components'
 import { TokenUiModel } from 'models/token'
-import { useTokenInfos } from 'services/token-infos'
+import { useTokenInfos } from 'services/token-collections'
 import DefaultIcon from 'assets/default-token.png'
 import { ListboxComponent, renderGroup } from './virtualized-utils'
 

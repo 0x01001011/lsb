@@ -1,4 +1,5 @@
 import React from 'react'
+import { ReactQueryDevtools } from 'react-query-devtools'
 
 import { Provider, useDispatch } from 'react-redux'
 import styled from 'styled-components'
@@ -25,6 +26,7 @@ export const AppContainer = () => {
 			<AppRender>
 				<AppRouter />
 			</AppRender>
+			<ReactQueryDevtools />
 		</Provider>
 	)
 }

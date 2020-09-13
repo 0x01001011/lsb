@@ -30,7 +30,7 @@ export const ConnectWalletModal = () => {
 
 	return (
 		<div>
-			<Button variant="outlined" color="secondary" onClick={handleClickOpen}>
+			<Button variant="outlined" color="primary" onClick={handleClickOpen}>
 				Scan To Connect Wallet
 			</Button>
 			<Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">

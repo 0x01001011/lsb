@@ -1,10 +1,12 @@
 import React from 'react'
+import styled from 'styled-components'
+import DefaultIcon from 'assets/default-token.png'
+
 import { Typography, Card, Grid, useTheme, Grow } from '@material-ui/core'
 import { LineChart, Line, YAxis } from 'recharts'
 import { TokenUiModel } from 'models/token'
-import { useUsdEvolution } from 'services'
-import styled from 'styled-components'
-import DefaultIcon from 'assets/default-token.png'
+import { useUsdEvolution } from 'services/revolutions'
+import { useHistory } from 'react-router-dom'
 
 export type TokenCardProps = {
 	state: TokenUiModel
@@ -64,6 +66,7 @@ const GrowHooks = styled.div``
 
 export const TokenCard = (props: TokenCardProps) => {
 	const theme = useTheme()
+	const history = useHistory()
 	const [loading, setLoading] = React.useState(true)
 	const { state, size = 'mid', timeout = 300 } = props
 	const { tokenSymbol, tokenName, icon, gradients } = state
@@ -94,6 +97,7 @@ export const TokenCard = (props: TokenCardProps) => {
 						background: `linear-gradient(to bottom, ${gradients[0]}, ${gradients[1]})`,
 					}}
 					elevation={0}
+					onClick={() => history.push(`/trading/${tokenSymbol}`)}
 				>
 					<Grid style={{ padding: '8px 16px' }} container>
 						<Grid item xs={8}>

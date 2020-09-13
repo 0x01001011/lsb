@@ -1,10 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
-import { CssBaseline, Container } from '@material-ui/core'
+import { CssBaseline } from '@material-ui/core'
 import { createMuiTheme, ThemeProvider, responsiveFontSizes } from '@material-ui/core/styles'
 import { cyan, deepPurple, pink } from '@material-ui/core/colors'
-import { Navigator } from './navigator'
-import { Footer } from '../common/footer'
 
 const MasterLayoutContainer = styled.div`
 	min-height: 100vh;
@@ -46,11 +44,7 @@ export const MasterLayout = ({ children }) => {
 		<ThemeProvider theme={themePalette}>
 			<MasterLayoutContainer>
 				<CssBaseline />
-				<Container>
-					<Navigator />
-					{children}
-					<Footer />
-				</Container>
+				{children}
 			</MasterLayoutContainer>
 		</ThemeProvider>
 	)
