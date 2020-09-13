@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { useParams } from 'react-router-dom'
-import { Accordion, AccordionSummary, createStyles, Grid, makeStyles, Theme, Typography } from '@material-ui/core'
+import { createStyles, Grid, makeStyles, Theme, Typography } from '@material-ui/core'
 import { TwoColumnLayout } from 'components/layouts/two-column-layout'
 import { useUsdEvolution } from 'services/revolutions'
 import { AreaChart, XAxis, YAxis, Tooltip, ResponsiveContainer, Area } from 'recharts'
@@ -61,7 +61,7 @@ export const TradingPage = () => {
 	const { isFetching, data, error } = useUsdEvolution(tokenSymbol, 'month')
 	const classes = useStyles()
 	const [amount, setAmount] = React.useState(0)
-	const [timeNow, setTime] = React.useState(0)
+	const [timestamp, setTime] = React.useState(0)
 
 	/* Proper received data */
 	const { currentAmount } = data || { currentAmount: [{ time: 0, value: 0 }] }
@@ -77,7 +77,7 @@ export const TradingPage = () => {
 	}
 
 	React.useEffect(() => {
-		if (!isFetching) {
+		if (!isFetching && properRecords.length > 0) {
 			const { time, value } = properRecords[properRecords.length - 1]
 			setTime(Number(time))
 			setAmount(Number(value))
@@ -92,9 +92,11 @@ export const TradingPage = () => {
 	}
 
 	const handleChartMouseLeave = React.useCallback(() => {
-		const { time, value } = properRecords[properRecords.length - 1]
-		setTime(Number(time))
-		setAmount(Number(value))
+		if (properRecords && properRecords.length > 0) {
+			const { time, value } = properRecords[properRecords.length - 1]
+			setTime(Number(time))
+			setAmount(Number(value))
+		}
 	}, [isFetching])
 
 	return (
@@ -107,7 +109,7 @@ export const TradingPage = () => {
 						</Typography>
 						<Typography variant="h3" gutterBottom>
 							$ {isFetching ? '-' : amount.toFixed(2)}{' '}
-							<DateAnnotation>{` (${new Date(timeNow * 1000).toLocaleString('vi-VN')})`}</DateAnnotation>
+							<DateAnnotation>{` (${new Date(timestamp * 1000).toLocaleString('vi-VN')})`}</DateAnnotation>
 						</Typography>
 						<Typography className={classes.summaryText} gutterBottom>
 							{!isFetching && (
@@ -125,7 +127,7 @@ export const TradingPage = () => {
 
 						{!isFetching && (
 							<ResponsiveContainer width="100%" aspect={2.0}>
-								<AreaChart data={currentAmount}>
+								<AreaChart data={currentAmount} onMouseLeave={handleChartMouseLeave}>
 									<defs>
 										<linearGradient id="colorDescrease" x1="0" y1="0" x2="0" y2="1">
 											<stop offset="5%" stopColor="#f783ac" stopOpacity={0.6} />
@@ -138,7 +140,7 @@ export const TradingPage = () => {
 									</defs>
 									<XAxis hide dataKey="time" />
 									<YAxis hide type="number" scale="log" domain={['auto', 'auto']} />
-									<Tooltip content={() => null} isAnimationActive={false} />
+									<Tooltip content={() => null} isAnimationActive={false} cursor={{ strokeWidth: 2 }} />
 									<Area
 										connectNulls
 										type="linear"
@@ -149,7 +151,6 @@ export const TradingPage = () => {
 										fill={percentage < 0 ? 'url(#colorDescrease)' : 'url(#colorIncrease)'}
 										dot={false}
 										activeDot={handleDotActive}
-										onMouseLeave={handleChartMouseLeave}
 									/>
 								</AreaChart>
 							</ResponsiveContainer>

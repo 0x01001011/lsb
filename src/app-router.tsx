@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { HomePage } from './pages/home/home-page'
 import { ShowroomPage } from './pages/showroom/showroom-page'
 import { LoginPage } from './pages/login/login-page'
-import { TradingPage } from './pages/trading/tranding-page'
+import { TradingPage } from './pages/trading/trading-page'
 
 export const AppRouter = () => {
 	return (
