@@ -70,7 +70,7 @@ export const TokenCard = (props: TokenCardProps) => {
 	const [loading, setLoading] = React.useState(true)
 	const { state, size = 'mid', timeout = 300 } = props
 	const { tokenSymbol, tokenName, icon, gradients } = state
-	const { data, error, isFetching } = useUsdEvolution(tokenSymbol, 'month')
+	const { data, error, isFetching } = useUsdEvolution(tokenSymbol, '1MONTH')
 
 	if (error) {
 		return <StyledCard />

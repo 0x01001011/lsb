@@ -1,28 +1,14 @@
 /* eslint-disable no-return-assign */
 import React from 'react'
+import DefaultIcon from 'assets/default-token.png'
 import { Autocomplete } from '@material-ui/lab'
 import { Typography, TextField, Popper, Divider, useTheme, fade, Tooltip } from '@material-ui/core'
 import styled, { ThemeProvider } from 'styled-components'
+import { useHistory } from 'react-router-dom'
 import { TokenUiModel } from 'models/token'
 import { useTokenInfos } from 'services/token-collections'
-import DefaultIcon from 'assets/default-token.png'
+import { PropagateLoader } from 'react-spinners'
 import { ListboxComponent, renderGroup } from './virtualized-utils'
-
-const StyledOption = (props: TokenUiModel) => {
-	const { tokenSymbol, tokenName, icon } = props
-
-	return (
-		<Option>
-			<Tooltip title={tokenName}>
-				<Image src={icon} alt={tokenSymbol} onError={(e) => ((e.target as HTMLImageElement).src = DefaultIcon)} />
-			</Tooltip>
-			<Expanded>
-				<Typography variant="h6">{tokenSymbol}</Typography>
-			</Expanded>
-			<Divider />
-		</Option>
-	)
-}
 
 const Option = styled.div`
 	position: relative;
@@ -108,6 +94,23 @@ const StyledAutoComplete = styled(Autocomplete)`
 	}
 `
 
+const StyledOption = (model: TokenUiModel) => {
+	const { tokenSymbol, tokenName, icon } = model
+	const history = useHistory()
+
+	return (
+		<Option onClick={() => history.push(`/trading/${tokenSymbol}`)}>
+			<Tooltip title={tokenName}>
+				<Image src={icon} alt={tokenSymbol} onError={(e) => ((e.target as HTMLImageElement).src = DefaultIcon)} />
+			</Tooltip>
+			<Expanded>
+				<Typography variant="h6">{tokenSymbol}</Typography>
+			</Expanded>
+			<Divider />
+		</Option>
+	)
+}
+
 export type SearchAutoCompleteProps = {
 	maxWidth?: string
 }
@@ -115,24 +118,34 @@ export type SearchAutoCompleteProps = {
 export const SearchAutoComplete = ({ maxWidth }: SearchAutoCompleteProps) => {
 	const theme = useTheme()
 	const { isFetching, data = [] } = useTokenInfos('Ally')
+	const inputRef = React.useRef<HTMLInputElement>()
+
+	const handleClosePopup = () => {
+		if (inputRef?.current) {
+			inputRef.current.value = ''
+			inputRef.current.blur()
+		}
+	}
 
 	return (
 		<ThemeProvider theme={theme}>
 			<StyledAutoComplete
 				id="virtualized-autocomplete"
+				openOnFocus
+				clearOnBlur
 				disableListWrap
 				loading={isFetching}
 				style={{ maxWidth, width: '100%' }}
 				options={data}
-				getOptionLabel={(token: TokenUiModel) => token.tokenName}
+				getOptionLabel={() => ''}
 				renderInput={(params) => (
-					<TextField {...params} placeholder="Search everything" variant="outlined" margin="normal" />
+					<TextField {...params} placeholder="Search everything" variant="outlined" inputRef={inputRef} />
 				)}
 				PopperComponent={StyledPopper}
 				ListboxComponent={ListboxComponent as React.ComponentType<React.HTMLAttributes<HTMLElement>>}
 				renderGroup={renderGroup}
-				// eslint-disable-next-line @typescript-eslint/no-unused-vars
 				renderOption={(token: TokenUiModel) => <StyledOption {...token} />}
+				onClose={handleClosePopup}
 			/>
 		</ThemeProvider>
 	)

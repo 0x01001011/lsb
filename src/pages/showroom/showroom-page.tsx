@@ -58,7 +58,7 @@ export const ShowroomPage = () => {
 		if (data) {
 			dispatch(refreshShowroom({ dataSize: data.length }))
 		}
-	}, [data])
+	}, [dispatch, data])
 
 	// implement infinite scrolling with intersection observer
 	const bottomBoundaryRef = React.useRef(null)
@@ -84,7 +84,7 @@ export const ShowroomPage = () => {
 		}
 
 		return () => bottomBoundaryRef.current && interactObserver.unobserve(bottomBoundaryRef.current)
-	}, [scrollObserver, bottomBoundaryRef])
+	}, [scrollObserver, bottomBoundaryRef, interactObserver])
 
 	const showTokens = React.useCallback(
 		(variant: TokenVariantType) => {
