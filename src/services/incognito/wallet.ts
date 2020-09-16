@@ -1,4 +1,5 @@
 import * as i from 'incognito-js'
+import { WALLET_CONSTANTS } from '../../constants/wallet'
 
 export interface AccountInfoInterface {
 	accountName: string
@@ -48,6 +49,12 @@ export class WalletService {
 	async createWallet(name: string) {
 		const wallet = await this.walletInstance.init('', name)
 		return wallet
+	}
+
+	async createWalletViaPrivateKey(privateKey: string) {
+		const wallet = await this.walletInstance.init('', WALLET_CONSTANTS.ONE_TIME_WALLET_NAME)
+		const accountInstanc = await wallet.masterAccount.importAccount(WALLET_CONSTANTS.ONE_TIME_WALLET_NAME, privateKey)
+		return accountInstanc
 	}
 
 	getNameFirstAccount() {

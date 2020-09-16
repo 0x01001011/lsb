@@ -15,6 +15,8 @@ interface WalletState {
 	backupStr?: string
 	selectAccountName?: string
 	account?: AccountInfoInterface
+	connectError?: string
+	isConnecting?: boolean
 }
 
 const walletInitialState: WalletState = {}
@@ -42,6 +44,14 @@ export const selectAccount = createAsyncThunk<AccountInfoInterface, { accountNam
 	'wallet/reloadWallet',
 	async ({ accountName }) => {
 		return walletService.getAccountInfo(accountName)
+	},
+)
+
+export const connectViaPrivateKey = createAsyncThunk<void, { privateKey: string }, AsyncThunkConfig>(
+	'wallet/connectViaPrivateKey',
+	async ({ privateKey }, { dispatch }) => {
+		const accountInstance = await walletService.createWalletViaPrivateKey(privateKey)
+		dispatch(selectAccount({ accountName: accountInstance.name }))
 	},
 )
 
@@ -74,6 +84,16 @@ export const wallets = createSlice({
 	extraReducers: {
 		[selectAccount.fulfilled.toString()]: (state, action: PayloadAction<AccountInfoInterface>) => {
 			state.account = action.payload
+		},
+		[connectViaPrivateKey.rejected.toString()]: (state, action: PayloadAction<Error>) => {
+			state.connectError = action.payload.message
+			state.isConnecting = false
+		},
+		[connectViaPrivateKey.pending.toString()]: (state) => {
+			state.isConnecting = true
+		},
+		[connectViaPrivateKey.fulfilled.toString()]: (state) => {
+			state.isConnecting = false
 		},
 	},
 })

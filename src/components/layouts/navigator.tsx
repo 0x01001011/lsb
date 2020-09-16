@@ -18,7 +18,7 @@ import {
 	useTheme,
 } from '@material-ui/core'
 import { useHistory, useLocation } from 'react-router-dom'
-import { ConnectWalletModal } from 'components/connect/modal'
+import { ConnectWalletModal } from 'pages/connect'
 import { SearchAutoComplete } from '../common/autocomplete/search-autocomplete'
 
 const useStyles = makeStyles((theme: Theme) =>
