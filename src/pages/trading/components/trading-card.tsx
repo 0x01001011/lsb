@@ -42,7 +42,7 @@ const WrappedSwap = styled(Paper)`
 	display: flex;
 	align-self: center;
 	flex-direction: column;
-	padding: 8px;
+	padding: 8px 16px 16px;
 	position: relative;
 	overflow: hidden;
 
@@ -63,18 +63,32 @@ const Header = styled.div`
 	justify-content: space-between;
 `
 
-const PayInfo = styled.div`
+const TopPayInfo = styled.div`
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
 	margin: 8px 16px;
 `
 
-const TokenSelection = styled.div`
+const BottomPayInfo = styled.div`
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	margin: 8px 0px 0px;
+`
+
+const TopTokenSelection = styled.div`
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
 	margin: 0px 16px 8px;
+`
+
+const BottomTokenSelection = styled.div`
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	margin: 0px;
 `
 
 const TopperCard = styled.div`
@@ -83,17 +97,17 @@ const TopperCard = styled.div`
 	transition: all 0.1s ease-in;
 	display: flex;
 	flex-direction: column;
-	padding: 8px;
+	padding: 8px 0px;
 `
 
 const BottomCard = styled.div`
 	flex-grow: 1;
-	background: rgba(0, 87, 255, 0.06);
+	background: #f6f6f9;
 	transition: all 0.1s ease-in;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
-	padding: 16px 8px 8px;
+	padding: 16px;
 	border-radius: 8px;
 `
 
@@ -175,8 +189,12 @@ const useStyles = makeStyles((theme: Theme) =>
 			},
 		},
 		topperField: {
+			'& .MuiOutlinedInput-input': {
+				padding: '12px',
+			},
+
 			'& div.MuiInputBase-root': {
-				background: 'rgba(0, 87, 255, 0.06)',
+				background: '#F6F6F9',
 				boxShadow: 'rgba(14, 16, 60, 0.2) 0px 0px 1px, rgba(4, 8, 106, 0.07) 0px 2px 2px inset',
 				borderRadius: '8px',
 
@@ -190,6 +208,10 @@ const useStyles = makeStyles((theme: Theme) =>
 			},
 		},
 		bottomField: {
+			'& .MuiOutlinedInput-input': {
+				padding: '12px',
+			},
+
 			'& div.MuiInputBase-root': {
 				background: theme.palette.background.paper,
 				boxShadow: 'rgba(14, 16, 60, 0.2) 0px 0px 1px, rgba(4, 8, 106, 0.07) 0px 2px 2px inset',
@@ -283,11 +305,11 @@ export const TradingCard = () => {
 					<InlineSearchAutocomplete itemClickCallback={searchItemClickCallback} />
 				</StyledDrawer>
 				<TopperCard>
-					<PayInfo>
+					<TopPayInfo>
 						<Typography variant="body2">From</Typography>
 						<Typography variant="caption" />
-					</PayInfo>
-					<TokenSelection>
+					</TopPayInfo>
+					<TopTokenSelection>
 						<Button
 							className={classes.tokenSelector}
 							style={paidToken === '' ? { width: 171 } : undefined}
@@ -298,18 +320,18 @@ export const TradingCard = () => {
 							{paidToken || 'Choose token'}
 						</Button>
 						<div />
-					</TokenSelection>
+					</TopTokenSelection>
 					<TextField classes={{ root: classes.topperField }} variant="outlined" />
 				</TopperCard>
 				<BottomCard>
 					<IconButton className={classes.swapDecor} onMouseDown={handleSwapTrading}>
 						<SwapVertRounded fontSize="default" />
 					</IconButton>
-					<PayInfo>
+					<BottomPayInfo>
 						<Typography variant="body2">To</Typography>
 						<Typography variant="caption" />
-					</PayInfo>
-					<TokenSelection>
+					</BottomPayInfo>
+					<BottomTokenSelection>
 						<Button
 							className={classes.tokenSelector}
 							style={receivedToken === '' ? { width: 171 } : undefined}
@@ -320,7 +342,7 @@ export const TradingCard = () => {
 							{receivedToken || 'Choose Token'}
 						</Button>
 						<div />
-					</TokenSelection>
+					</BottomTokenSelection>
 					<TextField classes={{ root: classes.bottomField }} variant="outlined" />
 				</BottomCard>
 			</WrappedSwap>

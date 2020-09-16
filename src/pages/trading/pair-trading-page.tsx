@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { useParams } from 'react-router-dom'
@@ -15,6 +16,7 @@ import {
 } from 'stores/implements/trading'
 import { useDispatch } from 'react-redux'
 import { PropagateLoader } from 'react-spinners'
+import { Empty } from 'antd'
 import { TradingCard } from './components/trading-card'
 import { CandlesChart } from './components/candles-charts'
 
@@ -128,7 +130,7 @@ export const PairTradingPage = () => {
 				<Grid className={classes.leftColumn} item md={7}>
 					<LeftContent>
 						<Typography variant="h4" gutterBottom>
-							Swap {paidToken}/{receivedToken}
+							{paidToken}/{receivedToken}
 						</Typography>
 						{/* <Typography variant="h3" gutterBottom>
 							$ {isFetching ? '-' : amount.toFixed(2)}{' '}
@@ -150,6 +152,8 @@ export const PairTradingPage = () => {
 						<ChartWrapper>
 							{isFetching ? (
 								<PropagateLoader size={24} color={theme.palette.text.hint} />
+							) : data.length === 0 ? (
+								<Empty />
 							) : (
 								<CandlesChart lastCandle={data} />
 							)}

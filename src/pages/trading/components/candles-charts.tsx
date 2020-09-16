@@ -46,21 +46,21 @@ export const CandlesChart = ({ lastCandle }) => {
 			},
 			grid: {
 				vertLines: {
-					color: '#30303030',
-					style: 0,
-					visible: false,
+					color: '#30303040',
+					style: 4,
+					visible: true,
 				},
 				horzLines: {
-					color: '#30303030',
-					style: 0,
-					visible: false,
+					color: '#30303040',
+					style: 4,
+					visible: true,
 				},
 			},
 			layout: {
 				backgroundColor: theme.palette.background.default,
 				fontSize: 14,
 				// eslint-disable-next-line quotes
-				fontFamily: "'Signika', sans-serif",
+				fontFamily: "'Montserrat', sans-serif",
 			},
 		})
 
@@ -73,8 +73,8 @@ export const CandlesChart = ({ lastCandle }) => {
 		const histogram = lastCandle.map(({ time, open, close }) => ({
 			time,
 			value: close,
-			// color: open < close ? '#34f49077' : '#d5000077',
-			color: '#30303077',
+			// color: open < close ? '#34f49030' : '#f3383830',
+			color: '#30303066',
 		}))
 
 		const histogramSeries = chart.addHistogramSeries({

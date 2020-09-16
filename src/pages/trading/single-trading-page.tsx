@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { useLocation, useParams } from 'react-router-dom'
@@ -16,6 +17,7 @@ import {
 } from 'stores/implements/trading'
 import { useDispatch } from 'react-redux'
 import { PropagateLoader } from 'react-spinners'
+import { Empty } from 'antd'
 import { TradingCard } from './components/trading-card'
 
 const TradingContainer = styled(Grid)`
@@ -192,6 +194,8 @@ export const SingleTradingPage = () => {
 						<ChartWrapper>
 							{isFetching ? (
 								<PropagateLoader size={24} color={theme.palette.text.hint} />
+							) : properRecords.length === 0 ? (
+								<Empty />
 							) : (
 								<ResponsiveContainer width="100%" aspect={2.75}>
 									<AreaChart data={currentAmount} onMouseLeave={handleChartMouseLeave}>
@@ -206,7 +210,7 @@ export const SingleTradingPage = () => {
 											</linearGradient>
 										</defs>
 										<XAxis hide dataKey="time" />
-										<YAxis hide type="number" scale="log" domain={['dataMin * 0.1', 'dataMax + 1']} />
+										<YAxis hide type="number" domain={['dataMin * 0.1', 'dataMax + 1']} />
 										<Tooltip content={() => null} isAnimationActive={false} cursor={{ strokeWidth: 2 }} />
 										<Area
 											connectNulls
