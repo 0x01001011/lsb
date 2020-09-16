@@ -52,11 +52,11 @@ export const ListboxComponent = React.forwardRef<HTMLDivElement>(function Listbo
 	const theme = useTheme()
 	const smUp = useMediaQuery(theme.breakpoints.up('sm'), { noSsr: true })
 	const itemCount = itemData.length
-	const itemSize = smUp ? 56 : 42
+	const itemSize = smUp ? 48 : 42
 
 	const getChildSize = (child: React.ReactNode) => {
 		if (React.isValidElement(child) && child.type === ListSubheader) {
-			return 56
+			return 48
 		}
 
 		return itemSize
@@ -98,7 +98,7 @@ const Option = styled.div`
 	flex-direction: row;
 	flex-grow: 1;
 	align-items: center;
-	height: 56px;
+	height: 48px;
 	padding: 8px 16px;
 `
 
@@ -109,8 +109,8 @@ const Expanded = styled(Typography)`
 `
 
 const Image = styled.img`
-	width: 36px;
-	height: 36px;
+	width: 24px;
+	height: 24px;
 	margin-right: 16px;
 `
 
@@ -139,14 +139,6 @@ const InlineSearchContainer = styled.div`
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
-		listTokens: {
-			position: 'relative',
-			height: 300,
-			width: '100%',
-			overflow: 'auto',
-			willChange: 'transform',
-			direction: 'ltr',
-		},
 		spaceBottom: {
 			marginBottom: 8,
 		},

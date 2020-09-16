@@ -25,13 +25,12 @@ const TradingContainer = styled(Grid)`
 
 const LeftContent = styled.div`
 	margin-top: 128px;
-	margin-right: 32px;
 	display: flex;
 	flex-direction: column;
 	min-height: 120vh;
 `
 const RightContent = styled.div`
-	margin: 128px 48px;
+	margin-top: 128px;
 	position: fixed;
 	top: 0px;
 	right: auto;
@@ -58,7 +57,6 @@ const ChartWrapper = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	background: #f6f6f9;
 	margin-bottom: 16px;
 `
 
@@ -69,10 +67,10 @@ const useStyles = makeStyles((theme: Theme) =>
 			flexGrow: 1,
 		},
 		rightColumn: {
-			background: '#f6f6f9',
+			background: theme.palette.background.default,
 			flexGrow: 1,
 			display: 'flex',
-			justifyContent: 'flex-start',
+			justifyContent: 'flex-end',
 		},
 		summaryText: {
 			color: '#303030',
@@ -169,7 +167,7 @@ export const SingleTradingPage = () => {
 	return (
 		<TwoColumnLayout>
 			<TradingContainer container>
-				<Grid className={classes.leftColumn} item lg={8} md={7}>
+				<Grid className={classes.leftColumn} item md={7}>
 					<LeftContent>
 						<Typography variant="h4" gutterBottom>
 							{tokenSymbol} stablecoin
@@ -240,12 +238,12 @@ export const SingleTradingPage = () => {
 							</ToggleButtonGroup>
 						</GutterBottom>
 
-						<Typography className={classes.titleText} gutterBottom>
+						{/* <Typography className={classes.titleText} gutterBottom>
 							About {tokenSymbol}
-						</Typography>
+						</Typography> */}
 					</LeftContent>
 				</Grid>
-				<Grid className={classes.rightColumn} item lg={4} md={5}>
+				<Grid className={classes.rightColumn} item md={5}>
 					<RightContent>
 						<TradingCardWrapper>
 							<TradingCard />

@@ -25,13 +25,12 @@ const TradingContainer = styled(Grid)`
 
 const LeftContent = styled.div`
 	margin-top: 128px;
-	margin-right: 32px;
 	display: flex;
 	flex-direction: column;
 	min-height: 120vh;
 `
 const RightContent = styled.div`
-	margin: 128px 48px;
+	margin-top: 128px;
 	position: fixed;
 	top: 0px;
 	right: auto;
@@ -67,10 +66,10 @@ const useStyles = makeStyles((theme: Theme) =>
 			flexGrow: 1,
 		},
 		rightColumn: {
-			background: '#f6f6f9',
+			background: theme.palette.background.default,
 			flexGrow: 1,
 			display: 'flex',
-			justifyContent: 'flex-start',
+			justifyContent: 'flex-end',
 		},
 		summaryText: {
 			color: '#303030',
@@ -119,42 +118,6 @@ export const PairTradingPage = () => {
 		return () => dispatch(resetTrading())
 	}, [paidToken, receivedToken])
 
-	/* Proper received data */
-	// const { currentAmount } = data || { currentAmount: [{ time: 0, value: 0 }] }
-	// const properRecords = currentAmount.filter(({ value }) => value)
-
-	// let percentage = 0
-	// let last = 0
-
-	// if (!isFetching && properRecords.length > 0) {
-	// 	last = Number(properRecords[properRecords.length - 1].value)
-	// 	const first = Number(properRecords[0].value)
-	// 	percentage = first === 0 ? 0 : (last - first) / first
-	// }
-
-	// React.useEffect(() => {
-	// 	if (!isFetching && properRecords.length > 0) {
-	// 		const { time, value } = properRecords[properRecords.length - 1]
-	// 		setTime(Number(time))
-	// 		setAmount(Number(value))
-	// 	}
-	// }, [isFetching])
-
-	// /* Handling UI methods */
-	// const handleDotActive = ({ payload }) => {
-	// 	const { time, value } = payload
-	// 	setTime(Number(time))
-	// 	setAmount(Number(value))
-	// }
-
-	// const handleChartMouseLeave = React.useCallback(() => {
-	// 	if (properRecords && properRecords.length > 0) {
-	// 		const { time, value } = properRecords[properRecords.length - 1]
-	// 		setTime(Number(time))
-	// 		setAmount(Number(value))
-	// 	}
-	// }, [isFetching])
-
 	const handleChangeGranuality = (event: React.MouseEvent<HTMLElement>, value: PairCandleGranuality) => {
 		dispatch(changeGranuality({ granuality: value }))
 	}
@@ -162,10 +125,10 @@ export const PairTradingPage = () => {
 	return (
 		<TwoColumnLayout>
 			<TradingContainer container>
-				<Grid className={classes.leftColumn} item lg={8} md={7}>
+				<Grid className={classes.leftColumn} item md={7}>
 					<LeftContent>
 						<Typography variant="h4" gutterBottom>
-							{paidToken} to {receivedToken}.
+							Swap {paidToken}/{receivedToken}
 						</Typography>
 						{/* <Typography variant="h3" gutterBottom>
 							$ {isFetching ? '-' : amount.toFixed(2)}{' '}
@@ -208,7 +171,7 @@ export const PairTradingPage = () => {
 						</GutterBottom>
 					</LeftContent>
 				</Grid>
-				<Grid className={classes.rightColumn} item lg={4} md={5}>
+				<Grid className={classes.rightColumn} item md={5}>
 					<RightContent>
 						<TradingCardWrapper>
 							<TradingCard />

@@ -2,12 +2,11 @@
 import React from 'react'
 import DefaultIcon from 'assets/default-token.png'
 import { Autocomplete } from '@material-ui/lab'
-import { Typography, TextField, Popper, Divider, useTheme, fade, Tooltip } from '@material-ui/core'
+import { Typography, TextField, Popper, Divider, useTheme, Tooltip } from '@material-ui/core'
 import styled, { ThemeProvider } from 'styled-components'
 import { useHistory } from 'react-router-dom'
 import { TokenUiModel } from 'models/token'
 import { useTokenInfos } from 'services/token-collections'
-import { PropagateLoader } from 'react-spinners'
 import { ListboxComponent, renderGroup } from './virtualized-utils'
 
 const Option = styled.div`
@@ -27,14 +26,14 @@ const Expanded = styled(Typography)`
 `
 
 const Image = styled.img`
-	width: 36px;
-	height: 36px;
+	width: 28px;
+	height: 28px;
 	margin-right: 16px;
 `
 
 const StyledPopper = styled(Popper)`
 	div.MuiPaper-elevation1 {
-		box-shadow: ${(props) => '0 3px 6px 0 '.concat(fade(props.theme.palette.primary.main, 0.28))};
+		box-shadow: ${(props) => '0 3px 6px 0 '.concat('rgba(0, 0, 0, 0.18)')};
 	}
 
 	div.MuiAutocomplete-paper {
@@ -61,7 +60,7 @@ const StyledAutoComplete = styled(Autocomplete)`
 		transition: all 0.1s ease-in-out;
 
 		&:hover {
-			box-shadow: ${(props) => '0 0 7px '.concat(fade(props.theme.palette.primary.main, 0.28))};
+			box-shadow: ${(props) => '0 0 7px '.concat('rgba(0, 0, 0, 0.28)')};
 
 			.MuiOutlinedInput-notchedOutline {
 				border: none;
@@ -70,7 +69,7 @@ const StyledAutoComplete = styled(Autocomplete)`
 
 		&:active {
 			border-radius: 8px 8px 0 0;
-			box-shadow: ${(props) => '0 1px 6px 0 '.concat(fade(props.theme.palette.primary.main, 0.28))};
+			box-shadow: ${(props) => '0 1px 6px 0 '.concat('rgba(0, 0, 0, 0.28)')};
 
 			.MuiOutlinedInput-notchedOutline {
 				border: none;
@@ -81,11 +80,11 @@ const StyledAutoComplete = styled(Autocomplete)`
 	div.Mui-focused {
 		background: white;
 		border-radius: 16px 16px 0 0;
-		box-shadow: ${(props) => '0 0px 6px 0 '.concat(fade(props.theme.palette.primary.main, 0.28))};
+		box-shadow: ${(props) => '0 0px 6px 0 '.concat('rgba(0, 0, 0, 0.28)')};
 
 		&:hover {
 			border-radius: 16px 16px 0 0;
-			box-shadow: ${(props) => '0 1px 6px 0 '.concat(fade(props.theme.palette.primary.main, 0.28))};
+			box-shadow: ${(props) => '0 1px 6px 0 '.concat('rgba(0, 0, 0, 0.28)')};
 		}
 
 		.MuiOutlinedInput-notchedOutline {

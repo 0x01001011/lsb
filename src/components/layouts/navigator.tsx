@@ -28,6 +28,7 @@ const useStyles = makeStyles((theme: Theme) =>
 			flexDirection: 'row',
 			justifyContent: 'center',
 			padding: 0,
+			height: 81,
 		},
 		dropGlow: {
 			boxShadow: `0px 1px 3px 2px ${fade(theme.palette.primary.main, 0.18)}`,
@@ -43,17 +44,6 @@ const useStyles = makeStyles((theme: Theme) =>
 			width: '100%',
 			paddingRight: 24, // keep right padding when drawer closed
 		},
-		twoLeftDecor: {
-			background: theme.palette.background.default,
-			height: '100%',
-		},
-		twoColumnRight: {
-			background: '#f6f6f9',
-			height: '100%',
-		},
-		fullHeight: {
-			height: '100%',
-		},
 	}),
 )
 
@@ -65,15 +55,18 @@ const StyledBar = styled(AppBar)`
 `
 
 const LeftDecor = styled(Grid)`
-	padding: 8px;
 	height: 81px;
 	background: ${(props) => props.theme.palette.background.default};
 `
 
 const RightDecor = styled(Grid)`
-	padding: 8px;
 	height: 81px;
-	background: #f6f6f9;
+	/* background: #f6f6f9; */
+	background: ${(props) => props.theme.palette.background.default};
+`
+
+const StyledToolbar = styled(Toolbar)`
+	min-height: 81px;
 `
 
 export const Navigator = () => {
@@ -125,11 +118,11 @@ export const Navigator = () => {
 			<StyledBar elevation={0}>
 				<Grid container alignItems="center">
 					<Hidden mdDown>
-						<LeftDecor item xs={2} />
+						<LeftDecor item xs={1} />
 					</Hidden>
-					<Grid container md={12} lg={8}>
-						<LeftDecor item xs={12} sm={12} md={7} lg={8}>
-							<Toolbar disableGutters>
+					<Grid container md={12} lg={10}>
+						<LeftDecor item xs={12} sm={12} md={7}>
+							<StyledToolbar disableGutters>
 								<StyledButton onClick={() => history.push('/')}>
 									<Logo src={LogoSrc} alt="logo" />
 								</StyledButton>
@@ -141,22 +134,22 @@ export const Navigator = () => {
 								<Hidden mdUp>
 									<ConnectWalletModal />
 								</Hidden>
-							</Toolbar>
+							</StyledToolbar>
 							<Grow in={scrollTrigger} timeout={300}>
 								<Divider variant="middle" />
 							</Grow>
 						</LeftDecor>
 						<Hidden smDown>
-							<RightDecor item md={5} lg={4}>
-								<Toolbar>
+							<RightDecor item md={5}>
+								<StyledToolbar>
 									<ExpandedDiv />
 									<ConnectWalletModal />
-								</Toolbar>
+								</StyledToolbar>
 							</RightDecor>
 						</Hidden>
 					</Grid>
 					<Hidden mdDown>
-						<RightDecor item xs={2} />
+						<RightDecor item xs={1} />
 					</Hidden>
 				</Grid>
 			</StyledBar>
