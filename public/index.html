@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8" />
   <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+  <link rel="loading" href="%PUBLIC_URL%/loading.gif" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#000000" />
   <meta name="description" content="Web site created using create-react-app" />
@@ -26,12 +27,12 @@
   <link href="https://unpkg.com/sanitize.css" rel="stylesheet" />
   <link href="https://unpkg.com/sanitize.css/typography.css" rel="stylesheet" />
   <link href="https://unpkg.com/sanitize.css/forms.css" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Signika:wght@300;400;500;600;700&display=swap"
-    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600&amp;display=swap"
+    rel="stylesheet">
   <title>LightShadowBox</title>
   <style>
     body {
-      font-family: 'Signika', sans-serif;
+      font-family: 'Montserrat', sans-serif;
     }
   </style>
   <style>
@@ -192,6 +193,10 @@
       -webkit-transform: translateY(-50%);
       transform: translateY(-50%);
     }
+
+    .loading {
+      width: 256px;
+    }
   </style>
 </head>
 
@@ -199,14 +204,15 @@
   <noscript>You need to enable JavaScript to run this app.</noscript>
   <div id="root">
     <div class="v-align">
-      <div class="loader">
+      <!-- <div class="loader">
         <aside class="loader__box loader--left">
           <span class="loader__circle"></span>
         </aside>
         <aside class="loader__box loader--right">
           <span class="loader__circle"></span>
         </aside>
-      </div>
+      </div> -->
+      <img class="loading" src="/loading.gif" alt="Light Shadow Box" />
     </div>
   </div>
   <!--

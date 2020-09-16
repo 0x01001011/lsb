@@ -136,7 +136,7 @@ export const SearchAutoComplete = ({ maxWidth }: SearchAutoCompleteProps) => {
 				loading={isFetching}
 				style={{ maxWidth, width: '100%' }}
 				options={data}
-				getOptionLabel={() => ''}
+				getOptionLabel={(token: TokenUiModel) => token.tokenSymbol}
 				renderInput={(params) => (
 					<TextField {...params} placeholder="Search everything" variant="outlined" inputRef={inputRef} />
 				)}

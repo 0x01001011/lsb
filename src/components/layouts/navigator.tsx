@@ -126,11 +126,9 @@ export const Navigator = () => {
 								<StyledButton onClick={() => history.push('/')}>
 									<Logo src={LogoSrc} alt="logo" />
 								</StyledButton>
-								<ExpandedDiv>
-									<Hidden smDown>
+								<ExpandedDiv>{/* <Hidden smDown>
 										<SearchAutoComplete maxWidth="360px" />
-									</Hidden>
-								</ExpandedDiv>
+									</Hidden> */}</ExpandedDiv>
 								<Hidden mdUp>
 									<ConnectWalletModal />
 								</Hidden>
