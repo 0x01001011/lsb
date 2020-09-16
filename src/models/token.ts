@@ -8,10 +8,10 @@ export interface TokenUiModel {
 	gradients?: Array<string>
 }
 
-export type TokenDetailsModel = TokenUiModel & {
-	totalSupply: number
-	marketCap: number
-	oneDayVolume: string
-	wiki: string
-	currentAmount: TimeValue[]
+export interface PairCandleStickModel {
+	time: any
+	open: number
+	close: number
+	hight: number
+	low: number
 }

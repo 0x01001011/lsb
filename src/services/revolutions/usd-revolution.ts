@@ -1,15 +1,18 @@
 import axios from 'axios'
 import { useQuery } from 'react-query'
 import { UsdEvolutionReceived, TimeValue } from 'models/incscan-api'
+import { AggregationType } from 'stores/implements/trading'
 
 function getSecondTimestamp() {
 	return Math.round(new Date().getTime() / 1000)
 }
 
-export const getUsdEvolution = async (token: string, aggregation: 'all' | 'month') => {
+const DAYS = { '1MONTH': 30, '6MONTHS': 182, '1YEAR': 365 }
+
+export const getUsdEvolution = async (token: string, aggregation: AggregationType) => {
 	try {
 		const end = getSecondTimestamp()
-		const start = aggregation === 'all' ? 1572566400 : end - 86400 * 30
+		const start = end - 86400 * DAYS[aggregation]
 		let url = `https://api.incscan.io/shielded-coins/usd-evolution/${token}?start=${start}&end=${end}`
 
 		if (token === 'PRV') {
@@ -35,6 +38,6 @@ export const getUsdEvolution = async (token: string, aggregation: 'all' | 'month
 	}
 }
 
-export const useUsdEvolution = (token: string, aggregation: 'all' | 'month') => {
-	return useQuery(`${getUsdEvolution.name}(${token})`, () => getUsdEvolution(token, aggregation))
+export const useUsdEvolution = (token: string, aggregation: AggregationType) => {
+	return useQuery(`${getUsdEvolution.name}/${token}/${aggregation}`, () => getUsdEvolution(token, aggregation))
 }

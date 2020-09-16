@@ -167,22 +167,36 @@ export const TradingCard = () => {
 	const dispatch = useDispatch()
 	const history = useHistory()
 	const [search, toggleSearch] = React.useState(false)
-	const [type, setType] = React.useState<'pay' | 'receive'>('pay')
+	const [type, setType] = React.useState<'PAY' | 'RECEIVE'>('PAY')
 	const { paidToken, paidAmount, receivedToken, receivedAmount } = useTradingState((state) => state)
 
 	const searchItemClickCallback = React.useCallback(
-		(token: string) => {
+		(changedToken: string) => {
 			handleCloseDrawer()
-			dispatch(changeToken({ type, token }))
-			// history.push(`/trading/${paidToken}/${receivedToken}`)
+
+			/* 2 sides already picked */
+			if (type === 'PAY' && receivedToken !== '') {
+				history.push(`/trading/${changedToken}/${receivedToken}`)
+			} else if (type === 'RECEIVE' && paidToken !== '') {
+				history.push(`/trading/${paidToken}/${changedToken}`)
+				/* Picked 1 side and the other side was empty */
+			} else {
+				history.push(`/trading/${changedToken}?type=${type}`)
+			}
 		},
 		[dispatch, paidToken, receivedToken, type],
 	)
 
-	const handleSwapTrading = () => dispatch(swapTrading())
+	const handleSwapTrading = () => {
+		if (receivedToken !== '' && paidToken !== '') {
+			history.push(`/trading/${receivedToken}/${paidToken}`)
+		} else {
+			dispatch(changeToken({ receivedToken: paidToken, paidToken: receivedToken }))
+		}
+	}
 
 	const handleCloseDrawer = () => toggleSearch(false)
-	const handleOpenDrawer = (searchType: 'pay' | 'receive') => {
+	const handleOpenDrawer = (searchType: 'PAY' | 'RECEIVE') => {
 		toggleSearch(true)
 		setType(searchType)
 	}
@@ -222,7 +236,7 @@ export const TradingCard = () => {
 						style={paidToken === '' ? { width: 171 } : undefined}
 						variant="text"
 						endIcon={<ArrowDropDownRounded />}
-						onMouseDown={() => handleOpenDrawer('pay')}
+						onMouseDown={() => handleOpenDrawer('PAY')}
 					>
 						{paidToken || 'Choose token'}
 					</TokenButton>
@@ -242,7 +256,7 @@ export const TradingCard = () => {
 						style={receivedToken === '' ? { width: 171 } : undefined}
 						variant="text"
 						endIcon={<ArrowDropDownRounded />}
-						onMouseDown={() => handleOpenDrawer('receive')}
+						onMouseDown={() => handleOpenDrawer('RECEIVE')}
 					>
 						{receivedToken || 'Choose Token'}
 					</TokenButton>

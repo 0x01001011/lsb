@@ -7,50 +7,42 @@ export interface TradingState {
 	paidAmount: number
 	receivedToken: string
 	receivedAmount: number
+	aggregation: AggregationType
+	granuality: PairCandleGranuality
 }
 
+export type AggregationType = '1MONTH' | '6MONTHS' | '1YEAR'
+
+export type PairCandleGranuality = '1HOUR' | '6HOURS' | '1DAY'
+
 const initialState: TradingState = {
-	paidToken: 'PRV',
+	paidToken: '',
 	paidAmount: 0,
 	receivedToken: '',
 	receivedAmount: 0,
+	aggregation: '1MONTH',
+	granuality: '1DAY',
 }
-
-const PRV = 'PRV'
 
 export const trading = createSlice({
 	name: 'trading',
 	initialState,
 	reducers: {
-		changeToken(state, action: PayloadAction<{ type: 'pay' | 'receive'; token: string }>) {
-			const { type, token } = action.payload
-
-			if (type === 'pay') {
-				if (state.paidToken !== PRV && token === PRV) {
-					state.receivedToken = state.paidToken
-					state.paidToken = token
-				} else if (state.paidToken === PRV && token !== PRV) {
-					state.receivedToken = state.paidToken
-					state.paidToken = token
-				} else {
-					state.paidToken = token
-				}
-			}
-
-			if (type === 'receive') {
-				if (state.receivedToken !== PRV && token === PRV) {
-					state.paidToken = state.receivedToken
-					state.receivedToken = token
-				} else if (state.receivedToken === PRV && token !== PRV) {
-					state.paidToken = state.receivedToken
-					state.receivedToken = token
-				} else {
-					state.receivedToken = token
-				}
-			}
+		changeToken(state, action: PayloadAction<{ paidToken?: string; receivedToken?: string }>) {
+			const { paidToken, receivedToken } = action.payload
+			state.paidToken = paidToken || ''
+			state.receivedToken = receivedToken || ''
 		},
 		changeAmount(state, action: PayloadAction<{ type: 'pay' | 'receive'; amount }>) {
 			const { type } = action.payload
+		},
+		changeAggregation(state, action: PayloadAction<{ aggregation: AggregationType }>) {
+			const { aggregation } = action.payload
+			state.aggregation = aggregation
+		},
+		changeGranuality(state, action: PayloadAction<{ granuality: PairCandleGranuality }>) {
+			const { granuality } = action.payload
+			state.granuality = granuality
 		},
 		swapTrading(state) {
 			const swapToken = state.paidToken
@@ -62,11 +54,18 @@ export const trading = createSlice({
 			state.receivedAmount = swapAmount
 		},
 		resetTrading(state) {
-			state = initialState
+			Object.assign(state, { ...initialState })
 		},
 	},
 })
 
-export const { changeToken, changeAmount, swapTrading, resetTrading } = trading.actions
+export const {
+	changeToken,
+	changeAmount,
+	swapTrading,
+	resetTrading,
+	changeAggregation,
+	changeGranuality,
+} = trading.actions
 
 export const useTradingState: TypedUseSelectorHook<TradingState> = createSelectorForSlice(trading)
