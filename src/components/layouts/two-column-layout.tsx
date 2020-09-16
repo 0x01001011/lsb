@@ -11,7 +11,8 @@ const useStyles = makeStyles((theme: Theme) =>
 			minHeight: '100vh',
 		},
 		rightSpace: {
-			background: '#f6f6f9',
+			// background: '#f6f6f9',
+			background: theme.palette.background.default,
 			minHeight: '100vh',
 		},
 	}),
@@ -24,14 +25,14 @@ export const TwoColumnLayout = ({ children }) => {
 		<MasterLayout>
 			<Grid container>
 				<Hidden mdDown>
-					<Grid item xs={2} className={classes.leftSpace} />
+					<Grid item xs={1} className={classes.leftSpace} />
 				</Hidden>
 				<Navigator />
-				<Grid item md={12} lg={8}>
+				<Grid item md={12} lg={10}>
 					{children}
 				</Grid>
 				<Hidden mdDown>
-					<Grid item xs={2} className={classes.rightSpace} />
+					<Grid item xs={1} className={classes.rightSpace} />
 				</Hidden>
 			</Grid>
 		</MasterLayout>

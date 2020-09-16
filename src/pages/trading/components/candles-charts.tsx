@@ -7,7 +7,7 @@ export const CandlesChart = ({ lastCandle }) => {
 	const theme = useTheme()
 
 	React.useEffect(() => {
-		const chart = createChart(chartRef.current, { width: 800, height: 400 })
+		const chart = createChart(chartRef.current, { width: 700, height: 400 })
 		chart.applyOptions({
 			timeScale: {
 				rightOffset: 5,
@@ -57,7 +57,7 @@ export const CandlesChart = ({ lastCandle }) => {
 				},
 			},
 			layout: {
-				backgroundColor: theme.palette.type === 'light' ? '#f6f6f9' : '#303030',
+				backgroundColor: theme.palette.background.default,
 				fontSize: 14,
 				// eslint-disable-next-line quotes
 				fontFamily: "'Signika', sans-serif",

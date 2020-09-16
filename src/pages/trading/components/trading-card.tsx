@@ -1,7 +1,7 @@
 import {
+	Avatar,
 	Button,
 	createStyles,
-	Divider,
 	IconButton,
 	makeStyles,
 	Paper,
@@ -10,8 +10,7 @@ import {
 	Typography,
 } from '@material-ui/core'
 import { Drawer } from 'antd'
-import { ArrowDropDownRounded, CloseRounded, SwapVertRounded } from '@material-ui/icons'
-import clsx from 'clsx'
+import { ArrowDropDownRounded, CloseRounded, InfoRounded, SwapVertRounded } from '@material-ui/icons'
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
@@ -19,75 +18,67 @@ import { changeToken, swapTrading, useTradingState } from 'stores/implements/tra
 import styled from 'styled-components'
 import { InlineSearchAutocomplete } from './inline-search-autocomplete'
 
-const ContainerPaper = styled(Paper)`
+const WrappedCard = styled(Paper)`
 	transition: all 0.1s ease-in;
-	height: 420px;
-	width: 360px;
+	height: 500px;
+	width: 400px;
 	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	padding: 16px;
+	position: relative;
+	overflow: hidden;
+	background: rgba(0, 87, 255, 0.06);
+
+	&.MuiPaper-rounded {
+		border-radius: 16px;
+	}
+`
+
+const WrappedSwap = styled(Paper)`
+	transition: all 0.1s ease-in;
+	height: 360px;
+	width: 300px;
+	display: flex;
+	align-self: center;
 	flex-direction: column;
 	padding: 8px;
 	position: relative;
 	overflow: hidden;
 
-	&.MuiPaper-rounded {
-		border-radius: 8px;
+	&.MuiPaper-elevation0 {
+		box-shadow: 0 0px 8px 0px rgba(11, 11, 11, 0.18);
 	}
 
-	&.MuiPaper-elevation0 {
-		box-shadow: 0 0px 16px 0px rgba(11, 11, 11, 0.18);
+	&.MuiPaper-rounded {
+		border-radius: 16px;
 	}
 `
 
 const Header = styled.div`
 	display: flex;
+	width: 300px;
+	align-self: center;
 	flex-direction: row;
 	justify-content: space-between;
-	margin: 8px 10px;
 `
 
 const PayInfo = styled.div`
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
-	margin: 16px 20px 12px;
+	margin: 8px 16px;
 `
 
-const TradingInput = styled.div`
+const TokenSelection = styled.div`
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
-	margin: 8px 20px 12px;
-`
-
-const TokenButton = styled(Button)`
-	padding: 0px;
-
-	span.MuiButton-label {
-		color: #505050;
-		font-size: 1.2rem;
-		font-weight: 700;
-	}
-
-	&.MuiButton-root {
-		text-transform: none;
-		justify-content: left;
-		align-items: center;
-		width: 128px;
-		height: 56px;
-		margin-right: 16px;
-
-		&:hover {
-			background: transparent;
-
-			span.MuiButton-label {
-				color: #000000;
-			}
-		}
-	}
+	margin: 0px 16px 8px;
 `
 
 const TopperCard = styled.div`
-	flex-grow: 2;
+	flex-grow: 1;
 	background: transparent;
 	transition: all 0.1s ease-in;
 	display: flex;
@@ -96,42 +87,102 @@ const TopperCard = styled.div`
 `
 
 const BottomCard = styled.div`
-	flex-grow: 3;
-	background: #f6f6f9;
+	flex-grow: 1;
+	background: rgba(0, 87, 255, 0.06);
 	transition: all 0.1s ease-in;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
-	padding: 8px;
+	padding: 16px 8px 8px;
 	border-radius: 8px;
+`
+
+const StyledDrawer = styled(Drawer)`
+	.ant-drawer-body {
+		padding: 8px;
+	}
+`
+
+const DrawerHeader = styled.div`
+	display: flex;
+	justify-content: space-between;
+	padding: 8px 16px;
+	overflow: hidden;
+
+	&.ant-drawer-body::after {
+		display: block;
+		position: absolute;
+		background: transparent;
+		box-shadow: 0px 4px 16px 0px white inset;
+	}
 `
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
 		titleText: {
-			color: '#505050',
+			// color: '#505050',
 			fontWeight: 600,
+			fontSize: '1.3rem',
 			alignSelf: 'center',
 		},
 		iconButton: {
-			background: theme.palette.background.paper,
+			background: 'transparent',
+
+			'&.MuiIconButton-root': {
+				padding: 0,
+			},
 
 			'&.MuiIconButton-root:hover': {
-				background: theme.palette.background.paper,
+				background: 'transparent',
+			},
+		},
+		tokenSelector: {
+			padding: 0,
+
+			'&.MuiButton-root': {
+				textTransform: 'none',
+				justifyContent: 'left',
+				alignItems: 'center',
+				width: 128,
+				marginRight: 16,
+
+				'& .MuiButton-label': {
+					/* color: #505050; */
+					fontSize: '1.2rem',
+					fontWeight: 700,
+				},
+
+				'&:hover': {
+					background: 'transparent',
+
+					'& .MuiButton-label': {
+						color: theme.palette.primary.dark,
+					},
+				},
 			},
 		},
 		swapDecor: {
+			background: theme.palette.background.paper,
 			padding: '8px',
-			width: '42px',
-			transform: 'translateY(calc(-50% - 8px)) translateX(16px)',
+			width: '44px',
+			transform: 'translateY(calc(-50% - 16px)) translateX(16px)',
 			position: 'absolute',
-			border: '2px solid #f6f6f9',
+			border: '2px solid rgba(0, 87, 255, 0.06)',
+
+			'&.MuiIconButton-root:hover': {
+				color: theme.palette.primary.main,
+				background: theme.palette.background.paper,
+			},
 		},
 		topperField: {
 			'& div.MuiInputBase-root': {
-				background: '#f6f6f9',
+				background: 'rgba(0, 87, 255, 0.06)',
 				boxShadow: 'rgba(14, 16, 60, 0.2) 0px 0px 1px, rgba(4, 8, 106, 0.07) 0px 2px 2px inset',
 				borderRadius: '8px',
+
+				'&:hover .MuiOutlinedInput-notchedOutline': {
+					borderColor: theme.palette.primary.main,
+				},
 
 				'& fieldset': {
 					borderColor: 'transparent',
@@ -144,23 +195,26 @@ const useStyles = makeStyles((theme: Theme) =>
 				boxShadow: 'rgba(14, 16, 60, 0.2) 0px 0px 1px, rgba(4, 8, 106, 0.07) 0px 2px 2px inset',
 				borderRadius: '8px',
 
+				'&:hover .MuiOutlinedInput-notchedOutline': {
+					borderColor: theme.palette.primary.main,
+				},
+
 				'& fieldset': {
 					borderColor: 'transparent',
 				},
 			},
 		},
 		tradeButton: {
-			padding: '16px 0px',
+			width: 300,
+			alignSelf: 'center',
+			padding: '12px 0px',
 			borderRadius: '16px',
+		},
+		primaryIcon: {
+			color: theme.palette.primary.main,
 		},
 	}),
 )
-
-const StyledDrawer = styled(Drawer)`
-	.ant-drawer-body {
-		padding: 8px;
-	}
-`
 
 export const TradingCard = () => {
 	const classes = useStyles()
@@ -202,75 +256,82 @@ export const TradingCard = () => {
 	}
 
 	return (
-		<ContainerPaper id="drawer-container" elevation={0}>
-			<StyledDrawer
-				placement="bottom"
-				onClose={handleCloseDrawer}
-				closable={false}
-				visible={search}
-				forceRender
-				getContainer={false}
-				height="100%"
-				style={{ position: 'absolute' }}
-			>
-				<Header>
-					<Typography className={classes.titleText}>You {type.charAt(0).toUpperCase() + type.slice(1)}</Typography>
-					<IconButton className={classes.iconButton} onClick={handleCloseDrawer}>
-						<CloseRounded />
-					</IconButton>
-				</Header>
-				<InlineSearchAutocomplete itemClickCallback={searchItemClickCallback} />
-			</StyledDrawer>
+		<WrappedCard id="drawer-container" elevation={0}>
 			<Header>
-				<Typography className={classes.titleText}>Market Order</Typography>
-				<div />
-			</Header>
-			<Divider />
-			<TopperCard>
-				<PayInfo>
-					<Typography className={classes.titleText}>You Pay</Typography>
-					<Typography variant="caption" />
-				</PayInfo>
-				<TradingInput>
-					<TokenButton
-						style={paidToken === '' ? { width: 171 } : undefined}
-						variant="text"
-						endIcon={<ArrowDropDownRounded />}
-						onMouseDown={() => handleOpenDrawer('PAY')}
-					>
-						{paidToken || 'Choose token'}
-					</TokenButton>
-					{paidToken && <TextField classes={{ root: classes.topperField }} variant="outlined" />}
-				</TradingInput>
-			</TopperCard>
-			<BottomCard>
-				<IconButton className={clsx(classes.iconButton, classes.swapDecor)} onMouseDown={handleSwapTrading}>
-					<SwapVertRounded fontSize="default" />
+				<Typography className={classes.titleText}>Light Shadow Swap</Typography>
+				<IconButton className={classes.iconButton} onClick={() => null} size="small">
+					<InfoRounded className={classes.primaryIcon} />
 				</IconButton>
-				<PayInfo>
-					<Typography className={classes.titleText}>You Receive</Typography>
-					<Typography variant="caption" />
-				</PayInfo>
-				<TradingInput>
-					<TokenButton
-						style={receivedToken === '' ? { width: 171 } : undefined}
-						variant="text"
-						endIcon={<ArrowDropDownRounded />}
-						onMouseDown={() => handleOpenDrawer('RECEIVE')}
-					>
-						{receivedToken || 'Choose Token'}
-					</TokenButton>
-					{receivedToken && <TextField classes={{ root: classes.bottomField }} variant="outlined" />}
-				</TradingInput>
-				<Button
-					className={classes.tradeButton}
-					disabled={!paidAmount || !receivedAmount}
-					color="primary"
-					variant="contained"
+			</Header>
+			<WrappedSwap elevation={0}>
+				<StyledDrawer
+					placement="bottom"
+					onClose={handleCloseDrawer}
+					closable={false}
+					visible={search}
+					forceRender
+					getContainer={false}
+					height="100%"
+					style={{ position: 'absolute' }}
 				>
-					Review Order
-				</Button>
-			</BottomCard>
-		</ContainerPaper>
+					<DrawerHeader>
+						<Typography>You {type.charAt(0) + type.slice(1).toLowerCase()}</Typography>
+						<IconButton className={classes.iconButton} onClick={handleCloseDrawer}>
+							<CloseRounded />
+						</IconButton>
+					</DrawerHeader>
+					<InlineSearchAutocomplete itemClickCallback={searchItemClickCallback} />
+				</StyledDrawer>
+				<TopperCard>
+					<PayInfo>
+						<Typography variant="body2">From</Typography>
+						<Typography variant="caption" />
+					</PayInfo>
+					<TokenSelection>
+						<Button
+							className={classes.tokenSelector}
+							style={paidToken === '' ? { width: 171 } : undefined}
+							variant="text"
+							endIcon={<ArrowDropDownRounded />}
+							onMouseDown={() => handleOpenDrawer('PAY')}
+						>
+							{paidToken || 'Choose token'}
+						</Button>
+						<div />
+					</TokenSelection>
+					<TextField classes={{ root: classes.topperField }} variant="outlined" />
+				</TopperCard>
+				<BottomCard>
+					<IconButton className={classes.swapDecor} onMouseDown={handleSwapTrading}>
+						<SwapVertRounded fontSize="default" />
+					</IconButton>
+					<PayInfo>
+						<Typography variant="body2">To</Typography>
+						<Typography variant="caption" />
+					</PayInfo>
+					<TokenSelection>
+						<Button
+							className={classes.tokenSelector}
+							style={receivedToken === '' ? { width: 171 } : undefined}
+							variant="text"
+							endIcon={<ArrowDropDownRounded />}
+							onMouseDown={() => handleOpenDrawer('RECEIVE')}
+						>
+							{receivedToken || 'Choose Token'}
+						</Button>
+						<div />
+					</TokenSelection>
+					<TextField classes={{ root: classes.bottomField }} variant="outlined" />
+				</BottomCard>
+			</WrappedSwap>
+			<Button
+				className={classes.tradeButton}
+				// disabled={!paidAmount || !receivedAmount}
+				color="primary"
+				variant="contained"
+			>
+				Swap
+			</Button>
+		</WrappedCard>
 	)
 }

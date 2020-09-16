@@ -10,7 +10,7 @@ const MasterLayoutContainer = styled.div`
 export const MasterLayout = ({ children }) => {
 	const darkMode = false
 	const palletType = darkMode ? 'dark' : 'light'
-	const mainPrimaryColor = darkMode ? cyan[400] : '#000000'
+	const mainPrimaryColor = darkMode ? cyan[400] : '#1C69FF'
 	const mainSecondaryColor = darkMode ? pink[400] : deepPurple.A400
 	const themePalette = responsiveFontSizes(
 		createMuiTheme({
