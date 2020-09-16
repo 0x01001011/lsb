@@ -5,6 +5,8 @@ declare module 'react-awesome-button'
 declare module '*.webp'
 declare module '*.png'
 declare module '*.gif'
+declare module '*.jpg'
+
 declare global {
 	type KeyWalletChainCode = Uint8Array
 	type KeyWalletChildNumber = Uint8Array
