@@ -6,6 +6,9 @@ import styled from 'styled-components'
 
 const TokenListContainer = styled(TableContainer)`
 	max-height: calc(100vh - 90px);
+	.MuiTableCell-stickyHeader {
+		background-color: none !important;
+	}
 `
 
 const CustomCellTable = styled(TableCell)`

@@ -1,15 +1,15 @@
 import React from 'react'
 import { TradeLayout } from 'components/trade-layout'
 import styled from 'styled-components'
-import { TokenList } from './components'
+import { SwapBox, TokenList } from './components'
 
 const SwapboxContainer = styled.div`
 	padding: 8px;
 `
 export const HomePage = () => {
-	const SwapBox = (
+	const SwapBoxComponent = (
 		<SwapboxContainer>
-			<div>Swapbox</div>
+			<SwapBox />
 		</SwapboxContainer>
 	)
 
@@ -20,7 +20,7 @@ export const HomePage = () => {
 	)
 
 	return (
-		<TradeLayout left={TokenPairs} right={SwapBox}>
+		<TradeLayout left={TokenPairs} right={SwapBoxComponent}>
 			123qweeqewq32s
 		</TradeLayout>
 	)
