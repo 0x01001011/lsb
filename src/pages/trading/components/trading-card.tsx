@@ -291,7 +291,6 @@ export const TradingCard = () => {
 					onClose={handleCloseDrawer}
 					closable={false}
 					visible={search}
-					forceRender
 					getContainer={false}
 					height="100%"
 					style={{ position: 'absolute' }}

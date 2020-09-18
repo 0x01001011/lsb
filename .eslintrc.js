@@ -44,6 +44,7 @@ module.exports = {
     '@typescript-eslint/no-unused-expressions': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
+    '@typescript-eslint/no-shadow': 'off',
     'no-console': 'off',
     'import/prefer-default-export': 'off',
     'react/prop-types': 'off',

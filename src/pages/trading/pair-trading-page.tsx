@@ -18,7 +18,7 @@ import { useDispatch } from 'react-redux'
 import { PropagateLoader } from 'react-spinners'
 import { Empty } from 'antd'
 import { TradingCard } from './components/trading-card'
-import { CandlesChart } from './components/candles-charts'
+import { CandleChart } from './components/candle-chart'
 
 const TradingContainer = styled(Grid)`
 	min-height: 100vh;
@@ -149,15 +149,15 @@ export const PairTradingPage = () => {
 							)}{' '}
 							last {ANNOT[singleGranuality]}
 						</Typography> */}
-						<ChartWrapper>
+						{/* <ChartWrapper>
 							{isFetching ? (
 								<PropagateLoader size={24} color={theme.palette.text.hint} />
 							) : data.length === 0 ? (
 								<Empty />
 							) : (
-								<CandlesChart lastCandle={data} />
+								// <CandleChart lastCandle={data} />
 							)}
-						</ChartWrapper>
+						</ChartWrapper> */}
 
 						{/* Granual selector */}
 						<GutterBottom>

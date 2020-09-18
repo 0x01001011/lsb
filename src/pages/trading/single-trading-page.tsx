@@ -18,7 +18,10 @@ import {
 import { useDispatch } from 'react-redux'
 import { PropagateLoader } from 'react-spinners'
 import { Empty } from 'antd'
+import { TokenUiModel } from 'models/token'
+import { useTokenInfos } from 'services/token-collections'
 import { TradingCard } from './components/trading-card'
+import { LineStock } from './components/line-stock'
 
 const TradingContainer = styled(Grid)`
 	min-height: 100vh;
@@ -54,6 +57,7 @@ const GutterBottom = styled.div`
 
 const ChartWrapper = styled.div`
 	padding: 8px 0px;
+	height: 300px;
 	min-height: 300px;
 	width: 100%;
 	display: flex;
@@ -100,60 +104,14 @@ const useStyles = makeStyles((theme: Theme) =>
 	}),
 )
 
-const ANNOT = { '1MONTH': '30 days', '6MONTHS': '6 months', '1YEAR': '12 months' }
-
 export const SingleTradingPage = () => {
-	const classes = useStyles()
-	const dispatch = useDispatch()
 	const theme = useTheme()
 	const query = new URLSearchParams(useLocation().search)
+	const dispatch = useDispatch()
 
+	const [token, setToken] = React.useState<TokenUiModel>(null)
 	const { tokenSymbol } = useParams<{ tokenSymbol: string }>()
-	const { aggregation } = useTradingState((state) => state)
-	const { isFetching, data, error } = useUsdEvolution(tokenSymbol, aggregation)
-
-	const [amount, setAmount] = React.useState(0)
-	const [timestamp, setTime] = React.useState(0)
-
-	/* Proper received data */
-	const { currentAmount } = data || { currentAmount: [{ time: 0, value: 0 }] }
-	const properRecords = currentAmount.filter(({ value }) => value)
-
-	let percentage = 0
-	let last = 0
-
-	if (!isFetching && properRecords.length > 0) {
-		last = Number(properRecords[properRecords.length - 1].value)
-		const first = Number(properRecords[0].value)
-		percentage = first === 0 ? 0 : (last - first) / first
-	}
-
-	React.useEffect(() => {
-		if (!isFetching && properRecords.length > 0) {
-			const { time, value } = properRecords[properRecords.length - 1]
-			setTime(Number(time))
-			setAmount(Number(value))
-		}
-	}, [isFetching])
-
-	/* Handling UI methods */
-	const handleDotActive = ({ payload }) => {
-		const { time, value } = payload
-		setTime(Number(time))
-		setAmount(Number(value))
-	}
-
-	const handleChartMouseLeave = React.useCallback(() => {
-		if (properRecords && properRecords.length > 0) {
-			const { time, value } = properRecords[properRecords.length - 1]
-			setTime(Number(time))
-			setAmount(Number(value))
-		}
-	}, [isFetching])
-
-	const handleChangeAggregation = (event: React.MouseEvent<HTMLElement>, value: AggregationType) => {
-		dispatch(changeAggregation({ aggregation: value }))
-	}
+	const { isFetching, data: tokens = [] } = useTokenInfos('Ally')
 
 	/* ComponentDidMount */
 	React.useEffect(() => {
@@ -166,88 +124,39 @@ export const SingleTradingPage = () => {
 		return () => dispatch(resetTrading())
 	}, [tokenSymbol])
 
+	React.useEffect(() => {
+		setToken(tokens.find((t) => t.tokenSymbol === tokenSymbol))
+		console.log('Update info.. ')
+	}, [tokens])
+
 	return (
 		<TwoColumnLayout>
 			<TradingContainer container>
-				<Grid className={classes.leftColumn} item md={7}>
+				<Grid
+					style={{
+						background: theme.palette.background.default,
+						flexGrow: 1,
+					}}
+					item
+					md={7}
+				>
 					<LeftContent>
-						<Typography variant="h4" gutterBottom>
-							{tokenSymbol} stablecoin
-						</Typography>
-						<Typography variant="h3">
-							$ {isFetching ? '-' : amount.toFixed(2)}{' '}
-							<DateAnnotation>{` (${new Date(timestamp * 1000).toLocaleString('vi-VN')})`}</DateAnnotation>
-						</Typography>
-						<Typography className={classes.summaryText} gutterBottom>
-							{!isFetching && (
-								<span
-									style={{
-										color: percentage < 0 ? '#f783ac' : '#47ecad',
-									}}
-								>
-									{percentage > 0 && '+'}
-									{percentage.toFixed(2)}%
-								</span>
-							)}{' '}
-							last {ANNOT[aggregation]}
-						</Typography>
-						<ChartWrapper>
-							{isFetching ? (
-								<PropagateLoader size={24} color={theme.palette.text.hint} />
-							) : properRecords.length === 0 ? (
-								<Empty />
-							) : (
-								<ResponsiveContainer width="100%" aspect={2.75}>
-									<AreaChart data={currentAmount} onMouseLeave={handleChartMouseLeave}>
-										<defs>
-											<linearGradient id="colorDescrease" x1="0" y1="0" x2="0" y2="1">
-												<stop offset="5%" stopColor="#f783ac" stopOpacity={0.3} />
-												<stop offset="95%" stopColor="#f783ac" stopOpacity={0} />
-											</linearGradient>
-											<linearGradient id="colorIncrease" x1="0" y1="0" x2="0" y2="1">
-												<stop offset="5%" stopColor="#47ecad" stopOpacity={0.3} />
-												<stop offset="95%" stopColor="#47ecad" stopOpacity={0} />
-											</linearGradient>
-										</defs>
-										<XAxis hide dataKey="time" />
-										<YAxis hide type="number" domain={['dataMin * 0.1', 'dataMax + 1']} />
-										<Tooltip content={() => null} isAnimationActive={false} cursor={{ strokeWidth: 2 }} />
-										<Area
-											connectNulls
-											type="linear"
-											dataKey="value"
-											stroke={percentage < 0 ? '#f783ac' : '#47ecad'}
-											strokeWidth={2}
-											fillOpacity={1}
-											fill={percentage < 0 ? 'url(#colorDescrease)' : 'url(#colorIncrease)'}
-											activeDot={handleDotActive}
-										/>
-									</AreaChart>
-								</ResponsiveContainer>
-							)}
-						</ChartWrapper>
-
-						{/* Granual selector */}
-						<GutterBottom>
-							<ToggleButtonGroup value={aggregation} exclusive onChange={handleChangeAggregation}>
-								<ToggleButton className={clsx(classes.granualItem, classes.styledButton)} value="1MONTH">
-									1M
-								</ToggleButton>
-								<ToggleButton className={clsx(classes.granualItem, classes.styledButton)} value="6MONTHS">
-									6M
-								</ToggleButton>
-								<ToggleButton className={clsx(classes.granualItem, classes.styledButton)} value="1YEAR">
-									1Y
-								</ToggleButton>
-							</ToggleButtonGroup>
-						</GutterBottom>
-
+						{token && <LineStock token={token} />}
 						{/* <Typography className={classes.titleText} gutterBottom>
 							About {tokenSymbol}
 						</Typography> */}
 					</LeftContent>
 				</Grid>
-				<Grid className={classes.rightColumn} item md={5}>
+				<Grid
+					style={{
+						background: theme.palette.background.default,
+						flexGrow: 1,
+						display: 'flex',
+						justifyContent: 'flex-end',
+					}}
+					item
+					md={5}
+				>
 					<RightContent>
 						<TradingCardWrapper>
 							<TradingCard />

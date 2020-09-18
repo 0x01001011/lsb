@@ -6,6 +6,8 @@ declare module '*.webp'
 declare module '*.png'
 declare module '*.gif'
 declare module '*.jpg'
+declare module '@nivo/core'
+declare module '@nivo/line'
 
 declare global {
 	type KeyWalletChainCode = Uint8Array

@@ -12,6 +12,6 @@ export interface PairCandleStickModel {
 	time: any
 	open: number
 	close: number
-	hight: number
+	high: number
 	low: number
 }
