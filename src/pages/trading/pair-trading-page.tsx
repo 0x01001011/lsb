@@ -1,12 +1,11 @@
 /* eslint-disable no-nested-ternary */
-import React, { useEffect } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { useParams } from 'react-router-dom'
-import { Button, createStyles, fade, Grid, makeStyles, Theme, Typography, useTheme } from '@material-ui/core'
+import { createStyles, Grid, makeStyles, Theme, Typography } from '@material-ui/core'
 import { TwoColumnLayout } from 'components/layouts/two-column-layout'
-import { useCandleSticks, useUsdEvolution } from 'services/revolutions'
 import clsx from 'clsx'
-import { Skeleton, ToggleButton, ToggleButtonGroup } from '@material-ui/lab'
+import { ToggleButton, ToggleButtonGroup } from '@material-ui/lab'
 import {
 	changeGranuality,
 	changeToken,
@@ -15,10 +14,7 @@ import {
 	useTradingState,
 } from 'stores/implements/trading'
 import { useDispatch } from 'react-redux'
-import { PropagateLoader } from 'react-spinners'
-import { Empty } from 'antd'
 import { TradingCard } from './components/trading-card'
-import { CandleChart } from './components/candle-chart'
 
 const TradingContainer = styled(Grid)`
 	min-height: 100vh;
@@ -42,23 +38,10 @@ const TradingCardWrapper = styled.div`
 	position: relative;
 `
 
-const DateAnnotation = styled.span`
-	font-size: 1.2rem;
-`
-
 const GutterBottom = styled.div`
 	display: flex;
 	margin-bottom: 16px;
 	justify-content: flex-end;
-`
-
-const ChartWrapper = styled.div`
-	min-height: 410px;
-	width: 100%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	margin-bottom: 16px;
 `
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -99,19 +82,12 @@ const useStyles = makeStyles((theme: Theme) =>
 	}),
 )
 
-const ANNOT = { '1month': '30 days', '6months': '6 months', '1year': '12 months' }
-
 export const PairTradingPage = () => {
 	const classes = useStyles()
 	const dispatch = useDispatch()
-	const theme = useTheme()
 
 	const { paidToken, receivedToken } = useParams<{ paidToken: string; receivedToken: string }>()
 	const { granuality } = useTradingState((state) => state)
-	const { isFetching, data, error } = useCandleSticks(`${paidToken}-${receivedToken}`, granuality)
-
-	const [amount, setAmount] = React.useState(0)
-	const [timestamp, setTime] = React.useState(0)
 
 	/* ComponentDidMount */
 	React.useEffect(() => {

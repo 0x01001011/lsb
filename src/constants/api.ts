@@ -11,6 +11,7 @@ export const REACT_REQUEST_CONFIG = {
 			refetchOnWindowFocus: false,
 			useErrorBoundary: true,
 			suspense: false,
+			refetchOnMount: false,
 		},
 		shared: {
 			suspense: false,
