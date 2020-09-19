@@ -1,5 +1,5 @@
 import React from 'react'
-import { createChart, IChartApi } from 'lightweight-charts'
+import { createChart, IChartApi, LineStyle } from 'lightweight-charts'
 import { useWindowSize } from 'utils/hooks'
 import { useCandleSticks } from 'services/revolutions'
 import { useTradingState } from 'stores/implements/trading'
@@ -20,13 +20,12 @@ export const CandleChart = React.memo(({ firstToken, secondToken }: CandleChartP
 	const { data } = useCandleSticks(`${firstToken}-${secondToken}`, granuality)
 
 	React.useEffect(() => {
-		console.log({ ref, data })
 		if (data === undefined || !ref.current) return
 		const chart = createChart(ref.current, { width: 600, height: 450 })
 		chart.applyOptions({
 			timeScale: {
 				rightOffset: 5,
-				barSpacing: 15,
+				barSpacing: 30,
 				lockVisibleTimeRangeOnResize: true,
 				rightBarStaysOnScroll: true,
 				borderVisible: true,
@@ -34,7 +33,7 @@ export const CandleChart = React.memo(({ firstToken, secondToken }: CandleChartP
 				borderColor: '#e3eaf6',
 				visible: true,
 				timeVisible: true,
-				secondsVisible: false,
+				secondsVisible: true,
 			},
 			crosshair: {
 				vertLine: {
@@ -67,20 +66,19 @@ export const CandleChart = React.memo(({ firstToken, secondToken }: CandleChartP
 			grid: {
 				vertLines: {
 					color: '#e3eaf6',
-					style: 4,
-					visible: false,
+					style: LineStyle.Dashed,
+					visible: true,
 				},
 				horzLines: {
 					color: '#e3eaf6',
-					style: 3,
+					style: LineStyle.Dashed,
 					visible: true,
 				},
 			},
 			layout: {
 				backgroundColor: 'transparent',
 				fontSize: 14,
-				// eslint-disable-next-line quotes
-				fontFamily: "'Montserrat', sans-serif",
+				fontFamily: '"Montserrat", sans-serif',
 				textColor: '#9ca9cf',
 			},
 		})
@@ -114,38 +112,6 @@ export const CandleChart = React.memo(({ firstToken, secondToken }: CandleChartP
 		})
 
 		histogramSeries.setData(histogram)
-
-		// const firstLineData = data.map(({ time, high }) => ({
-		// 	time,
-		// 	value: high,
-		// }))
-
-		// const secondLineData = data.map(({ time, low }) => ({
-		// 	time,
-		// 	value: low,
-		// }))
-
-		// const firstLineSeries = chart.addLineSeries({
-		// 	color: '#29469833',
-		// 	lineStyle: 0,
-		// 	lineWidth: 1,
-		// 	crosshairMarkerVisible: true,
-		// 	crosshairMarkerRadius: 2,
-		// 	lineType: 0,
-		// })
-
-		// firstLineSeries.setData(firstLineData)
-
-		// const secondLineSeries = chart.addLineSeries({
-		// 	color: '#e0525f33',
-		// 	lineStyle: 0,
-		// 	lineWidth: 1,
-		// 	crosshairMarkerVisible: true,
-		// 	crosshairMarkerRadius: 2,
-		// 	lineType: 0,
-		// })
-
-		// secondLineSeries.setData(secondLineData)
 
 		chartRef.current = chart
 
