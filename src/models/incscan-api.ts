@@ -49,3 +49,36 @@ export interface UsdEvolutionReceived {
 	perDayAmount: TimeValue[]
 	totalAmount: TimeValue[]
 }
+
+export interface PerPair {
+	time: number
+	volume: number
+	liquidity: number
+	pair: string
+}
+
+export interface TopPairsByLiquidity {
+	time: Date
+	volume: number
+	liquidity: number
+	pair: string
+}
+
+export interface TopPairsByVolume {
+	time: Date
+	volume: number
+	liquidity: number
+	pair: string
+}
+
+export interface MarketOverViewModel {
+	allTimeVolume: number
+	allTimeVolumeEvolution: number
+	liquidity: number
+	liquidityEvolution: number
+	perPair: PerPair[]
+	topPairsByLiquidity: TopPairsByLiquidity[]
+	totalLiquidity: number
+	topPairsByVolume: TopPairsByVolume[]
+	totalVolume: number
+}

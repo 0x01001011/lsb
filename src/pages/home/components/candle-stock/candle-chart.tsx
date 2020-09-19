@@ -9,15 +9,16 @@ export type CandleChartProps = {
 	secondToken: string
 }
 
-export const CandleChart = React.memo(({ firstToken, secondToken }: CandleChartProps) => {
+export const CandleChart = () => {
 	// const { tokenSymbol: symbolSt, tokenName: nameSt, icon: iconSt } = firstToken
 	// const { tokenSymbol: symbolNd, tokenName: nameNd, icon: iconNd } = secondToken
+	const { paidToken, receivedToken } = useTradingState((state) => state)
 	const windowSize = useWindowSize()
 
 	const ref = React.useRef()
 	const chartRef = React.useRef<IChartApi>()
 	const granuality = useTradingState((s) => s.granuality)
-	const { data } = useCandleSticks(`${firstToken}-${secondToken}`, granuality)
+	const { data } = useCandleSticks(`${paidToken}-${receivedToken}`, granuality)
 
 	React.useEffect(() => {
 		if (data === undefined || !ref.current) return
@@ -137,4 +138,4 @@ export const CandleChart = React.memo(({ firstToken, secondToken }: CandleChartP
 	}, [windowSize, chartRef])
 
 	return <div ref={ref} id="candle-chart" />
-})
+}

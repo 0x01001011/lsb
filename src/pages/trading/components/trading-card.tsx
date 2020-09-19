@@ -1,20 +1,10 @@
-import {
-	Avatar,
-	Button,
-	createStyles,
-	IconButton,
-	makeStyles,
-	Paper,
-	TextField,
-	Theme,
-	Typography,
-} from '@material-ui/core'
+import { Button, createStyles, IconButton, makeStyles, Paper, TextField, Theme, Typography } from '@material-ui/core'
 import { Drawer } from 'antd'
 import { ArrowDropDownRounded, CloseRounded, InfoRounded, SwapVertRounded } from '@material-ui/icons'
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import { changeToken, swapTrading, useTradingState } from 'stores/implements/trading'
+import { changeToken, useTradingState } from 'stores/implements/trading'
 import styled from 'styled-components'
 import { InlineSearchAutocomplete } from './inline-search-autocomplete'
 
@@ -244,7 +234,7 @@ export const TradingCard = () => {
 	const history = useHistory()
 	const [search, toggleSearch] = React.useState(false)
 	const [type, setType] = React.useState<'PAY' | 'RECEIVE'>('PAY')
-	const { paidToken, paidAmount, receivedToken, receivedAmount } = useTradingState((state) => state)
+	const { paidToken, receivedToken } = useTradingState((state) => state)
 
 	const searchItemClickCallback = React.useCallback(
 		(changedToken: string) => {
@@ -260,7 +250,7 @@ export const TradingCard = () => {
 				history.push(`/trading/${changedToken}?type=${type}`)
 			}
 		},
-		[dispatch, paidToken, receivedToken, type],
+		[paidToken, receivedToken, type, history],
 	)
 
 	const handleSwapTrading = () => {

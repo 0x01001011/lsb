@@ -45,7 +45,7 @@ export const HomePage = () => {
 	return (
 		<TradeLayout left={TokenPairs} right={SwapBoxComponent}>
 			<CandleChartContainer>
-				<CandleStock paidToken={paidToken} receivedToken={receivedToken} />
+				<CandleStock />
 			</CandleChartContainer>
 		</TradeLayout>
 	)

@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { useTokenInfos } from 'services/token-collections'
 import { PropagateLoader } from 'react-spinners'
+import { useTradingState } from 'stores/implements/trading'
 import { ChartHeader } from './chart-header'
 import { CandleChart } from './candle-chart'
 
@@ -15,9 +16,10 @@ export type CandleStockProps = {
 	receivedToken: string
 }
 
-export const CandleStock = ({ paidToken, receivedToken }: CandleStockProps) => {
+export const CandleStock = () => {
 	const [tokens, setTokens] = React.useState(initialState)
 	const { isFetching, data } = useTokenInfos('Ally')
+	const { paidToken, receivedToken } = useTradingState((state) => state)
 
 	const { firstToken, secondToken } = tokens
 
@@ -28,7 +30,7 @@ export const CandleStock = ({ paidToken, receivedToken }: CandleStockProps) => {
 
 			setTokens({ ...tokens, firstToken, secondToken })
 		}
-	}, [data])
+	}, [data, receivedToken, paidToken])
 
 	if (isFetching || !firstToken || !secondToken) {
 		return (
@@ -41,7 +43,7 @@ export const CandleStock = ({ paidToken, receivedToken }: CandleStockProps) => {
 	return (
 		<>
 			<ChartHeader firstToken={firstToken} secondToken={secondToken} />
-			<CandleChart firstToken={firstToken.tokenSymbol} secondToken={secondToken.tokenSymbol} />
+			<CandleChart />
 		</>
 	)
 }

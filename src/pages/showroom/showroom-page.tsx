@@ -75,7 +75,7 @@ export const ShowroomPage = () => {
 		(node) => {
 			interactObserver.observe(node)
 		},
-		[dispatch, interactObserver],
+		[interactObserver],
 	)
 
 	React.useEffect(() => {
