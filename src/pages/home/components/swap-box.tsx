@@ -14,9 +14,9 @@ import {
 } from '@material-ui/core'
 import { Alert, Skeleton } from '@material-ui/lab'
 import React from 'react'
-import { useParams } from 'react-router-dom'
 import { usePairCandles } from 'services/token-collections/pair-candles'
 import styled from 'styled-components'
+import { usePairsFromUrl } from 'utils/hooks'
 import { SelectTokenPopup } from './select-token-popup'
 import { TradingDialog } from './trading-dialog'
 
@@ -62,7 +62,7 @@ const InputNumberStyled = styled(Input)`
 `
 export const SwapBox = () => {
 	const pairsData = usePairCandles()
-	const { paidToken, receivedToken } = useParams<{ paidToken: string; receivedToken: string }>()
+	const { paidToken, receivedToken } = usePairsFromUrl()
 
 	if (pairsData.isLoading) {
 		return (

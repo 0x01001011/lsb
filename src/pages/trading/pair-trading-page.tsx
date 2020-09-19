@@ -1,7 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import React from 'react'
 import styled from 'styled-components'
-import { useParams } from 'react-router-dom'
 import { createStyles, Grid, makeStyles, Theme, Typography } from '@material-ui/core'
 import { TwoColumnLayout } from 'components/layouts/two-column-layout'
 import clsx from 'clsx'
@@ -14,6 +13,7 @@ import {
 	useTradingState,
 } from 'stores/implements/trading'
 import { useDispatch } from 'react-redux'
+import { usePairsFromUrl } from 'utils/hooks'
 import { TradingCard } from './components/trading-card'
 
 const TradingContainer = styled(Grid)`
@@ -86,7 +86,7 @@ export const PairTradingPage = () => {
 	const classes = useStyles()
 	const dispatch = useDispatch()
 
-	const { paidToken, receivedToken } = useParams<{ paidToken: string; receivedToken: string }>()
+	const { paidToken, receivedToken } = usePairsFromUrl()
 	const { granuality } = useTradingState((state) => state)
 
 	/* ComponentDidMount */

@@ -9,12 +9,10 @@ import {
 } from '@material-ui/core'
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { useParams } from 'react-router-dom'
 import { useWalletState } from 'stores/implements/wallet'
 
 export const TradingDialog = () => {
 	const [open, setOpen] = React.useState(false)
-	const { paidToken, receivedToken } = useParams<{ paidToken: string; receivedToken: string }>()
 
 	const dispatch = useDispatch()
 	const walletState = useWalletState((s) => s)

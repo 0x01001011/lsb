@@ -1,8 +1,9 @@
 import { Chip, Avatar, CircularProgress } from '@material-ui/core'
 import React from 'react'
-import { useParams } from 'react-router-dom'
+
 import { useDictionaryTokenInfos } from 'services/token-collections'
 import styled from 'styled-components'
+import { usePairsFromUrl } from 'utils/hooks'
 import { TokenImage } from './token-list/option'
 
 const Container = styled.div`
@@ -20,7 +21,7 @@ const TokenSelectStyled = styled(Chip)`
 `
 
 export const SelectTokenPopup: React.FC<{ isFrom?: boolean }> = ({ isFrom }) => {
-	const { paidToken, receivedToken } = useParams<{ paidToken: string; receivedToken: string }>()
+	const { paidToken, receivedToken } = usePairsFromUrl()
 	const { isFetching, data } = useDictionaryTokenInfos('Ally')
 
 	const tokenName = isFrom ? paidToken : receivedToken
