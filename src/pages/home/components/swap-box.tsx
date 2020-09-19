@@ -9,11 +9,13 @@ import {
 	Chip,
 	Divider,
 	Grid,
+	TextField,
 } from '@material-ui/core'
 import { Alert, Skeleton } from '@material-ui/lab'
 import React from 'react'
 import { usePairCandles } from 'services/token-collections/pair-candles'
 import styled from 'styled-components'
+import { SelectTokenPopup } from './select-token-popup'
 
 const SwapboxContainer = styled(TableContainer)`
 	/* background-color: #f4f7fa; */
@@ -29,18 +31,29 @@ const SwapboxCard = styled.div`
 	flex-direction: column;
 `
 
-const TopCardContainer = styled.div`
+const HeaderCardContainer = styled.div`
 	display: flex;
 	width: 100%;
-	height: 100px;
+`
+
+const TopCardContainer = styled.div`
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	border-bottom: 1px dashed #e3eaf6;
+	padding: 16px 4px;
 `
 
 const BottomCardContainer = styled.div`
 	display: flex;
+	flex-direction: column;
 	width: 100%;
-	height: 100px;
+	padding: 16px 4px;
 `
 
+const InputNumberStyled = styled(TextField)`
+	padding-left: 16px;
+`
 export const SwapBox = () => {
 	const pairsData = usePairCandles()
 	if (pairsData.isLoading) {
@@ -69,9 +82,15 @@ export const SwapBox = () => {
 	return (
 		<SwapboxContainer>
 			<SwapboxCard>
-				<TopCardContainer>top</TopCardContainer>
-				<Divider />
-				<BottomCardContainer>Botton</BottomCardContainer>
+				<HeaderCardContainer>SWAP</HeaderCardContainer>
+				<TopCardContainer>
+					<SelectTokenPopup isFrom />
+					<InputNumberStyled size="small" type="number" variant="outlined" />
+				</TopCardContainer>
+				<BottomCardContainer>
+					<SelectTokenPopup />
+					<InputNumberStyled disabled size="small" type="number" variant="outlined" />
+				</BottomCardContainer>
 			</SwapboxCard>
 		</SwapboxContainer>
 	)
