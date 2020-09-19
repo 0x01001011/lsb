@@ -29,6 +29,7 @@
 		"jsqr": "^1.3.1",
 		"lightweight-charts": "^3.1.5",
 		"lodash": "4.17.20",
+		"notistack": "^1.0.0",
 		"react": "^16.13.1",
 		"react-awesome-button": "^6.5.1",
 		"react-dom": "^16.13.1",
@@ -60,6 +61,8 @@
 		"@types/webpack-env": "1.15.2",
 		"@typescript-eslint/eslint-plugin": "^4.1.1",
 		"@typescript-eslint/parser": "4.1.1",
+		"customize-cra": "^1.0.0",
+		"customize-cra-react-refresh": "^1.1.0",
 		"eslint-config-airbnb-typescript": "^10.0.0",
 		"eslint-config-prettier": "^6.11.0",
 		"eslint-formatter-pretty": "^4.0.0",
@@ -79,6 +82,7 @@
 		"jest": "^26.4.2",
 		"node-sass": "^4.14.1",
 		"prettier": "^2.1.2",
+		"react-app-rewired": "^2.1.6",
 		"react-scripts": "3.4.3",
 		"rimraf": "^3.0.2",
 		"sort-package-json": "^1.44.0",
@@ -86,9 +90,9 @@
 	},
 	"scripts": {
 		"lint": "eslint '*/**/*.{js,ts,tsx}' --quiet --fix",
-		"start": "react-scripts start",
-		"build": "react-scripts build",
-		"test": "react-scripts test",
+		"start": "react-app-rewired start",
+		"build": "react-app-rewired build",
+		"test": "react-app-rewired test --env=jsdom",
 		"eject": "react-scripts eject"
 	},
 	"browserslist": {

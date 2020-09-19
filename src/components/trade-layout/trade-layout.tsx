@@ -27,7 +27,8 @@ const HeaderContainer = styled(Container)`
 `
 
 const BodyContainer = styled(Container)`
-	height: calc(100vh - 80px);
+	height: calc(100vh - 100px);
+	overflow: hidden;
 `
 
 const GridStyled = styled(Grid)`

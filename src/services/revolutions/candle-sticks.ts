@@ -26,8 +26,9 @@ export const getCandleSticks = async (pair: string, granuality: PairCandleGranua
 		let res = await axios.get<Array<PairCandleStickModel>>(url)
 
 		if (res.data.length === 0) {
-			url = `https://api.incscan.io/pdex/candles/${reversePair(pair)}?granularity=${GRANUALITES[granuality]
-				}&start=1568551184&end=${end}&reversed=true`
+			url = `https://api.incscan.io/pdex/candles/${reversePair(pair)}?granularity=${
+				GRANUALITES[granuality]
+			}&start=1568551184&end=${end}&reversed=true`
 			res = await axios.get<Array<PairCandleStickModel>>(url)
 		}
 
@@ -42,5 +43,9 @@ export const getCandleSticks = async (pair: string, granuality: PairCandleGranua
 }
 
 export const useCandleSticks = (pair: string, granuality: PairCandleGranuality) => {
-	return useQuery(`${getCandleSticks.name}/${pair}/${granuality}`, () => getCandleSticks(pair, granuality))
+	return useQuery(`${getCandleSticks.name}/${pair}/${granuality}`, () => getCandleSticks(pair, granuality), {
+		refetchIntervalInBackground: true,
+		refetchOnWindowFocus: false,
+		refetchInterval: 10000,
+	})
 }

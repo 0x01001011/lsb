@@ -1,12 +1,12 @@
 import React from 'react'
 import { ReactQueryDevtools } from 'react-query-devtools'
-
+import { QueryCache, ReactQueryCacheProvider } from 'react-query'
 import { Provider, useDispatch } from 'react-redux'
 import styled from 'styled-components'
 
+import { REACT_REQUEST_CONFIG } from 'constants/api'
 import { AppRouter } from './app-router'
 import { store } from './stores'
-import { useSettingState } from './stores/implements/settings'
 import { loadWalletWebAssembly } from './stores/implements/wallet'
 
 const AppRenderContainer = styled.div``
@@ -21,12 +21,16 @@ const AppRender = ({ children }) => {
 }
 
 export const AppContainer = () => {
+	const queryCache = new QueryCache(REACT_REQUEST_CONFIG)
+
 	return (
 		<Provider store={store}>
-			<AppRender>
-				<AppRouter />
-			</AppRender>
-			<ReactQueryDevtools />
+			<ReactQueryCacheProvider queryCache={queryCache}>
+				<AppRender>
+					<AppRouter />
+				</AppRender>
+				<ReactQueryDevtools />
+			</ReactQueryCacheProvider>
 		</Provider>
 	)
 }

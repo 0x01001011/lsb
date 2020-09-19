@@ -117,8 +117,6 @@ export const CandleChart = React.memo(({ firstToken, secondToken }: CandleChartP
 
 		return () => {
 			chart.removeSeries(candlestickSeries)
-			// chart.removeSeries(firstLineSeries)
-			// chart.removeSeries(secondLineSeries)
 			chart.removeSeries(histogramSeries)
 			chart.remove()
 		}
