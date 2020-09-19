@@ -16,6 +16,9 @@ export type CandleStockProps = {
 	receivedToken: string
 }
 
+const CandleStockContainer = styled.div`
+	padding: 8px 12px;
+`
 export const CandleStock = () => {
 	const [tokens, setTokens] = React.useState(initialState)
 	const { isFetching, data } = useTokenInfos('Ally')
@@ -41,10 +44,10 @@ export const CandleStock = () => {
 	}
 
 	return (
-		<>
+		<CandleStockContainer>
 			<ChartHeader firstToken={firstToken} secondToken={secondToken} />
 			<CandleChart />
-		</>
+		</CandleStockContainer>
 	)
 }
 

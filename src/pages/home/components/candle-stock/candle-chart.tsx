@@ -25,8 +25,8 @@ export const CandleChart = () => {
 		const chart = createChart(ref.current, { width: 600, height: 450 })
 		chart.applyOptions({
 			timeScale: {
-				rightOffset: 5,
-				barSpacing: 30,
+				rightOffset: 1,
+				barSpacing: 15,
 				lockVisibleTimeRangeOnResize: true,
 				rightBarStaysOnScroll: true,
 				borderVisible: true,
@@ -128,7 +128,7 @@ export const CandleChart = () => {
 			const { width } = windowSize
 
 			if (width > 1280) {
-				chartRef.current.resize(600, 450)
+				chartRef.current.resize(575, 450)
 			} else if (width > 960) {
 				chartRef.current.resize(0.49 * width, 0.75 * 0.49 * width)
 			} else {

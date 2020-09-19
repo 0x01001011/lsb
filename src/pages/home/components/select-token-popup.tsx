@@ -33,7 +33,7 @@ export const SelectTokenPopup: React.FC<{ isFrom?: boolean }> = ({ isFrom }) => 
 			) : (
 				<TokenSelectStyled
 					avatar={<TokenImage tokenName={tokenName} />}
-					label={data[tokenName].tokenName}
+					label={data[tokenName]?.tokenName}
 					variant="outlined"
 				/>
 			)}

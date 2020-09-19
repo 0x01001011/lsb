@@ -5,8 +5,9 @@ import { Provider, useDispatch } from 'react-redux'
 import styled from 'styled-components'
 
 import { REACT_REQUEST_CONFIG } from 'constants/api'
+import { PersistGate } from 'redux-persist/integration/react'
 import { AppRouter } from './app-router'
-import { store } from './stores'
+import { store, persister } from './stores'
 import { loadWalletWebAssembly } from './stores/implements/wallet'
 
 const AppRenderContainer = styled.div``
@@ -25,12 +26,14 @@ export const AppContainer = () => {
 
 	return (
 		<Provider store={store}>
-			<ReactQueryCacheProvider queryCache={queryCache}>
-				<AppRender>
-					<AppRouter />
-				</AppRender>
-				<ReactQueryDevtools />
-			</ReactQueryCacheProvider>
+			<PersistGate loading={null} persistor={persister}>
+				<ReactQueryCacheProvider queryCache={queryCache}>
+					<AppRender>
+						<AppRouter />
+					</AppRender>
+					<ReactQueryDevtools />
+				</ReactQueryCacheProvider>
+			</PersistGate>
 		</Provider>
 	)
 }

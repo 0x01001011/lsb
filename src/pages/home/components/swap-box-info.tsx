@@ -6,6 +6,8 @@ import styled from 'styled-components'
 import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet'
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney'
 import NetworkCheckIcon from '@material-ui/icons/NetworkCheck'
+import { useParams } from 'react-router-dom'
+import { useWalletState } from 'stores/implements/wallet'
 
 const SwapboxInfoContainer = styled(TableContainer)`
 	/* background-color: #f4f7fa;
@@ -15,6 +17,10 @@ const SwapboxInfoContainer = styled(TableContainer)`
 `
 
 export const SwapBoxInfo = () => {
+	const { paidToken } = useParams<{ paidToken: string }>()
+	const account = useWalletState((s) => s.account)
+	const [balance, setBalance] = React.useState(0)
+	const balanceText = account?.accountName ? `${balance} ${paidToken}` : 'Connect Your Private'
 	return (
 		<SwapboxInfoContainer>
 			<List>
@@ -24,7 +30,7 @@ export const SwapBoxInfo = () => {
 							<AccountBalanceWalletIcon />
 						</Avatar>
 					</ListItemAvatar>
-					<ListItemText primary="Balance" secondary="1.123232 PRV" />
+					<ListItemText primary="Balance" secondary={balanceText} />
 				</ListItem>
 				<ListItem>
 					<ListItemAvatar>
@@ -32,7 +38,7 @@ export const SwapBoxInfo = () => {
 							<AttachMoneyIcon />
 						</Avatar>
 					</ListItemAvatar>
-					<ListItemText primary="MaxPrice" secondary="1123.123$" />
+					<ListItemText primary="MaxPrice" secondary="Coming" />
 				</ListItem>
 				<ListItem>
 					<ListItemAvatar>
@@ -40,7 +46,7 @@ export const SwapBoxInfo = () => {
 							<NetworkCheckIcon />
 						</Avatar>
 					</ListItemAvatar>
-					<ListItemText primary="PoolSize" secondary="123.1231USDT" />
+					<ListItemText primary="PoolSize" secondary="Coming" />
 				</ListItem>
 			</List>
 		</SwapboxInfoContainer>
