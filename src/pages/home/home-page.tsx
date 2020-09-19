@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { changeToken, resetTrading } from 'stores/implements/trading'
 
-import { SwapBox, TokenList } from './components'
+import { SwapBox, TokenList, SwapBoxInfo } from './components'
 import { CandleStock } from './components/candle-stock/candle-stock'
 
 const SwapboxContainer = styled.div`
@@ -32,6 +32,7 @@ export const HomePage = () => {
 	const SwapBoxComponent = (
 		<SwapboxContainer>
 			<SwapBox />
+			<SwapBoxInfo />
 		</SwapboxContainer>
 	)
 

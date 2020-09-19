@@ -6,8 +6,8 @@ import styled from 'styled-components'
 
 const SwapboxContainer = styled(TableContainer)`
 	background-color: #f4f7fa;
-	margin: 6px;
-	padding: 8px;
+	margin: 2px;
+	padding: 12px;
 	border-radius: 8px;
 `
 
