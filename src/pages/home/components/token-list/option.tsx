@@ -49,8 +49,8 @@ export const StyledOption = (props: PerPair) => {
 		<Option>
 			<Tooltip title={`${firstToken.tokenSymbol}-${secondToken.tokenSymbol}`}>
 				<AvatarGroup>
-					<Avatar src={firstToken.tokenSymbol === 'PRV' ? PrvSrc : firstToken.icon} />
-					<Avatar src={secondToken.tokenSymbol === 'PRV' ? PrvSrc : secondToken.icon} />
+					<StyledAvatar src={firstToken.tokenSymbol === 'PRV' ? PrvSrc : firstToken.icon} />
+					<StyledAvatar src={secondToken.tokenSymbol === 'PRV' ? PrvSrc : secondToken.icon}  />
 				</AvatarGroup>
 			</Tooltip>
 			<Typography align="right">{formatNumber(volume)}</Typography>
@@ -66,5 +66,12 @@ const Option = styled.div`
 	flex-grow: 1;
 	align-items: center;
 	height: 48px;
-	padding: 8px 0px;
+	padding: 8px;
+`
+
+const StyledAvatar = styled(Avatar)`
+	&.MuiAvatar-root {
+		width: 32px;
+		height: 32px;
+	}
 `

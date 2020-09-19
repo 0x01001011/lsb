@@ -10,6 +10,8 @@ import { IconButton, List, ListItem, TextField, Typography } from '@material-ui/
 import { ListboxComponent } from 'components/common/autocomplete/virtualized-utils'
 import { PerPair } from 'models/incscan-api'
 import { StyledOption } from './option'
+import { useHistory } from 'react-router-dom'
+
 
 const TokenListContainer = styled.div`
 	max-height: calc(100vh - 90px);
@@ -24,6 +26,7 @@ export const TokenList = () => {
 	const [localState, setLocalState] = React.useState(initialState)
 	const { pattern, searching } = localState
 	const searchRef = React.useRef<HTMLInputElement>()
+	const history = useHistory()
 
 	const { isFetching, data, isError } = usePairOverview()
 
@@ -49,8 +52,12 @@ export const TokenList = () => {
 	}
 
 	const handleToggleSearch = () => {
-		console.log('Toggle..')
 		setLocalState({ ...localState, searching: !searching })
+	}
+
+	const handleItemClick = (pair: string) => {
+		const [first, second] = pair.split('-')
+		history.push(`/${first}/${second}`)
 	}
 
 	return (
@@ -97,7 +104,7 @@ export const TokenList = () => {
 							<StyledListItem
 								key={pair.pair}
 								button
-								// onClick={handleItemClick}
+								onClick={() => handleItemClick(pair.pair)}
 								disableGutters
 							>
 								<StyledOption {...pair} />
@@ -139,6 +146,7 @@ const Meta = styled.div`
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
 	color: rgba(0, 0, 0, 0.54);
+	padding: 0px 8px;
 `
 
 const StyledListItem = styled(ListItem)`

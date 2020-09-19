@@ -25,6 +25,9 @@ export const AppRouter = () => {
 					<Route path="/trading/:tokenSymbol">
 						<SingleTradingPage />
 					</Route>
+					<Route path="/:paidToken/:receivedToken">
+						<HomePage />
+					</Route>
 					<Route path="/">
 						<HomePage />
 					</Route>
