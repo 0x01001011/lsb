@@ -9,9 +9,8 @@ import { usePairOverview } from 'services/token-collections'
 import { IconButton, List, ListItem, TextField, Typography } from '@material-ui/core'
 import { ListboxComponent } from 'components/common/autocomplete/virtualized-utils'
 import { PerPair } from 'models/incscan-api'
-import { StyledOption } from './option'
 import { useHistory } from 'react-router-dom'
-
+import { StyledOption } from './option'
 
 const TokenListContainer = styled.div`
 	max-height: calc(100vh - 90px);
@@ -101,12 +100,7 @@ export const TokenList = () => {
 					{data.perPair
 						.filter((opt) => opt.pair.toLowerCase().includes(pattern))
 						.map((pair: PerPair) => (
-							<StyledListItem
-								key={pair.pair}
-								button
-								onClick={() => handleItemClick(pair.pair)}
-								disableGutters
-							>
+							<StyledListItem key={pair.pair} button onClick={() => handleItemClick(pair.pair)} disableGutters>
 								<StyledOption {...pair} />
 							</StyledListItem>
 						))}

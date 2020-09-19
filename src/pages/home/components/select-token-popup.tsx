@@ -1,6 +1,9 @@
-import { Chip, Avatar } from '@material-ui/core'
+import { Chip, Avatar, CircularProgress } from '@material-ui/core'
 import React from 'react'
+import { useParams } from 'react-router-dom'
+import { useDictionaryTokenInfos } from 'services/token-collections'
 import styled from 'styled-components'
+import { TokenImage } from './token-list/option'
 
 const Container = styled.div`
 	padding: 8px 0;
@@ -17,14 +20,23 @@ const TokenSelectStyled = styled(Chip)`
 `
 
 export const SelectTokenPopup: React.FC<{ isFrom?: boolean }> = ({ isFrom }) => {
+	const { paidToken, receivedToken } = useParams<{ paidToken: string; receivedToken: string }>()
+	const { isFetching, data } = useDictionaryTokenInfos('Ally')
+
+	const tokenName = isFrom ? paidToken : receivedToken
+	const label = isFrom ? 'From: ' : 'To: '
 	return (
 		<Container>
-			{isFrom ? 'From: ' : 'Target: '}
-			<TokenSelectStyled
-				avatar={<Avatar alt="Natacha" src="/static/images/avatar/1.jpg" />}
-				label="Deletable"
-				variant="outlined"
-			/>
+			{label}
+			{isFetching ? (
+				<TokenSelectStyled avatar={<CircularProgress size={24} />} label="Loading..." variant="outlined" />
+			) : (
+				<TokenSelectStyled
+					avatar={<TokenImage tokenName={tokenName} />}
+					label={data[tokenName].tokenName}
+					variant="outlined"
+				/>
+			)}
 		</Container>
 	)
 }

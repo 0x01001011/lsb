@@ -8,20 +8,21 @@ import {
 	Typography,
 	Chip,
 	Divider,
-	Grid,
+	Input,
 	TextField,
+	InputAdornment,
 } from '@material-ui/core'
 import { Alert, Skeleton } from '@material-ui/lab'
 import React from 'react'
+import { useParams } from 'react-router-dom'
 import { usePairCandles } from 'services/token-collections/pair-candles'
 import styled from 'styled-components'
 import { SelectTokenPopup } from './select-token-popup'
+import { TradingDialog } from './trading-dialog'
 
 const SwapboxContainer = styled(TableContainer)`
-	/* background-color: #f4f7fa; */
-	/* margin: 2px; */
-	/* padding: 12px; */
-	/* border-radius: 8px; */
+	padding-bottom: 16px;
+	border-bottom: 1px dashed #e3eaf6;
 `
 
 const SwapboxCard = styled.div`
@@ -40,22 +41,29 @@ const TopCardContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	width: 100%;
-	border-bottom: 1px dashed #e3eaf6;
-	padding: 16px 4px;
+	padding: 4px;
+	padding-bottom: 16px;
 `
 
 const BottomCardContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	width: 100%;
-	padding: 16px 4px;
+	padding: 4px;
+	padding-bottom: 24px;
 `
 
-const InputNumberStyled = styled(TextField)`
-	padding-left: 16px;
+const InputNumberStyled = styled(Input)`
+	&&& {
+		input {
+			text-align: right;
+		}
+	}
 `
 export const SwapBox = () => {
 	const pairsData = usePairCandles()
+	const { paidToken, receivedToken } = useParams<{ paidToken: string; receivedToken: string }>()
+
 	if (pairsData.isLoading) {
 		return (
 			<div>
@@ -82,15 +90,25 @@ export const SwapBox = () => {
 	return (
 		<SwapboxContainer>
 			<SwapboxCard>
-				<HeaderCardContainer>SWAP</HeaderCardContainer>
+				<HeaderCardContainer>SWAP TOKENS</HeaderCardContainer>
 				<TopCardContainer>
 					<SelectTokenPopup isFrom />
-					<InputNumberStyled size="small" type="number" variant="outlined" />
+					<InputNumberStyled
+						type="number"
+						defaultValue={0}
+						endAdornment={<InputAdornment position="end">{paidToken}</InputAdornment>}
+					/>
 				</TopCardContainer>
 				<BottomCardContainer>
 					<SelectTokenPopup />
-					<InputNumberStyled disabled size="small" type="number" variant="outlined" />
+					<InputNumberStyled
+						disabled
+						type="number"
+						defaultValue={0}
+						endAdornment={<InputAdornment position="end">{receivedToken}</InputAdornment>}
+					/>
 				</BottomCardContainer>
+				<TradingDialog />
 			</SwapboxCard>
 		</SwapboxContainer>
 	)

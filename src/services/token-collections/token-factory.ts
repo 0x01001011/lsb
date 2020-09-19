@@ -1,6 +1,7 @@
 /* eslint-disable no-inner-declarations */
 import { useQuery } from 'react-query'
 import { TokenUiModel } from 'models/token'
+import { keyBy } from 'lodash'
 import { getListCoinTokens } from './coin-tokens'
 import { getListShieldedCoins } from './shielded-coins'
 import { getListCustomTokens } from './custom-tokens'
@@ -36,4 +37,15 @@ const getListTokens = async (variant: string): Promise<TokenUiModel[]> => {
 
 export const useTokenInfos = (variant: string) => {
 	return useQuery(`getListTokens(${variant})`, () => getListTokens(variant))
+}
+
+export const useDictionaryTokenInfos = (variant: string) => {
+	return useQuery(
+		`useDictionaryTokenInfos(${variant})`,
+		async () => {
+			const lists = await getListTokens(variant)
+			return keyBy(lists, (t) => t.tokenSymbol)
+		},
+		{ cacheTime: 60 * 60 * 1000, refetchOnMount: false, refetchInterval: 60 * 60 * 1000 },
+	)
 }
