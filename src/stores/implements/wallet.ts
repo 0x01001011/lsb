@@ -1,22 +1,13 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { createSelectorForSlice } from 'stores/utils'
-import { AccountInfoInterface, encrytePassword, sdk, walletService } from 'services/incognito'
-import { tokenService } from 'services/incognito/token'
-
-import { settings } from './settings'
-
-interface CreateWalletWithPasscode {
-	name: string
-	passcode: string
-}
+import { AccountInfoInterface, sdk, walletService } from 'services/incognito'
 
 interface WalletState {
-	password?: string
-	backupStr?: string
 	selectAccountName?: string
 	account?: AccountInfoInterface
 	connectError?: string
 	isConnecting?: boolean
+	sdkLoaded?: boolean
 }
 
 const walletInitialState: WalletState = {}
@@ -28,24 +19,27 @@ type AsyncThunkConfig = {
 	rejectValue?: any
 }
 
-export const createNewWalletWithPasscode = createAsyncThunk<any, CreateWalletWithPasscode, AsyncThunkConfig>(
-	'wallet/createNewWallet',
-	async (payload, { dispatch }) => {
-		const encrytedPass = encrytePassword(payload.passcode)
-		const wallet = await walletService.createWallet(payload.name)
-		const backupStr = wallet.backup(encrytedPass)
-		dispatch(wallets.actions.savePassword({ password: encrytedPass }))
-		dispatch(wallets.actions.setWalletBackupStr({ backupStr }))
-		dispatch(selectAccount({ accountName: walletService.getNameFirstAccount() }))
+export const loadWalletFromSessionIfExisted = createAsyncThunk<any, void, AsyncThunkConfig>(
+	'wallet/loadWalletFromSessionIfExisted',
+	async (_, { dispatch }) => {
+		const isExisted = await walletService.loadWalletFromSessionIfExisted()
+		if (isExisted) {
+			dispatch(selectAccount({ accountName: walletService.getNameFirstAccount() }))
+		}
 	},
 )
 
 export const selectAccount = createAsyncThunk<AccountInfoInterface, { accountName: string }, AsyncThunkConfig>(
 	'wallet/reloadWallet',
 	async ({ accountName }) => {
-		return walletService.getAccountInfo(accountName)
+		const accountInfo = await walletService.getAccountInfo(accountName)
+		return accountInfo
 	},
 )
+
+export const clearAccount = createAsyncThunk<any, void, AsyncThunkConfig>('wallet/clearAccount', async () => {
+	return walletService.clearAccount()
+})
 
 export const connectViaPrivateKey = createAsyncThunk<void, { privateKey: string }, AsyncThunkConfig>(
 	'wallet/connectViaPrivateKey',
@@ -55,32 +49,14 @@ export const connectViaPrivateKey = createAsyncThunk<void, { privateKey: string 
 	},
 )
 
-export const loadWalletWebAssembly = createAsyncThunk('wallet/load_assembly', async (_, { dispatch }) => {
-	try {
-		dispatch(settings.actions.setGlobalLoading({ isLoading: true }))
-		await sdk.initSDK('/privacy.wasm')
-		dispatch(fetchTokens())
-	} catch (error) {
-		console.error(error)
-	}
-	dispatch(settings.actions.setGlobalLoading({ isLoading: false }))
-})
-
-export const fetchTokens = createAsyncThunk<any, void, AsyncThunkConfig>('wallet/fetchTokens', async () => {
-	return tokenService.getTokenList()
+export const loadWalletWebAssembly = createAsyncThunk('wallet/load_assembly', async () => {
+	return sdk.initSDK('/privacy.wasm')
 })
 
 export const wallets = createSlice({
 	name: 'wallets',
 	initialState: walletInitialState,
-	reducers: {
-		savePassword: (state, action: PayloadAction<{ password: string }>) => {
-			state.password = action.payload.password
-		},
-		setWalletBackupStr: (state, action: PayloadAction<{ backupStr: any }>) => {
-			state.backupStr = action.payload.backupStr
-		},
-	},
+	reducers: {},
 	extraReducers: {
 		[selectAccount.fulfilled.toString()]: (state, action: PayloadAction<AccountInfoInterface>) => {
 			state.account = action.payload
@@ -94,6 +70,16 @@ export const wallets = createSlice({
 		},
 		[connectViaPrivateKey.fulfilled.toString()]: (state) => {
 			state.isConnecting = false
+		},
+		[loadWalletWebAssembly.fulfilled.toString()]: (state) => {
+			state.sdkLoaded = true
+		},
+		[loadWalletWebAssembly.pending.toString()]: (state) => {
+			state.sdkLoaded = false
+		},
+		[clearAccount.fulfilled.toString()]: (state) => {
+			state.account = undefined
+			state.selectAccountName = undefined
 		},
 	},
 })

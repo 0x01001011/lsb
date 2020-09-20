@@ -1,14 +1,67 @@
 import React from 'react'
-import { Button } from '@material-ui/core'
-import { useWalletState } from 'stores/implements/wallet'
+import {
+	Button,
+	CardHeader,
+	CircularProgress,
+	IconButton,
+	ListItemIcon,
+	Menu,
+	MenuItem,
+	Typography,
+} from '@material-ui/core'
+import { clearAccount, useWalletState } from 'stores/implements/wallet'
+import MoreVertIcon from '@material-ui/icons/MoreVert'
+
+import FingerprintIcon from '@material-ui/icons/Fingerprint'
+import { PrivateKeyEllipse } from 'components/wallets'
+import HighlightOffIcon from '@material-ui/icons/HighlightOff'
+import { useDispatch } from 'react-redux'
 
 export const ConnectButton: React.FC<{ handleClickOpen: () => void }> = ({ handleClickOpen }) => {
-	const wallet = useWalletState((s) => s.account)
-	if (wallet?.accountName) {
+	const dispatch = useDispatch()
+	const wallet = useWalletState((s) => s)
+	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
+	const open = Boolean(anchorEl)
+
+	const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+		setAnchorEl(event.currentTarget)
+	}
+
+	const handleClose = () => {
+		setAnchorEl(null)
+	}
+
+	const handleClearAccount = () => {
+		dispatch(clearAccount())
+	}
+
+	if (!wallet.sdkLoaded) {
 		return (
-			<Button variant="outlined" color="primary" onClick={handleClickOpen}>
-				Change Account
+			<Button variant="outlined" color="primary">
+				<CircularProgress size={24} />
 			</Button>
+		)
+	}
+
+	if (wallet?.account?.accountName) {
+		return (
+			<>
+				<CardHeader
+					avatar={<FingerprintIcon />}
+					action={
+						<IconButton aria-label="settings" onClick={handleClick}>
+							<MoreVertIcon />
+						</IconButton>
+					}
+					title={`Balance: ${wallet.account.balances.PRV} PRV`}
+					subheader={<PrivateKeyEllipse width={180}>{wallet.account.keys.privateKey}</PrivateKeyEllipse>}
+				/>
+				<Menu anchorEl={anchorEl} keepMounted open={open} onClose={handleClose}>
+					<MenuItem onClick={handleClearAccount}>
+						<Typography>Clear Your Private Key</Typography>
+					</MenuItem>
+				</Menu>
+			</>
 		)
 	}
 	return (

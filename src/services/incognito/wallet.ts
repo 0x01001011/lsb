@@ -1,5 +1,6 @@
 import * as i from 'incognito-js'
-import { WALLET_CONSTANTS } from '../../constants/wallet'
+import { WALLET_CONSTANTS } from 'constants/wallet'
+import BN from 'bn.js'
 
 export interface AccountInfoInterface {
 	accountName: string
@@ -13,7 +14,7 @@ export interface AccountInfoInterface {
 	privacyTokenIds: string[]
 	BLSPublicKeyB58CheckEncode: string
 	isImport: boolean
-	native: any
+	balances: any
 }
 
 export class WalletService {
@@ -30,6 +31,15 @@ export class WalletService {
 		const account = this.masterAccount.getAccountByName(accountName)
 		account.serializeKeys()
 		const BLSPublicKeyB58CheckEncode = await account.getBLSPublicKeyB58CheckEncode()
+
+		console.log(await account.getFollowingPrivacyToken(null))
+		console.log(account.privacyTokenIds)
+
+		const PRV = await account.nativeToken.getTotalBalance()
+		const balances = {
+			PRV: PRV.toString(),
+		}
+
 		return {
 			accountName: account.name,
 			isImport: account.isImport,
@@ -42,8 +52,13 @@ export class WalletService {
 			},
 			privacyTokenIds: account.privacyTokenIds,
 			BLSPublicKeyB58CheckEncode,
-			native: {},
+			balances,
 		}
+	}
+
+	async clearAccount() {
+		window.sessionStorage.clear()
+		this.walletInstance = new i.WalletInstance()
 	}
 
 	async createWallet(name: string) {
@@ -54,7 +69,18 @@ export class WalletService {
 	async createWalletViaPrivateKey(privateKey: string) {
 		const wallet = await this.walletInstance.init('', WALLET_CONSTANTS.ONE_TIME_WALLET_NAME)
 		const accountInstanc = await wallet.masterAccount.importAccount(WALLET_CONSTANTS.ONE_TIME_WALLET_NAME, privateKey)
+		const backupStr = wallet.backup(WALLET_CONSTANTS.ONE_TIME_PASSWORD)
+		window.sessionStorage.setItem(WALLET_CONSTANTS.ONE_TIME_WALLET_NAME, backupStr)
 		return accountInstanc
+	}
+
+	async loadWalletFromSessionIfExisted() {
+		const backupStr = window.sessionStorage.getItem(WALLET_CONSTANTS.ONE_TIME_WALLET_NAME)
+		if (backupStr) {
+			this.walletInstance = await this.loadWalletFromBackup(backupStr, WALLET_CONSTANTS.ONE_TIME_PASSWORD)
+			return true
+		}
+		return false
 	}
 
 	getNameFirstAccount() {
@@ -62,8 +88,7 @@ export class WalletService {
 	}
 
 	async loadWalletFromBackup(encryptedWallet: string, backupPassword: string) {
-		this.walletInstance = await i.WalletInstance.restore(encryptedWallet, backupPassword)
-		return this.walletInstance
+		return i.WalletInstance.restore(encryptedWallet, backupPassword)
 	}
 
 	async createNewAccount(name: string) {
