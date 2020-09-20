@@ -93,7 +93,7 @@ const TokenImage: React.FC<{ tokenName: string }> = ({ tokenName }) => {
 	if (isFetching) {
 		return null
 	}
-	return <StyledAvatar src={getTokenImage(data[tokenName])} />
+	return <StyledAvatar src={getTokenImage(data[tokenName])} alt="-" />
 }
 
 const initialState = {
@@ -111,7 +111,7 @@ export const ChainHistory = () => {
 	React.useEffect(() => {
 		const { width, height } = windowSize
 
-		if (width > 1280) {
+		if (width > 1280 && height > 700) {
 			setState({ ...state, rowsPerPage: Math.floor((height - 650) / 38) })
 		}
 	}, [windowSize])
@@ -143,8 +143,8 @@ export const ChainHistory = () => {
 			</Meta>
 			<Divider />
 			<TableContainer>
-				<Table aria-label="history-chain">
-					<TableBody>
+				<Table aria-label="history-chain" style={{ tableLayout: 'fixed' }}>
+					<TableBody style={{ whiteSpace: 'nowrap' }}>
 						{records
 							.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 							.map(({ pair, quoteAmount, baseAmount, buyOrSell, price, time }) => {
@@ -158,33 +158,33 @@ export const ChainHistory = () => {
 								const exRate = buyOrSell === 'buy' ? unitPrice.toFixed(7) : (unitPrice ** -1).toFixed(7)
 								return (
 									<TableRow key={time.toString()}>
-										<StyledCell style={{ width: '25%' }}>
+										<StyledLeftCell style={{ width: '25%' }}>
 											<Typography variant="caption">
 												<span>
 													<TokenImage tokenName={fromToken} />
 												</span>
 												{`${fromAmount.toFixed(2)} ${fromToken}`}
 											</Typography>
-										</StyledCell>
-										<StyledCell style={{ width: '25%' }}>
+										</StyledLeftCell>
+										<StyledLeftCell style={{ width: '25%' }}>
 											<Typography variant="caption">
 												<span>
 													<TokenImage tokenName={toToken} />
 												</span>
 												{`${toAmount.toFixed(2)} ${toToken}`}
 											</Typography>
-										</StyledCell>
-										<StyledCell style={{ width: '20%' }} align="right">
+										</StyledLeftCell>
+										<StyledRightCell style={{ width: '20%' }} align="right">
 											<Typography variant="caption">{`${exRate}`}</Typography>
-										</StyledCell>
-										<StyledCell style={{ width: '30%' }} align="right">
+										</StyledRightCell>
+										<StyledRightCell style={{ width: '30%' }} align="right">
 											<Typography variant="caption">{time}</Typography>
-										</StyledCell>
+										</StyledRightCell>
 									</TableRow>
 								)
 							})}
 						{emptyRows > 0 && (
-							<TableRow style={{ height: 32 * emptyRows }}>
+							<TableRow style={{ height: 38 * emptyRows }}>
 								<TableCell colSpan={6} />
 							</TableRow>
 						)}
@@ -217,9 +217,18 @@ const Meta = styled.div`
 	margin-bottom: 8px;
 `
 
-const StyledCell = styled(TableCell)`
+const StyledLeftCell = styled(TableCell)`
 	&.MuiTableCell-root {
 		padding: 8px 0px;
+		padding-right: 8px;
+	}
+	border-bottom: 1px dashed #e3eaf6 !important;
+`
+
+const StyledRightCell = styled(TableCell)`
+	&.MuiTableCell-root {
+		padding: 8px 0px;
+		padding-left: 8px;
 	}
 	border-bottom: 1px dashed #e3eaf6 !important;
 `

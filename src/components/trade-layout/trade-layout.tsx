@@ -2,6 +2,8 @@ import { Container, Grid, Tab, Tabs } from '@material-ui/core'
 import { ConnectWalletModal } from 'pages/connect'
 import React from 'react'
 import styled from 'styled-components'
+import LogoSrc from 'assets/lsb-logo.png'
+import { useHistory } from 'react-router-dom'
 
 export const TradeLayoutContainer = styled.div`
 	clear: both;
@@ -40,16 +42,28 @@ const AccountHeader = styled(RightColumn)`
 	align-items: center;
 `
 
+const Logo = styled.img`
+	margin-top: 8px;
+	height: 48px;
+	cursor: pointer;
+`
+
 export const TradeLayout: React.FC<{
 	left: any
 	right: any
 }> = ({ left, right, children }) => {
+	const history = useHistory()
+
+	const handleLogoClick = () => history.push('/')
+
 	return (
 		<TradeLayoutContainer>
 			<HeaderContainer maxWidth="lg">
 				<GridStyled container spacing={0}>
 					<Grid item sm={12} md={3}>
-						<LayoutColumn>Logo</LayoutColumn>
+						<LayoutColumn>
+							<Logo src={LogoSrc} alt="lsb" onClick={handleLogoClick} />
+						</LayoutColumn>
 					</Grid>
 					<Grid item sm={12} md={6}>
 						<LayoutColumn>
