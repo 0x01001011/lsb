@@ -5,11 +5,16 @@ import { useDispatch } from 'react-redux'
 import { changeToken, resetTrading } from 'stores/implements/trading'
 
 import { usePairsFromUrl } from 'utils/hooks'
-import { SwapBox, TokenList, SwapBoxInfo } from './components'
-import { CandleStock } from './components/candle-stock/candle-stock'
+import { SwapBox, TokenList, SwapBoxInfo, CandleStock, ChainHistory } from './components'
 
 const SwapboxContainer = styled.div`
 	padding: 8px;
+	min-height: calc(100vh - 90px);
+`
+
+const TokenListContainer = styled.div`
+	padding: 8px;
+	height: 100%;
 	min-height: calc(100vh - 90px);
 `
 
@@ -37,15 +42,16 @@ export const HomePage = () => {
 	)
 
 	const TokenPairs = (
-		<SwapboxContainer>
+		<TokenListContainer>
 			<TokenList />
-		</SwapboxContainer>
+		</TokenListContainer>
 	)
 
 	return (
 		<TradeLayout left={TokenPairs} right={SwapBoxComponent}>
 			<CandleChartContainer>
 				<CandleStock />
+				<ChainHistory />
 			</CandleChartContainer>
 		</TradeLayout>
 	)

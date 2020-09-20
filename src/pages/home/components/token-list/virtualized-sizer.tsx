@@ -1,6 +1,7 @@
 import React from 'react'
 import { ListSubheader, useMediaQuery, useTheme } from '@material-ui/core'
-import { VariableSizeList, ListChildComponentProps } from 'react-window'
+import { FixedSizeList, ListChildComponentProps } from 'react-window'
+import AutoSizer from 'react-virtualized-auto-sizer'
 
 function renderRow(props: ListChildComponentProps) {
 	const { data, index, style } = props
@@ -15,16 +16,6 @@ const OuterElementType = React.forwardRef<HTMLDivElement>((props, ref) => {
 	const outerProps = React.useContext(OuterElementContext)
 	return <div ref={ref} {...props} {...outerProps} />
 })
-
-function useResetCache(data: any) {
-	const ref = React.useRef<VariableSizeList>(null)
-	React.useEffect(() => {
-		if (ref.current != null) {
-			ref.current.resetAfterIndex(0, true)
-		}
-	}, [data])
-	return ref
-}
 
 // Adapter for react-window
 export const ListboxComponent = React.forwardRef<HTMLDivElement>(function ListboxComponent(props, ref) {
@@ -43,32 +34,26 @@ export const ListboxComponent = React.forwardRef<HTMLDivElement>(function Listbo
 		return itemSize
 	}
 
-	const getHeight = () => {
-		if (itemCount > 5) {
-			return 5 * itemSize
-		}
-		return itemData.map(getChildSize).reduce((a, b) => a + b, 0)
-	}
-
-	const gridRef = useResetCache(itemCount)
-
 	return (
-		<div ref={ref}>
-			<OuterElementContext.Provider value={other}>
-				<VariableSizeList
-					itemData={itemData}
-					height={getHeight()}
-					width="100%"
-					ref={gridRef}
-					outerElementType={OuterElementType}
-					innerElementType="ul"
-					itemSize={(index) => getChildSize(itemData[index])}
-					overscanCount={5}
-					itemCount={itemCount}
-				>
-					{renderRow}
-				</VariableSizeList>
-			</OuterElementContext.Provider>
+		<div style={{ height: 'calc(100% - 86px)' }} ref={ref}>
+			<AutoSizer>
+				{({ height, width }) => (
+					<OuterElementContext.Provider value={other}>
+						<FixedSizeList
+							itemData={itemData}
+							height={height}
+							width={width}
+							outerElementType={OuterElementType}
+							innerElementType="ul"
+							itemSize={itemSize}
+							overscanCount={5}
+							itemCount={itemCount}
+						>
+							{renderRow}
+						</FixedSizeList>
+					</OuterElementContext.Provider>
+				)}
+			</AutoSizer>
 		</div>
 	)
 })

@@ -22,7 +22,7 @@ export const CandleChart = () => {
 
 	React.useEffect(() => {
 		if (data === undefined || !ref.current) return
-		const chart = createChart(ref.current, { width: 600, height: 450 })
+		const chart = createChart(ref.current, { width: 575, height: 350 })
 		chart.applyOptions({
 			timeScale: {
 				rightOffset: 1,
@@ -128,11 +128,11 @@ export const CandleChart = () => {
 			const { width } = windowSize
 
 			if (width > 1280) {
-				chartRef.current.resize(575, 450)
+				chartRef.current.resize(575, 350)
 			} else if (width > 960) {
-				chartRef.current.resize(0.49 * width, 0.75 * 0.49 * width)
+				chartRef.current.resize(0.49 * width, 0.6 * 0.49 * width)
 			} else {
-				chartRef.current.resize(0.9 * width, 0.75 * 0.9 * width)
+				chartRef.current.resize(0.9 * width, 0.6 * 0.9 * width)
 			}
 		}
 	}, [windowSize, chartRef])
