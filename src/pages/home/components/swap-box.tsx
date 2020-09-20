@@ -13,8 +13,9 @@ import {
 	InputAdornment,
 } from '@material-ui/core'
 import { Alert, Skeleton } from '@material-ui/lab'
-import React from 'react'
+import React, { ReactEventHandler } from 'react'
 import { usePairCandles } from 'services/token-collections/pair-candles'
+import { usePriceEstimate } from 'services/trading'
 import styled from 'styled-components'
 import { usePairsFromUrl } from 'utils/hooks'
 import { SelectTokenPopup } from './select-token-popup'
@@ -57,12 +58,21 @@ const InputNumberStyled = styled(Input)`
 	&&& {
 		input {
 			text-align: right;
+			font-size: 20px;
 		}
 	}
 `
 export const SwapBox = () => {
 	const pairsData = usePairCandles()
 	const { paidToken, receivedToken } = usePairsFromUrl()
+	const [firstTokenInput, setFirstTokenInput] = React.useState(0)
+	const { estimateResult, setPaidNum } = usePriceEstimate(firstTokenInput)
+
+	const handleOnFirstInputChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const inputValue = parseFloat(e.target.value)
+		setFirstTokenInput(inputValue)
+		setPaidNum(inputValue)
+	}
 
 	if (pairsData.isLoading) {
 		return (
@@ -94,8 +104,9 @@ export const SwapBox = () => {
 				<TopCardContainer>
 					<SelectTokenPopup isFrom />
 					<InputNumberStyled
+						onChange={handleOnFirstInputChanged}
+						value={firstTokenInput}
 						type="number"
-						defaultValue={0}
 						endAdornment={<InputAdornment position="end">{paidToken}</InputAdornment>}
 					/>
 				</TopCardContainer>
@@ -104,7 +115,7 @@ export const SwapBox = () => {
 					<InputNumberStyled
 						disabled
 						type="number"
-						defaultValue={0}
+						value={estimateResult}
 						endAdornment={<InputAdornment position="end">{receivedToken}</InputAdornment>}
 					/>
 				</BottomCardContainer>

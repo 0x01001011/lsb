@@ -8,6 +8,7 @@ import AttachMoneyIcon from '@material-ui/icons/AttachMoney'
 import NetworkCheckIcon from '@material-ui/icons/NetworkCheck'
 import { useWalletState } from 'stores/implements/wallet'
 import { usePairsFromUrl } from 'utils/hooks'
+import { TokenImage } from './token-list/option'
 
 const SwapboxInfoContainer = styled(TableContainer)`
 	/* background-color: #f4f7fa;
@@ -17,20 +18,32 @@ const SwapboxInfoContainer = styled(TableContainer)`
 `
 
 export const SwapBoxInfo = () => {
-	const { paidToken } = usePairsFromUrl()
+	const { paidToken, receivedToken } = usePairsFromUrl()
 	const account = useWalletState((s) => s.account)
-	const [balance, setBalance] = React.useState(0)
-	const balanceText = account?.accountName ? `${balance} ${paidToken}` : 'Connect Your Private'
+	const paidTokenBalance = account?.accountName
+		? `${account?.balances[paidToken] || 0} ${paidToken}`
+		: 'Connect Your Private'
+	const receiveTokenBalance = account?.accountName
+		? `${account?.balances[receivedToken] || 0} ${receivedToken}`
+		: 'Connect Your Private'
 	return (
 		<SwapboxInfoContainer>
 			<List>
 				<ListItem>
 					<ListItemAvatar>
 						<Avatar>
-							<AccountBalanceWalletIcon />
+							<TokenImage tokenName={paidToken} />
 						</Avatar>
 					</ListItemAvatar>
-					<ListItemText primary="Balance" secondary={balanceText} />
+					<ListItemText primary={`Your ${paidToken} Balance`} secondary={paidTokenBalance} />
+				</ListItem>
+				<ListItem>
+					<ListItemAvatar>
+						<Avatar>
+							<TokenImage tokenName={receivedToken} />
+						</Avatar>
+					</ListItemAvatar>
+					<ListItemText primary={`Your ${receivedToken} Balance`} secondary={receiveTokenBalance} />
 				</ListItem>
 				<ListItem>
 					<ListItemAvatar>

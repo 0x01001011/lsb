@@ -25,7 +25,7 @@ export const SelectTokenPopup: React.FC<{ isFrom?: boolean }> = ({ isFrom }) => 
 	const { isFetching, data } = useDictionaryTokenInfos('Ally')
 
 	const tokenName = isFrom ? paidToken : receivedToken
-	const label = isFrom ? 'From: ' : 'To: '
+	const label = isFrom ? 'From: ' : 'Estimate: '
 	return (
 		<Container>
 			{label}
