@@ -78,13 +78,17 @@ export const CandleChart = () => {
 			},
 			layout: {
 				backgroundColor: 'transparent',
-				fontSize: 14,
+				fontSize: 11,
 				fontFamily: '"Montserrat", sans-serif',
 				textColor: '#9ca9cf',
 			},
 		})
 
 		const candlestickSeries = chart.addCandlestickSeries({
+			priceFormat: {
+				type: 'custom',
+				formatter: (price: number) => price.toFixed(7),
+			},
 			upColor: '#294698',
 			downColor: '#e0525f',
 			wickVisible: true,
@@ -104,6 +108,7 @@ export const CandleChart = () => {
 		const histogramSeries = chart.addHistogramSeries({
 			priceFormat: {
 				type: 'volume',
+				precision: 7,
 			},
 			priceScaleId: '',
 			scaleMargins: {
