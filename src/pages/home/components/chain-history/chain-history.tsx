@@ -93,7 +93,7 @@ const TokenImage: React.FC<{ tokenName: string }> = ({ tokenName }) => {
 	if (isFetching) {
 		return null
 	}
-	return <StyledAvatar src={getTokenImage(data[tokenName])} />
+	return <StyledAvatar src={getTokenImage(data[tokenName])} alt="-" />
 }
 
 const initialState = {
@@ -184,7 +184,7 @@ export const ChainHistory = () => {
 								)
 							})}
 						{emptyRows > 0 && (
-							<TableRow style={{ height: 32 * emptyRows }}>
+							<TableRow style={{ height: 38 * emptyRows }}>
 								<TableCell colSpan={6} />
 							</TableRow>
 						)}

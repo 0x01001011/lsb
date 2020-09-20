@@ -80,12 +80,12 @@ export const TokenList = () => {
 				</StyledTitle>
 			</Header>
 			<Meta>
-				<Typography variant="body2">Pair</Typography>
-				<Typography variant="body2" align="right">
-					Volume
+				<Typography variant="caption">pair</Typography>
+				<Typography variant="caption" align="right">
+					volume
 				</Typography>
-				<Typography variant="body2" align="right">
-					Liquidity
+				<Typography variant="caption" align="right">
+					liquidity
 				</Typography>
 			</Meta>
 			<Divider />

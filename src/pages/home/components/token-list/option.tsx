@@ -22,20 +22,28 @@ function formatNumber(num: number): string {
 	return num.toFixed(2)
 }
 
+function isZero(num: number): boolean {
+	return Math.abs(num) < 1e-7
+}
+
 export const StyledOption = (props: PerPair) => {
 	const { pair, volume, liquidity } = props
 	const [first, second] = pair.split('-')
 
 	return (
 		<Option>
-			<Tooltip title={`${first}-${second}`}>
+			<Tooltip title={`${first}-${second}`} placement="bottom-start">
 				<AvatarGroup>
-					<TokenImage tokenName={first} />
+					<TokenImage tokenName={first} first />
 					<TokenImage tokenName={second} />
 				</AvatarGroup>
 			</Tooltip>
-			<Typography align="right">{formatNumber(volume)}</Typography>
-			<Typography align="right">{formatNumber(liquidity)}</Typography>
+			<Typography align="right" variant="body2">
+				{isZero(volume) ? '-' : formatNumber(volume)}
+			</Typography>
+			<Typography align="right" variant="body2">
+				{isZero(liquidity) ? '-' : formatNumber(liquidity)}
+			</Typography>
 		</Option>
 	)
 }
@@ -46,12 +54,19 @@ const getTokenImage = (tokenInfo: TokenUiModel) => {
 	}
 	return tokenInfo.tokenSymbol === 'PRV' ? PrvSrc : tokenInfo.icon
 }
-export const TokenImage: React.FC<{ tokenName: string }> = ({ tokenName }) => {
+
+export const TokenImage: React.FC<{ tokenName: string; first?: boolean }> = ({ tokenName, first }) => {
 	const { isFetching, data } = useDictionaryTokenInfos('Ally')
 	if (isFetching) {
 		return null
 	}
-	return <StyledAvatar src={getTokenImage(data[tokenName])} />
+	return (
+		<StyledAvatar
+			style={first ? { marginLeft: 0 } : { marginLeft: '-8px', zIndex: 1 }}
+			src={getTokenImage(data[tokenName])}
+			alt={DefaultTokenImage}
+		/>
+	)
 }
 
 const Option = styled.div`
@@ -63,8 +78,10 @@ const Option = styled.div`
 	height: 48px;
 	padding: 8px;
 `
-
 const StyledAvatar = styled(Avatar)`
+	z-index: 2;
+	border: 2px solid #fafafa;
+
 	&.MuiAvatar-root {
 		width: 32px;
 		height: 32px;
