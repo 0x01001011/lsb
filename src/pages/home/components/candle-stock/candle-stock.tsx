@@ -38,7 +38,7 @@ export const CandleStock = () => {
 	if (isFetching || !firstToken || !secondToken) {
 		return (
 			<StyledLoading>
-				<PropagateLoader size={24} color="#294698" />
+				<PropagateLoader size={24} color="#e6eaf2" />
 			</StyledLoading>
 		)
 	}
@@ -52,6 +52,6 @@ export const CandleStock = () => {
 }
 
 const StyledLoading = styled.div`
-	margin-top: calc(30vh - 45px);
+	margin: calc(30vh - 45px) 0px;
 	align-self: center;
 `

@@ -8,6 +8,7 @@ declare module '*.gif'
 declare module '*.jpg'
 declare module '@nivo/core'
 declare module '@nivo/line'
+declare module 'react-virtualized-auto-sizer'
 
 declare global {
 	type KeyWalletChainCode = Uint8Array

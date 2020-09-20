@@ -12,7 +12,6 @@ const Wrapper = styled.div`
 	justify-content: space-between;
 	align-items: center;
 	min-height: 5vw;
-	margin-top: 16px;
 `
 
 const Title = styled(Typography)`

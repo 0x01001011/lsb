@@ -1,17 +1,12 @@
 import React from 'react'
-import PrvSrc from 'assets/prv@2x.png'
 import styled from 'styled-components'
+import PrvSrc from 'assets/prv@2x.png'
+import DefaultTokenImage from 'assets/default-token.png'
 import { Avatar, Tooltip, Typography } from '@material-ui/core'
 import { AvatarGroup } from '@material-ui/lab'
 import { useDictionaryTokenInfos, useTokenInfos } from 'services/token-collections'
 import { PerPair } from 'models/incscan-api'
 import { TokenUiModel } from 'models/token'
-import DefaultTokenImage from 'assets/default-token.png'
-
-const initialState = {
-	firstToken: null,
-	secondToken: null,
-}
 
 function formatNumber(num: number): string {
 	if (num >= 1e9) {

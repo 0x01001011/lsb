@@ -6,14 +6,15 @@ import { Alert } from '@material-ui/lab'
 import { Skeleton } from 'antd'
 import { usePairOverview } from 'services/token-collections'
 
-import { IconButton, List, ListItem, TextField, Typography } from '@material-ui/core'
-import { ListboxComponent } from 'components/common/autocomplete/virtualized-utils'
+import { Divider, IconButton, List, ListItem, TextField, Typography } from '@material-ui/core'
 import { PerPair } from 'models/incscan-api'
 import { useHistory } from 'react-router-dom'
 import { StyledOption } from './option'
+import { ListboxComponent } from './virtualized-sizer'
 
 const TokenListContainer = styled.div`
 	max-height: calc(100vh - 90px);
+	height: 100%;
 `
 
 const initialState = {
@@ -67,7 +68,7 @@ export const TokenList = () => {
 				</StyledIconButton>
 				<StyledInput
 					style={searching ? { width: 'calc(100% - 32px)' } : { width: 0 }}
-					placeholder="Type to search"
+					placeholder="PRV-pETH"
 					fullWidth
 					variant="standard"
 					onChange={handleInputChange}
@@ -87,7 +88,7 @@ export const TokenList = () => {
 					Liquidity
 				</Typography>
 			</Meta>
-
+			<Divider />
 			{isFetching ? (
 				<>
 					<Skeleton active />
@@ -141,6 +142,7 @@ const Meta = styled.div`
 	grid-template-columns: 1fr 1fr 1fr;
 	color: rgba(0, 0, 0, 0.54);
 	padding: 0px 8px;
+	margin-bottom: 16px;
 `
 
 const StyledListItem = styled(ListItem)`
