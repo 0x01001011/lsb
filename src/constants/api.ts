@@ -12,9 +12,7 @@ export const REACT_REQUEST_CONFIG = {
 			useErrorBoundary: true,
 			suspense: false,
 			refetchOnMount: false,
-		},
-		shared: {
-			suspense: false,
+			refetchIntervalInBackground: true,
 		},
 	},
 }

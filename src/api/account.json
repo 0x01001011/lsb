@@ -1,0 +1,12 @@
+{
+	"type": "service_account",
+	"project_id": "vaulted-botany-287204",
+	"private_key_id": "2f8ae8fcff4032e2d3231395382c4ba4f4522357",
+	"private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC014pv4bKou4pF\ndr4BNJsGggz4EblL3VbP7H9+ri9xXET+PKwA+jRdODJjQqqUlfUoh3zFeCaxBVcE\nPO3KM/1H8JMxgXFVJigR63vksSvynyYTEyUzLgnSgcmHgIgd4Q6B/DBGxWtHiLLi\n3P5N9Vr5Kl3PUg9emN2tC/8IcsVfig0YI6Uziqvr51zekACkQx5BMXfQpEJ3qsPd\ntl2YdjauIG55CVWsjfQSolbUkStR07WVSX4csJpu60/Tfpb3+lz7paRn1lh0iZPx\nlj9uOR63CryULQIb5wL0RFa83V9xNkF69bbokrm6Hkiggf5lUhYcytCxqiq7pSHF\nlIx1IkBpAgMBAAECggEAHRT1gRkLZWmlapbWJvT6AkGrSsB06z+YzJ60gR+LZyBG\nwxjoM08JWT1mkwJfUr5L2tzxAoOYO0sHy5ltxyD1uBo23ZT6sA4PDxSuy5/3WJDh\n61rellyuvTDcgyM3IJD3B43SCKuKXUpdNDEEX26X1u6KgALrEFQmgAPoG0hzt7GC\n8yuwrl/aAByZztSvhu5idNDtochcDPJq5I5NlGh5zC6/BEtoZhvB6uxgi2usVMwa\n4aGJbByXUbtnFtrmgHS72yVY4up4ZbO+BeGpDx0pZlC/p3eaeRb7wEvvcUYARd7F\niroz0zv4MPZVK4EAuRo7P9ZvE6TN6s5OCkBUGAyElQKBgQDs/TUlcvVcR6TjGiip\nx8y2SsENDo6bYsZaTUc2luu3Q5xnb0EQSOpWeqJZ21vJ5j29DrBdLinh7SHN4Lh9\n1oW7+kmhoa33+28GoriGnqtrURvkPUvdmZsQ3/6GUc8k+E9rTlmw5wfxye4zYJWC\nVLqVUZKU3qMdySVl6FitVnwQLQKBgQDDWUydZZdu9vWIUAYMbV+nsGa5/MzXRZte\no+2ohBfZac9s5FQnQcNAvYC7m4WtfE+nDQWYU44D+YawkrZsHxmLoHeV3/m+id9n\n8/AB/YX55qF5wRy9bdPDBbl1trPbE2kIsqL4G4aB+/fMrLijSnVIKN85eO0VOj8m\nauvpgbnarQKBgQDajPA0Jv3rKg7/eKJDYISDIBFEj0YoOkEeCeJAj5G1ol5cbRcd\ng4DIW7PZFhhh6zjIXwF6DRaGyX7BNBovwmP2ZOz+Z/HdnTxYbDuruivvfg8wvu51\n4DBGsasyB8P2HiBvnwPLxmNnMYfATbPTS3v+NAnvzBm1YEhi4JDW2cjzyQKBgCgR\n8jA6/YQKbjTmzUbRTJS2D2xJGa9ynLsd/wrZBZdYJ+8bKtPennFyLazN6u66GBCZ\nEDO9t9zC20ju3zJwcqn8YWtBxRW7bDMDi5Cs80VedHLoFMAafhx72R33Ow9N/PaG\nxf0EkGOrTpoSN9Fu3X3OvHMqhd8b0oZL2lZMgNYFAoGAXPdSN8r60qhdZXkki9PY\nV4/gE30FaoLlENDTblzBflvMOXdi7rKT1Xu1eQDRkz5sqc6dDkB2mM+jew47LDfQ\njNH/bd58c1saumVpiP1NrcURVM7thXcRYl8DXiSS5zXmd3ubmYbW7+K3calbubV+\nz2Ga2IZLwknUK4Vxz+ADfGQ=\n-----END PRIVATE KEY-----\n",
+	"client_email": "firebase-khoahoang@vaulted-botany-287204.iam.gserviceaccount.com",
+	"client_id": "117679807045911080644",
+	"auth_uri": "https://accounts.google.com/o/oauth2/auth",
+	"token_uri": "https://oauth2.googleapis.com/token",
+	"auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+	"client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-khoahoang%40vaulted-botany-287204.iam.gserviceaccount.com"
+}

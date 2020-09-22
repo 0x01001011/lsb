@@ -1,5 +1,5 @@
 import { Container, Grid, Tab, Tabs } from '@material-ui/core'
-import { ConnectWalletModal } from 'pages/connect'
+import { ConnectWalletModal } from 'components/connect'
 import React from 'react'
 import styled from 'styled-components'
 import LogoSrc from 'assets/lsb-logo.png'

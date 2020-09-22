@@ -1,20 +1,11 @@
 import React from 'react'
-import {
-	Button,
-	CardHeader,
-	CircularProgress,
-	IconButton,
-	ListItemIcon,
-	Menu,
-	MenuItem,
-	Typography,
-} from '@material-ui/core'
+import { Button, CardHeader, CircularProgress, IconButton, Menu, MenuItem, Typography } from '@material-ui/core'
 import { clearAccount, useWalletState } from 'stores/implements/wallet'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
 
 import FingerprintIcon from '@material-ui/icons/Fingerprint'
 import { PrivateKeyEllipse } from 'components/wallets'
-import HighlightOffIcon from '@material-ui/icons/HighlightOff'
+
 import { useDispatch } from 'react-redux'
 
 export const ConnectButton: React.FC<{ handleClickOpen: () => void }> = ({ handleClickOpen }) => {

@@ -2,10 +2,12 @@ import React from 'react'
 import styled from 'styled-components'
 import PrvSrc from 'assets/prv@2x.png'
 import { TokenUiModel } from 'models/token'
-import { AvatarGroup, ToggleButton, ToggleButtonGroup } from '@material-ui/lab'
-import { Avatar, Typography } from '@material-ui/core'
-import { changeGranuality, PairCandleGranuality, useTradingState } from 'stores/implements/trading'
-import { useDispatch } from 'react-redux'
+import { AvatarGroup } from '@material-ui/lab'
+import { Avatar, CardHeader, Typography } from '@material-ui/core'
+import { useTradingState } from 'stores/implements/trading'
+import { useCandleSticks } from 'services/revolutions'
+import { usePairsFromUrl } from 'utils/hooks'
+import { isEmpty, last } from 'lodash'
 
 const Wrapper = styled.div`
 	display: flex;
@@ -23,15 +25,30 @@ export type HeaderProps = {
 	secondToken: TokenUiModel
 }
 
-export const ChartHeader = ({ firstToken, secondToken }) => {
-	const dispatch = useDispatch()
-	const granuality = useTradingState((s) => s.granuality)
-	const { tokenSymbol: symbolSt, tokenName: nameSt, icon: iconSt } = firstToken
-	const { tokenSymbol: symbolNd, tokenName: nameNd, icon: iconNd } = secondToken
+const PriceStyled = styled.span`
+	font-weight: lighter;
+	font-size: 30px;
+`
+const PriceTokenStyled = styled.span`
+	margin-left: 4px;
+	font-weight: lighter;
+	font-size: 20px;
+	color: rgba(0, 0, 0, 0.6);
+`
 
-	const handleChangeGranuality = (event: React.MouseEvent<HTMLElement>, value: PairCandleGranuality) => {
-		dispatch(changeGranuality({ granuality: value }))
-	}
+export const ChartHeader = ({ firstToken, secondToken }) => {
+	const { tokenSymbol: symbolSt, icon: iconSt } = firstToken
+	const { tokenSymbol: symbolNd, icon: iconNd } = secondToken
+	const granuality = useTradingState((s) => s.granuality)
+	const { paidToken, receivedToken } = usePairsFromUrl()
+	const { data } = useCandleSticks(`${paidToken}-${receivedToken}`, granuality)
+
+	const lastPrice = React.useMemo(() => {
+		if (!data || isEmpty(data)) {
+			return { close: 0, time: new Date() }
+		}
+		return last(data)
+	}, [data])
 
 	return (
 		<Wrapper>
@@ -44,34 +61,17 @@ export const ChartHeader = ({ firstToken, secondToken }) => {
 					{symbolSt}-{symbolNd}
 				</Title>
 			</div>
-
-			<ToggleButtonGroup value={granuality} exclusive onChange={handleChangeGranuality}>
-				<GranualButton value="1HOUR" disabled>
-					1H
-				</GranualButton>
-				<GranualButton value="6HOUR" disabled>
-					6H
-				</GranualButton>
-				<GranualButton value="1DAY">1D</GranualButton>
-			</ToggleButtonGroup>
+			<CardHeader
+				title={
+					<div>
+						<PriceStyled>1</PriceStyled>
+						<PriceTokenStyled>{paidToken}</PriceTokenStyled>
+						<PriceStyled> ~ </PriceStyled>
+						<PriceStyled>{lastPrice.close.toFixed(8)}</PriceStyled>
+						<PriceTokenStyled>{receivedToken}</PriceTokenStyled>
+					</div>
+				}
+			/>
 		</Wrapper>
 	)
 }
-
-const GranualButton = styled(ToggleButton)`
-	&.MuiToggleButton-root {
-		border-radius: 0px;
-		padding: 0.1em 0.8em;
-		background: #e6eaf2;
-		color: inherit;
-		font-weight: 600;
-		letter-spacing: 0.1em;
-		margin: 8px 16px;
-		border: none;
-
-		&.Mui-selected {
-			background: #294698;
-			color: #fafbfb;
-		}
-	}
-`

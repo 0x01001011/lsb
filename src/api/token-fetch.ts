@@ -2,7 +2,7 @@ import { NowRequest, NowResponse } from '@vercel/node'
 import { concat } from 'lodash'
 import { setup } from 'axios-cache-adapter'
 import { AxiosError } from 'axios'
-import { CustomTokenReceivedModel, TokenReceivedModel } from '../src/models/incscan-api'
+import { CustomTokenReceivedModel, TokenReceivedModel } from 'models/incscan-api'
 
 const api = setup({
 	cache: {

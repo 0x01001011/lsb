@@ -22,10 +22,10 @@ export const SwapBoxInfo = () => {
 	const account = useWalletState((s) => s.account)
 	const paidTokenBalance = account?.accountName
 		? `${account?.balances[paidToken] || 0} ${paidToken}`
-		: 'Connect Your Private'
+		: 'Connect Your Wallet To View'
 	const receiveTokenBalance = account?.accountName
 		? `${account?.balances[receivedToken] || 0} ${receivedToken}`
-		: 'Connect Your Private'
+		: 'Connect Your Wallet To View'
 	return (
 		<SwapboxInfoContainer>
 			<List>

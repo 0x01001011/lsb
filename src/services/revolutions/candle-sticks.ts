@@ -43,9 +43,5 @@ export const getCandleSticks = async (pair: string, granuality: PairCandleGranua
 }
 
 export const useCandleSticks = (pair: string, granuality: PairCandleGranuality) => {
-	return useQuery(`${getCandleSticks.name}/${pair}/${granuality}`, () => getCandleSticks(pair, granuality), {
-		refetchIntervalInBackground: true,
-		refetchOnWindowFocus: false,
-		refetchInterval: 10000,
-	})
+	return useQuery(`${getCandleSticks.name}/${pair}/${granuality}`, () => getCandleSticks(pair, granuality))
 }

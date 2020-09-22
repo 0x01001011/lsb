@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import QrReader from 'react-qr-scanner'
-import ScanArea from 'assets/scan-bg.jpg'
 
 const QRCamContainer = styled.div`
 	width: 100%;
