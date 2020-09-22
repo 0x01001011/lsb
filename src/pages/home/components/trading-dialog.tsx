@@ -10,6 +10,7 @@ import {
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { useWalletState } from 'stores/implements/wallet'
+import SwapHorizIcon from '@material-ui/icons/SwapHoriz'
 
 export const TradingDialog = () => {
 	const [open, setOpen] = React.useState(false)
@@ -28,7 +29,7 @@ export const TradingDialog = () => {
 
 	return (
 		<div>
-			<Button onClick={handleClickOpen} color="primary" variant="outlined" fullWidth>
+			<Button variant="contained" color="primary" startIcon={<SwapHorizIcon />} onClick={handleClickOpen} fullWidth>
 				SWAP NOW
 			</Button>
 			<Dialog open={open} aria-labelledby="form-dialog-title">
