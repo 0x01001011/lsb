@@ -25,6 +25,7 @@ export const TradingDialog = () => {
 	}
 
 	const accountName = walletState.account?.accountName
+
 	return (
 		<div>
 			<Button onClick={handleClickOpen} color="primary" variant="outlined" fullWidth>
@@ -32,7 +33,11 @@ export const TradingDialog = () => {
 			</Button>
 			<Dialog open={open} aria-labelledby="form-dialog-title">
 				<DialogTitle id="form-dialog-title">SWAP</DialogTitle>
-				<DialogContent>woeiwewoi</DialogContent>
+				{accountName ? (
+					<DialogContent>Coming Soon!</DialogContent>
+				) : (
+					<DialogContent>Connect your wallet to swap!</DialogContent>
+				)}
 				<DialogActions>
 					<Button onClick={handleCancel} color="primary">
 						OK
