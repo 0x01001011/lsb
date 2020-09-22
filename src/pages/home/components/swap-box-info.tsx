@@ -51,7 +51,7 @@ export const SwapBoxInfo = () => {
 							<AttachMoneyIcon />
 						</Avatar>
 					</ListItemAvatar>
-					<ListItemText primary="MaxPrice" secondary="Coming" />
+					<ListItemText primary="MaxPrice" secondary="Connect Your Wallet To View" />
 				</ListItem>
 				<ListItem>
 					<ListItemAvatar>
@@ -59,7 +59,7 @@ export const SwapBoxInfo = () => {
 							<NetworkCheckIcon />
 						</Avatar>
 					</ListItemAvatar>
-					<ListItemText primary="PoolSize" secondary="Coming" />
+					<ListItemText primary="PoolSize" secondary="Connect Your Wallet To View" />
 				</ListItem>
 			</List>
 		</SwapboxInfoContainer>

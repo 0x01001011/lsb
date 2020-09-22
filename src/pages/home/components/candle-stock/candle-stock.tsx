@@ -5,6 +5,7 @@ import { PropagateLoader } from 'react-spinners'
 import { useTradingState } from 'stores/implements/trading'
 import { ChartHeader } from './chart-header'
 import { CandleChart } from './candle-chart'
+import { ChartFooter } from './chart-footer'
 
 const initialState = {
 	firstToken: undefined,
@@ -17,6 +18,7 @@ export type CandleStockProps = {
 }
 
 const CandleStockContainer = styled.div`
+	position: relative;
 	padding: 8px 12px;
 `
 export const CandleStock = () => {
@@ -47,6 +49,7 @@ export const CandleStock = () => {
 		<CandleStockContainer>
 			<ChartHeader firstToken={firstToken} secondToken={secondToken} />
 			<CandleChart />
+			<ChartFooter />
 		</CandleStockContainer>
 	)
 }

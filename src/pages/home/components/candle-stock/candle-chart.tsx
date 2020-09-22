@@ -98,9 +98,9 @@ export const CandleChart = () => {
 		})
 		candlestickSeries.setData(data)
 
-		const histogram = data.map(({ time, close }) => ({
+		const histogram = data.map(({ time, open, close }) => ({
 			time,
-			value: close,
+			value: Math.abs(open - close),
 			// color: open < close ? '#34f49030' : '#f3383830',
 			color: '#9ca9cf',
 		}))
@@ -109,10 +109,11 @@ export const CandleChart = () => {
 			priceFormat: {
 				type: 'volume',
 				precision: 7,
+				// formatter: (price) => '',
 			},
 			priceScaleId: '',
 			scaleMargins: {
-				top: 0.9,
+				top: 0.8,
 				bottom: 0,
 			},
 		})
