@@ -17,25 +17,21 @@ function reversePair(pair: string) {
 	return `${pairs[1]}-${pairs[0]}`
 }
 
-const GRANUALITES = { '1HOUR': 3600, '6HOURS': 21600, '1DAY': 86400 }
+const G = { '1HOUR': 3600, '6HOURS': 21600, '1DAY': 86400 }
 
 export const getCandleSticks = async (pair: string, granuality: PairCandleGranuality) => {
 	try {
 		const end = getSecondTimestamp()
-		let url = `https://api.incscan.io/pdex/candles/${pair}?granularity=${GRANUALITES[granuality]}&start=1568551184&end=${end}&reversed=false`
+		const baseUrl = 'https://api.incscan.io/pdex/candles'
+		let url = `${baseUrl}/${pair}?granularity=${G[granuality]}&start=1568551184&end=${end}&reversed=false`
 		let res = await axios.get<Array<PairCandleStickModel>>(url)
 
 		if (res.data.length === 0) {
-			url = `https://api.incscan.io/pdex/candles/${reversePair(pair)}?granularity=${
-				GRANUALITES[granuality]
-			}&start=1568551184&end=${end}&reversed=true`
+			url = `${baseUrl}/${reversePair(pair)}?granularity=${G[granuality]}&start=1568551184&end=${end}&reversed=true`
 			res = await axios.get<Array<PairCandleStickModel>>(url)
 		}
 
-		return res.data.map((candle: PairCandleStickModel) => ({
-			...candle,
-			time: getDdMmYyyy(candle.time * 1000),
-		}))
+		return res.data
 	} catch (error) {
 		console.error(error)
 	}

@@ -57,6 +57,7 @@ export const TokenList = () => {
 
 	const handleItemClick = (pair: string) => {
 		const [first, second] = pair.split('-')
+		setLocalState({ ...localState, pattern: '' })
 		history.push(`/${first}/${second}`)
 	}
 
