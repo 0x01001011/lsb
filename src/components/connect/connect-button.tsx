@@ -4,7 +4,7 @@ import { clearAccount, useWalletState } from 'stores/implements/wallet'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
 
 import FingerprintIcon from '@material-ui/icons/Fingerprint'
-import { PrivateKeyEllipse } from 'components/wallets'
+import { AddressKeyEllipse } from 'components/wallets'
 
 import { useDispatch } from 'react-redux'
 
@@ -45,7 +45,7 @@ export const ConnectButton: React.FC<{ handleClickOpen: () => void }> = ({ handl
 						</IconButton>
 					}
 					title={`Balance: ${wallet.account.balances.PRV} PRV`}
-					subheader={<PrivateKeyEllipse width={180}>{wallet.account.keys.privateKey}</PrivateKeyEllipse>}
+					subheader={<AddressKeyEllipse width={180}>{wallet.account.keys.privateKey}</AddressKeyEllipse>}
 				/>
 				<Menu anchorEl={anchorEl} keepMounted open={open} onClose={handleClose}>
 					<MenuItem onClick={handleClearAccount}>
