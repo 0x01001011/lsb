@@ -88,6 +88,7 @@ const getTokenImage = (tokenInfo: TokenUiModel) => {
 	}
 	return tokenInfo.tokenSymbol === 'PRV' ? PrvSrc : tokenInfo.icon
 }
+
 const TokenImage: React.FC<{ tokenName: string }> = ({ tokenName }) => {
 	const { isFetching, data } = useDictionaryTokenInfos('Ally')
 	if (isFetching) {
@@ -174,11 +175,11 @@ export const ChainHistory = () => {
 												{`${toAmount.toFixed(2)} ${toToken}`}
 											</Typography>
 										</StyledLeftCell>
-										<StyledRightCell style={{ width: '20%' }} align="right">
+										<StyledRightCell style={{ width: '15%' }} align="right">
 											<Typography variant="caption">{`${exRate}`}</Typography>
 										</StyledRightCell>
-										<StyledRightCell style={{ width: '30%' }} align="right">
-											<Typography variant="caption">{time}</Typography>
+										<StyledRightCell style={{ width: '35%' }} align="right">
+											<Typography variant="caption">{new Date(time).toUTCString().slice(4)}</Typography>
 										</StyledRightCell>
 									</TableRow>
 								)
@@ -212,7 +213,7 @@ export const ChainHistory = () => {
 
 const Meta = styled.div`
 	display: grid;
-	grid-template-columns: 0.25fr 0.25fr 0.2fr 0.3fr;
+	grid-template-columns: 0.25fr 0.25fr 0.15fr 0.35fr;
 	color: rgba(0, 0, 0, 0.54);
 	margin-bottom: 8px;
 `
