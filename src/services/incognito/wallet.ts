@@ -37,7 +37,7 @@ export class WalletService {
 
 		const PRV = await account.nativeToken.getTotalBalance()
 		const balances = {
-			PRV: PRV.toString(),
+			PRV: PRV.divn(1000000000).toString(),
 		}
 
 		return {
