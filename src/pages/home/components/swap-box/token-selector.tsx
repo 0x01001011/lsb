@@ -4,7 +4,7 @@ import React from 'react'
 import { useDictionaryTokenInfos } from 'services/token-collections'
 import styled from 'styled-components'
 import { usePairsFromUrl } from 'utils/hooks'
-import { TokenImage } from './token-image'
+import { TokenImage } from '../token-image'
 
 const Container = styled.div`
 	padding: 8px 0;
@@ -20,15 +20,13 @@ const TokenSelectStyled = styled(Chip)`
 	}
 `
 
-export const SelectTokenPopup: React.FC<{ isFrom?: boolean }> = ({ isFrom }) => {
+export const TokenSelector: React.FC<{ isFrom?: boolean; onClick?(): void }> = ({ isFrom, onClick }) => {
 	const { paidToken, receivedToken } = usePairsFromUrl()
 	const { isFetching, data } = useDictionaryTokenInfos('Ally')
 
 	const tokenName = isFrom ? paidToken : receivedToken
-	const label = isFrom ? 'From: ' : 'Estimate: '
 	return (
 		<Container>
-			{label}
 			{isFetching ? (
 				<TokenSelectStyled avatar={<CircularProgress size={24} />} label="Loading..." variant="outlined" />
 			) : (
@@ -36,6 +34,7 @@ export const SelectTokenPopup: React.FC<{ isFrom?: boolean }> = ({ isFrom }) => 
 					avatar={<TokenImage tokenName={tokenName} />}
 					label={data[tokenName]?.tokenName}
 					variant="outlined"
+					onClick={onClick}
 				/>
 			)}
 		</Container>

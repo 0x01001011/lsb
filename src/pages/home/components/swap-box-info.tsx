@@ -8,13 +8,19 @@ import AttachMoneyIcon from '@material-ui/icons/AttachMoney'
 import NetworkCheckIcon from '@material-ui/icons/NetworkCheck'
 import { useWalletState } from 'stores/implements/wallet'
 import { usePairsFromUrl } from 'utils/hooks'
-import { TokenImage } from './token-list/option'
+import { TokenImage } from './token-image'
 
 const SwapboxInfoContainer = styled(TableContainer)`
 	/* background-color: #f4f7fa;
 	margin: 6px;
 	padding: 8px;
 	border-radius: 8px; */
+`
+
+const StyledItem = styled(ListItem)`
+	&.MuiListItem-root {
+		padding: 0px;
+	}
 `
 
 export const SwapBoxInfo = () => {
@@ -29,7 +35,7 @@ export const SwapBoxInfo = () => {
 	return (
 		<SwapboxInfoContainer>
 			<List>
-				<ListItem>
+				<ListItem style={{ paddingTop: '0px' }}>
 					<ListItemAvatar>
 						<Avatar>
 							<TokenImage tokenName={paidToken} />
@@ -37,7 +43,7 @@ export const SwapBoxInfo = () => {
 					</ListItemAvatar>
 					<ListItemText primary={`Your ${paidToken} Balance`} secondary={paidTokenBalance} />
 				</ListItem>
-				<ListItem>
+				<ListItem style={{ paddingTop: '0px' }}>
 					<ListItemAvatar>
 						<Avatar>
 							<TokenImage tokenName={receivedToken} />
@@ -45,7 +51,7 @@ export const SwapBoxInfo = () => {
 					</ListItemAvatar>
 					<ListItemText primary={`Your ${receivedToken} Balance`} secondary={receiveTokenBalance} />
 				</ListItem>
-				<ListItem>
+				<ListItem style={{ paddingTop: '0px' }}>
 					<ListItemAvatar>
 						<Avatar>
 							<AttachMoneyIcon />
@@ -53,7 +59,7 @@ export const SwapBoxInfo = () => {
 					</ListItemAvatar>
 					<ListItemText primary="MaxPrice" secondary="Connect Your Wallet To View" />
 				</ListItem>
-				<ListItem>
+				<ListItem style={{ paddingTop: '0px' }}>
 					<ListItemAvatar>
 						<Avatar>
 							<NetworkCheckIcon />

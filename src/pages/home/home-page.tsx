@@ -5,7 +5,8 @@ import { useDispatch } from 'react-redux'
 import { changeToken, resetTrading } from 'stores/implements/trading'
 
 import { usePairsFromUrl } from 'utils/hooks'
-import { SwapBox, TokenList, SwapBoxInfo, CandleStock, ChainHistory } from './components'
+import { SwapBox as Other, TokenList, SwapBoxInfo, CandleStock, ChainHistory } from './components'
+import { SwapBox } from './components/swap-box/swap-box'
 
 const SwapboxContainer = styled.div`
 	padding: 8px;
