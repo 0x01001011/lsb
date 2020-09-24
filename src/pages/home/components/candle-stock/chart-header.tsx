@@ -67,7 +67,7 @@ export const ChartHeader = ({ firstToken, secondToken }) => {
 						<PriceStyled>1</PriceStyled>
 						<PriceTokenStyled>{paidToken}</PriceTokenStyled>
 						<PriceStyled> ~ </PriceStyled>
-						<PriceStyled>{lastPrice.close.toFixed(8)}</PriceStyled>
+						<PriceStyled>{lastPrice.close.toFixed(9).slice(0, 10)}</PriceStyled>
 						<PriceTokenStyled>{receivedToken}</PriceTokenStyled>
 					</div>
 				}

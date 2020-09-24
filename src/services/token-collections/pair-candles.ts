@@ -27,3 +27,16 @@ export const getListPairCandles = async (): Promise<Array<string>> => {
 export const usePairCandles = () => {
 	return useQuery('getListPairCandles', () => getListPairCandles())
 }
+
+export const useAvailableTokensOfCandle = () => {
+	return useQuery(
+		useAvailableTokensOfCandle.name,
+		async () => {
+			const pairs = await getListPairCandles()
+			const tokens = pairs.flatMap((pair) => pair.split('-'))
+
+			return Array.from(new Set(tokens))
+		},
+		{ cacheTime: 60 * 60 * 1000, refetchOnMount: false, refetchInterval: 60 * 60 * 1000 },
+	)
+}
