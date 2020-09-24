@@ -113,7 +113,7 @@ export const ChainHistory = () => {
 		const { width, height } = windowSize
 
 		if (width > 1280 && height > 700) {
-			setState({ ...state, rowsPerPage: Math.floor((height - 650) / 38) })
+			setState({ ...state, rowsPerPage: Math.floor((height - 680) / 38) })
 		}
 	}, [windowSize])
 
