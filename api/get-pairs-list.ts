@@ -33,9 +33,3 @@ export default async function calculateExchange(req: NowRequest, res: NowRespons
 		res.status(501).json(err)
 	}
 }
-
-const calculateRate = (a: PairItemInterface, b: PairItemInterface) => {
-	const closeA = a?.close || 0
-	const closeB = b?.close || 0
-	return closeB - closeA
-}

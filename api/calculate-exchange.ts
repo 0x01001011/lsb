@@ -31,17 +31,36 @@ export default async function calculateExchange(req: NowRequest, res: NowRespons
 		const tasks = pairsResponses.data.map(async (pair: string) => {
 			const last2Item = await db
 				.collection(pair)
-				.find<PairItemInterface>({}, { sort: { time: -1 }, limit: 2 })
+				.find<PairItemInterface>({}, { sort: { time: -1 }, limit: 7 })
 				.toArray()
 			console.log('load last 2 item of pair: ', pair, last2Item)
 			return { pair, last2Item }
 		})
 		const allLast2Items = await Promise.all(tasks)
 		const doc = allLast2Items.map((i) => {
-			if (i.last2Item.length !== 0) {
-				return { pair: i.pair, last2Item: i.last2Item, exchangeRate: calculateRate(i.last2Item[0], i.last2Item[1]) }
+			if (i.last2Item.length > 1) {
+				const out = {
+					pair: i.pair,
+					exchange24h: calculateRate(i.last2Item[1], i.last2Item[0]),
+					exchange24hPercent: 0,
+					exchangeWeek: 0,
+					exchangeWeekPercent: 0,
+				}
+
+				if (out.exchange24h !== 0) {
+					out.exchange24hPercent = (out.exchange24h / i.last2Item[1].close) * 100
+				}
+
+				if (i.last2Item.length > 6) {
+					out.exchangeWeek = calculateRate(i.last2Item[6], i.last2Item[0])
+					if (out.exchangeWeek !== 0) {
+						out.exchangeWeekPercent = (out.exchangeWeek / i.last2Item[6].close) * 100
+					}
+				}
+
+				return out
 			}
-			return { pair: i.pair, last2Item: i.last2Item, exchangeRate: 0 }
+			return { pair: i.pair, last2Item: i.last2Item, exchange24h: 0 }
 		})
 		try {
 			const collection = await db.createCollection('trade_view')
