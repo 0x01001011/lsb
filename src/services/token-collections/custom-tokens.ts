@@ -2,6 +2,7 @@ import axios from 'axios'
 import { useQuery } from 'react-query'
 import { CustomTokenReceivedModel } from 'models/incscan-api'
 import { TokenUiModel } from 'models/token'
+import { queryCache } from 'services/query-cache'
 
 export const getListCustomTokens = async (): Promise<TokenUiModel[]> => {
 	try {
@@ -21,4 +22,12 @@ export const getListCustomTokens = async (): Promise<TokenUiModel[]> => {
 
 export const useCustomTokens = () => {
 	return useQuery(getListCustomTokens.name, () => getListCustomTokens())
+}
+
+export const getCustomTokenFromCache = () => {
+	const data = queryCache.getQueryData<TokenUiModel[]>(getListCustomTokens.name)
+	if (!data) {
+		throw new Error('hook useCustomTokens() should be call before.')
+	}
+	return data
 }
