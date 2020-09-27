@@ -1,6 +1,5 @@
 import * as i from 'incognito-js'
 import { WALLET_CONSTANTS } from 'constants/wallet'
-import BN from 'bn.js'
 
 export interface AccountInfoInterface {
 	accountName: string
@@ -27,6 +26,10 @@ export class WalletService {
 		return this.walletInstance.masterAccount
 	}
 
+	get currentAccount() {
+		return this.walletInstance?.masterAccount.getAccountByName(WALLET_CONSTANTS.ONE_TIME_WALLET_NAME)
+	}
+
 	async getAccountInfo(accountName: string): Promise<AccountInfoInterface> {
 		const account = this.masterAccount.getAccountByName(accountName)
 		account.serializeKeys()
@@ -36,8 +39,19 @@ export class WalletService {
 		console.log(account.privacyTokenIds)
 
 		const PRV = await account.nativeToken.getTotalBalance()
-		const balances = {
-			PRV: PRV.divn(1000000000).toString(),
+		let balances: any = {
+			PRV: PRV.toString(),
+		}
+
+		const followers = (await account.getFollowingPrivacyToken(null)) as i.PrivacyTokenInstance[]
+		if (followers) {
+			await Promise.all(
+				followers.map(async (t) => {
+					const balance = await t.getTotalBalance(t.tokenId)
+					balances = { ...balances, [t.symbol]: balance.toString() }
+					return 1
+				}),
+			)
 		}
 
 		return {
@@ -97,6 +111,16 @@ export class WalletService {
 
 	async backupWallet(password: string) {
 		return this.walletInstance.backup(password)
+	}
+
+	async followTokenById(tokenId: string) {
+		this.currentAccount.followTokenById(tokenId)
+	}
+
+	async requestTrade(tokenId: string, amount: number) {
+		const { nativeToken } = this.currentAccount
+		const tx = await nativeToken.requestTrade(tokenId, amount, 0, 0, 0)
+		console.log({ tx })
 	}
 }
 

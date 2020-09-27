@@ -33,8 +33,10 @@ export const trading = createSlice({
 			state.paidToken = paidToken || ''
 			state.receivedToken = receivedToken || ''
 		},
-		changeAmount(state, action: PayloadAction<{ type: 'pay' | 'receive'; amount }>) {
-			const { type } = action.payload
+		changeAmount(state, action: PayloadAction<{ paid: number; received: number }>) {
+			const { paid, received } = action.payload
+			state.paidAmount = paid
+			state.receivedAmount = received
 		},
 		changeAggregation(state, action: PayloadAction<{ aggregation: AggregationType }>) {
 			const { aggregation } = action.payload

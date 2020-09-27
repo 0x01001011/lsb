@@ -16,7 +16,7 @@ import { Drawer } from 'antd'
 import { CloseRounded, InfoRounded, SwapVertRounded } from '@material-ui/icons'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import { changeToken, useTradingState } from 'stores/implements/trading'
+import { changeAmount, changeToken, useTradingState } from 'stores/implements/trading'
 import { usePairCandles } from 'services/token-collections'
 import { usePairsFromUrl } from 'utils/hooks'
 import { usePriceEstimate } from 'services/trading'
@@ -259,6 +259,7 @@ export const SwapBox = () => {
 		const inputValue = parseFloat(e.target.value || '0')
 		setFirstTokenInput(inputValue)
 		setPaidNum(inputValue)
+		dispatch(changeAmount({ paid: inputValue, received: estimateResult }))
 	}
 
 	return (

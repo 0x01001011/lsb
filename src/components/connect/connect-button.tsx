@@ -15,14 +15,17 @@ export const ConnectButton: React.FC<{ handleClickOpen: () => void }> = ({ handl
 	const open = Boolean(anchorEl)
 
 	const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+		console.log('Click..')
 		setAnchorEl(event.currentTarget)
 	}
 
 	const handleClose = () => {
+		console.log('Close..')
 		setAnchorEl(null)
 	}
 
 	const handleClearAccount = () => {
+		console.log('Clear..')
 		dispatch(clearAccount())
 	}
 

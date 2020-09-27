@@ -108,9 +108,7 @@ const Expanded = styled(Typography)`
 const StyledOption: React.FC<{ token: string }> = ({ token }) => {
 	return (
 		<Option>
-			<Tooltip title={token}>
-				<TokenImage tokenName={token} />
-			</Tooltip>
+			<TokenImage tokenName={token} />
 			<Expanded>{token}</Expanded>
 			<Divider />
 		</Option>

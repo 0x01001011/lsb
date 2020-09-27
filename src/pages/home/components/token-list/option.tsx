@@ -29,12 +29,10 @@ export const StyledOption = (props: PerPair) => {
 
 	return (
 		<Option>
-			<Tooltip title={`${first}-${second}`} placement="bottom-start">
-				<AvatarGroup>
-					<TokenImage tokenName={first} first />
-					<TokenImage tokenName={second} />
-				</AvatarGroup>
-			</Tooltip>
+			<AvatarGroup>
+				<TokenImage tokenName={first} first />
+				<TokenImage tokenName={second} />
+			</AvatarGroup>
 			<Typography align="right" variant="body2">
 				{isZero(volume) ? '-' : formatNumber(volume)}
 			</Typography>

@@ -7,12 +7,11 @@ import { queryCache } from 'services/query-cache'
 export const getListCustomTokens = async (): Promise<TokenUiModel[]> => {
 	try {
 		const res = await axios.get<Array<CustomTokenReceivedModel>>('https://api.incscan.io/blockchain/custom-tokens')
-		return res.data.map(({ symbol, name, image }) => ({
-			tokenSymbol: symbol,
-			tokenName: name,
-			icon: image,
-			colors: ['#f1f1f1', '#303030'],
-			gradients: ['rgb(238, 238, 238)', 'rgb(194, 194, 194)'],
+		return res.data.map((r) => ({
+			tokenSymbol: r.symbol,
+			tokenName: r.name,
+			icon: r.image,
+			...r,
 		}))
 	} catch (error) {
 		console.error(error)

@@ -9,20 +9,27 @@ import {
 } from '@material-ui/core'
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { useWalletState } from 'stores/implements/wallet'
+import { requestTrade, useWalletState } from 'stores/implements/wallet'
 import SwapHorizIcon from '@material-ui/icons/SwapHoriz'
+import { useTradingState } from 'stores/implements/trading'
+import { useDictionaryTokenIds } from 'services/token-collections'
 
 export const TradingDialog = () => {
-	const [open, setOpen] = React.useState(false)
-
 	const dispatch = useDispatch()
 	const walletState = useWalletState((s) => s)
+	const { paidAmount, receivedAmount, receivedToken } = useTradingState((s) => s)
+	const tokenIdDict = useDictionaryTokenIds()
+	const [open, setOpen] = React.useState(false)
 	const handleClickOpen = () => {
 		setOpen(true)
 	}
 
 	const handleCancel = () => {
 		setOpen(false)
+	}
+
+	const handleTrade = () => {
+		dispatch(requestTrade({ tokenId: tokenIdDict.data[receivedToken].tokenId, amount: paidAmount }))
 	}
 
 	const accountName = walletState.account?.accountName
@@ -40,7 +47,7 @@ export const TradingDialog = () => {
 					<DialogContent>Connect your wallet to swap!</DialogContent>
 				)}
 				<DialogActions>
-					<Button onClick={handleCancel} color="primary">
+					<Button onClick={handleTrade} color="primary">
 						OK
 					</Button>
 					<Button onClick={handleCancel} color="primary">

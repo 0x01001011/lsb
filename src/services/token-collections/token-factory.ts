@@ -2,6 +2,7 @@
 import { useQuery } from 'react-query'
 import { TokenUiModel } from 'models/token'
 import { keyBy } from 'lodash'
+import { queryCache } from 'services/query-cache'
 import { getListCoinTokens } from './coin-tokens'
 import { getListShieldedCoins } from './shielded-coins'
 import { getListCustomTokens } from './custom-tokens'
@@ -48,4 +49,23 @@ export const useDictionaryTokenInfos = (variant: string) => {
 		},
 		{ cacheTime: 60 * 60 * 1000, refetchOnMount: false, refetchInterval: 60 * 60 * 1000 },
 	)
+}
+
+export const useDictionaryTokenIds = () => {
+	return useQuery(
+		useDictionaryTokenIds.name,
+		async () => {
+			const datum = await getListTokens('Coins')
+			return keyBy(datum, (d) => d.tokenSymbol)
+		},
+		{ cacheTime: 60 * 60 * 1000, refetchOnMount: false, refetchInterval: 60 * 60 * 1000 },
+	)
+}
+
+export const useTokenIdsFromCache = () => {
+	const data = queryCache.getQueryData<TokenUiModel[]>(useDictionaryTokenIds.name)
+	if (!data) {
+		throw new Error('hook useDictionaryTokenIds() should be call before.')
+	}
+	return data
 }

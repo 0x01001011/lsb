@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { createSelectorForSlice } from 'stores/utils'
 import { AccountInfoInterface, sdk, walletService } from 'services/incognito'
+import { WALLET_CONSTANTS } from 'constants/wallet'
 
 interface WalletState {
 	selectAccountName?: string
@@ -52,6 +53,21 @@ export const connectViaPrivateKey = createAsyncThunk<void, { privateKey: string 
 export const loadWalletWebAssembly = createAsyncThunk('wallet/load_assembly', async () => {
 	return sdk.initSDK('/privacy.wasm')
 })
+
+export const followTokenById = createAsyncThunk<void, { tokenId: string }, AsyncThunkConfig>(
+	'wallet/followTokenById',
+	async ({ tokenId }, { dispatch }) => {
+		await walletService.followTokenById(tokenId)
+		dispatch(selectAccount({ accountName: WALLET_CONSTANTS.ONE_TIME_WALLET_NAME }))
+	},
+)
+
+export const requestTrade = createAsyncThunk<void, { tokenId: string; amount: number }, AsyncThunkConfig>(
+	'wallet/requestTrade',
+	async ({ tokenId, amount }, { dispatch }) => {
+		await walletService.requestTrade(tokenId, amount)
+	},
+)
 
 export const wallets = createSlice({
 	name: 'wallets',
