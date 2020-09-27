@@ -65,7 +65,7 @@ export const followTokenById = createAsyncThunk<void, { tokenId: string }, Async
 export const requestTrade = createAsyncThunk<void, { tokenId: string; amount: number }, AsyncThunkConfig>(
 	'wallet/requestTrade',
 	async ({ tokenId, amount }, { dispatch }) => {
-		await walletService.requestTrade(tokenId, amount)
+		await walletService.requestBuyToken(tokenId, amount)
 	},
 )
 

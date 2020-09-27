@@ -117,11 +117,21 @@ export class WalletService {
 		this.currentAccount.followTokenById(tokenId)
 	}
 
-	async requestTrade(tokenId: string, amount: number) {
-		const { nativeToken } = this.currentAccount
-		const tx = await nativeToken.requestTrade(tokenId, amount, 0, 0, 0)
-		console.log({ tx })
+	/**
+	 * requestBuyToken
+	 * tokenIdBuy string
+	 * amount number
+	 * fromToken optional - default is native token
+	 */
+	async requestBuyToken(tokenIdBuy: string, amount: number, fromToken?: string) {
+		// Trade from native token
+		if (!fromToken) {
+			const tx = await this.currentAccount.nativeToken.requestTrade(tokenIdBuy, amount, amount, 1, 20)
+			console.log(tx)
+		}
 	}
 }
 
 export const walletService = new WalletService()
+
+console.log(walletService)
