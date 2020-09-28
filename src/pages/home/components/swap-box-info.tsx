@@ -43,10 +43,10 @@ export const SwapBoxInfo = () => {
 	}, [account, tokenIdDict, paidToken, receivedToken])
 
 	const paidTokenBalance = account?.accountName
-		? `${account?.balances[paidToken] || 0} ${paidToken}`
+		? `${account?.balances[paidToken] || 0} n${paidToken}`
 		: 'Connect Your Wallet To View'
 	const receiveTokenBalance = account?.accountName
-		? `${account?.balances[receivedToken] || 0} ${receivedToken}`
+		? `${account?.balances[receivedToken] || 0} n${receivedToken}`
 		: 'Connect Your Wallet To View'
 	return (
 		<SwapboxInfoContainer>

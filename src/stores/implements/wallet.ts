@@ -3,12 +3,18 @@ import { createSelectorForSlice } from 'stores/utils'
 import { AccountInfoInterface, sdk, walletService } from 'services/incognito'
 import { WALLET_CONSTANTS } from 'constants/wallet'
 
+type TxStatus = {
+	code: 0 | 1 // 0 - Error, 1 - Success
+	errorMessage: string
+}
+
 interface WalletState {
 	selectAccountName?: string
 	account?: AccountInfoInterface
 	connectError?: string
 	isConnecting?: boolean
 	sdkLoaded?: boolean
+	txStatus?: TxStatus
 }
 
 const walletInitialState: WalletState = {}
@@ -62,12 +68,13 @@ export const followTokenById = createAsyncThunk<void, { tokenId: string }, Async
 	},
 )
 
-export const requestTrade = createAsyncThunk<void, { tokenId: string; amount: number }, AsyncThunkConfig>(
-	'wallet/requestTrade',
-	async ({ tokenId, amount }, { dispatch }) => {
-		await walletService.requestBuyToken(tokenId, amount)
-	},
-)
+export const requestTrade = createAsyncThunk<
+	void,
+	{ buyTokenId: string; amount: number; fromTokenId?: string },
+	AsyncThunkConfig
+>('wallet/requestTrade', async ({ buyTokenId, amount, fromTokenId }, { dispatch }) => {
+	console.log(await walletService.requestBuyToken(buyTokenId, amount, fromTokenId))
+})
 
 export const wallets = createSlice({
 	name: 'wallets',
@@ -96,6 +103,19 @@ export const wallets = createSlice({
 		[clearAccount.fulfilled.toString()]: (state) => {
 			state.account = undefined
 			state.selectAccountName = undefined
+		},
+		[requestTrade.fulfilled.toString()]: (state) => {
+			state.txStatus = {
+				code: 1,
+				errorMessage: '',
+			}
+		},
+		[requestTrade.rejected.toString()]: (state, action: PayloadAction<Error>) => {
+			const { message } = action.payload
+			state.txStatus = {
+				code: 0,
+				errorMessage: message,
+			}
 		},
 	},
 })

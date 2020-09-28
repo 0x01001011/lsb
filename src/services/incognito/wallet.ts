@@ -14,6 +14,7 @@ export interface AccountInfoInterface {
 	BLSPublicKeyB58CheckEncode: string
 	isImport: boolean
 	balances: any
+	nativeTokenId: string
 }
 
 export class WalletService {
@@ -48,7 +49,7 @@ export class WalletService {
 			await Promise.all(
 				followers.map(async (t) => {
 					const balance = await t.getTotalBalance(t.tokenId)
-					balances = { ...balances, [t.symbol]: balance.toString() }
+					balances = { ...balances, [t.bridgeInfo.pSymbol]: balance.toString() }
 					return 1
 				}),
 			)
@@ -65,6 +66,7 @@ export class WalletService {
 				validatorKey: account.key.keySet.validatorKey,
 			},
 			privacyTokenIds: account.privacyTokenIds,
+			nativeTokenId: account.nativeToken.tokenId,
 			BLSPublicKeyB58CheckEncode,
 			balances,
 		}
@@ -126,9 +128,14 @@ export class WalletService {
 	async requestBuyToken(tokenIdBuy: string, amount: number, fromToken?: string) {
 		// Trade from native token
 		if (!fromToken) {
-			const tx = await this.currentAccount.nativeToken.requestTrade(tokenIdBuy, amount, amount, 1, 20)
-			console.log(tx)
+			const tx = await this.currentAccount.nativeToken.requestTrade(tokenIdBuy, amount, 0, 10, 10)
+			return tx
 		}
+
+		this.currentAccount.followTokenById(fromToken)
+		const fromTokenInstace = (await this.currentAccount.getFollowingPrivacyToken(fromToken)) as i.PrivacyTokenInstance
+		const tx = await fromTokenInstace.requestTrade(tokenIdBuy, amount, amount, 0, 10, 10)
+		return tx
 	}
 }
 

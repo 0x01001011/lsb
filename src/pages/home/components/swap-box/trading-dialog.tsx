@@ -17,7 +17,7 @@ import { useDictionaryTokenIds } from 'services/token-collections'
 export const TradingDialog = () => {
 	const dispatch = useDispatch()
 	const walletState = useWalletState((s) => s)
-	const { paidAmount, receivedAmount, receivedToken } = useTradingState((s) => s)
+	const { paidAmount, paidToken, receivedToken } = useTradingState((s) => s)
 	const tokenIdDict = useDictionaryTokenIds()
 	const [open, setOpen] = React.useState(false)
 	const handleClickOpen = () => {
@@ -29,7 +29,30 @@ export const TradingDialog = () => {
 	}
 
 	const handleTrade = () => {
-		dispatch(requestTrade({ tokenId: tokenIdDict.data[receivedToken].tokenId, amount: paidAmount }))
+		if (walletState.account && tokenIdDict.data) {
+			if (paidToken === 'PRV') {
+				// From PRV -> pToken
+				dispatch(requestTrade({ buyTokenId: tokenIdDict.data[receivedToken].tokenId, amount: paidAmount }))
+			} else if (receivedToken === 'PRV') {
+				// From pToken -> PRV
+				dispatch(
+					requestTrade({
+						buyTokenId: walletState.account.nativeTokenId,
+						amount: paidAmount,
+						fromTokenId: tokenIdDict.data[paidToken].tokenId,
+					}),
+				)
+			} else {
+				// From pToken1 -> pToken2
+				dispatch(
+					requestTrade({
+						buyTokenId: tokenIdDict.data[receivedToken].tokenId,
+						amount: paidAmount,
+						fromTokenId: tokenIdDict.data[paidToken].tokenId,
+					}),
+				)
+			}
+		}
 	}
 
 	const accountName = walletState.account?.accountName
@@ -47,7 +70,7 @@ export const TradingDialog = () => {
 					<DialogContent>Connect your wallet to swap!</DialogContent>
 				)}
 				<DialogActions>
-					<Button onClick={handleTrade} color="primary">
+					<Button onClick={handleTrade} color="primary" disabled={walletState.account && tokenIdDict.isFetching}>
 						OK
 					</Button>
 					<Button onClick={handleCancel} color="primary">
