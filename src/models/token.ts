@@ -24,3 +24,12 @@ export interface PairCandleStickModel {
 	high: number
 	low: number
 }
+
+export interface PairDetail {
+	pair: string
+	exchange24h: number
+	exchange24hPercent: number
+	exchangeWeek: number
+	exchangeWeekPercent: number
+	last2Item?: PairCandleStickModel[]
+}

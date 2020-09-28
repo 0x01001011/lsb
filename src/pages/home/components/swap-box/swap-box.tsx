@@ -318,7 +318,7 @@ export const SwapBox = () => {
 					</TokenSelection>
 					<StyledField
 						variant="outlined"
-						value={estimateResult}
+						value={estimateResult.toFixed(3)}
 						InputProps={{ endAdornment: <InputAdornment position="end">{receivedToken}</InputAdornment> }}
 					/>
 				</BottomCard>

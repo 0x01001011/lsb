@@ -10,7 +10,7 @@ import { followTokenById, useWalletState } from 'stores/implements/wallet'
 import { usePairsFromUrl } from 'utils/hooks'
 import { useDispatch } from 'react-redux'
 import { useDictionaryTokenIds } from 'services/token-collections'
-import { TokenImage } from './token-image'
+import { TokenImage } from '../token-image'
 
 const SwapboxInfoContainer = styled(TableContainer)`
 	/* background-color: #f4f7fa;
