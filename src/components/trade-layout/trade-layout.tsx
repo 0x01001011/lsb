@@ -87,7 +87,9 @@ export const TradeLayout: React.FC<{
 						<LayoutColumn>{left}</LayoutColumn>
 					</Grid>
 					<Grid item sm={12} md={6}>
-						<LayoutColumn background="#FAFBFB">{children}</LayoutColumn>
+						<LayoutColumn background="#FAFBFB" style={{ maxHeight: 'calc(100vh - 90px)' }}>
+							{children}
+						</LayoutColumn>
 					</Grid>
 					<Grid item sm={12} md={3}>
 						<RightColumn>{right}</RightColumn>

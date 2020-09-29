@@ -22,6 +22,9 @@ const CandleChartContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	min-height: calc(60vh - 90px);
+	height: 100%;
+  justify-content: space-between;
+}
 `
 
 export const HomePage = () => {
