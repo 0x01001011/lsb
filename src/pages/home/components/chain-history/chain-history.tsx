@@ -4,7 +4,13 @@ import PrvSrc from 'assets/prv@2x.png'
 import DefaultTokenImage from 'assets/default-token.png'
 import {
 	Avatar,
+	Button,
+	Dialog,
+	DialogActions,
+	DialogContent,
+	DialogTitle,
 	Divider,
+	Hidden,
 	IconButton,
 	Paper,
 	Table,
@@ -15,6 +21,7 @@ import {
 	TablePagination,
 	TableRow,
 	Typography,
+	useMediaQuery,
 	useTheme,
 } from '@material-ui/core'
 import { KeyboardArrowRight, KeyboardArrowLeft, FirstPage, LastPage } from '@material-ui/icons'
@@ -26,7 +33,6 @@ import { useWindowSize } from 'utils/hooks'
 
 const ChainHistoryContainer = styled.div`
 	padding: 8px 12px;
-	margin-bottom: 24px;
 `
 
 interface TablePaginationActionsProps {
@@ -102,7 +108,7 @@ const initialState = {
 	rowsPerPage: 4,
 }
 
-export const ChainHistory = () => {
+const HistoryTable: React.FC<{ fixedRowPerPage?: number }> = ({ fixedRowPerPage }) => {
 	const [state, setState] = React.useState(initialState)
 	const { page, rowsPerPage } = state
 	const { paidToken, receivedToken } = useTradingState((state) => state)
@@ -110,10 +116,11 @@ export const ChainHistory = () => {
 	const windowSize = useWindowSize()
 
 	React.useEffect(() => {
-		const { width, height } = windowSize
-
-		if (width > 1280 && height > 700) {
-			setState({ ...state, rowsPerPage: Math.floor((height - 680) / 38) })
+		if (!fixedRowPerPage) {
+			const { width, height } = windowSize
+			if (width > 1280 && height > 700) {
+				setState({ ...state, rowsPerPage: Math.floor((height - 690) / 37) })
+			}
 		}
 	}, [windowSize])
 
@@ -127,8 +134,10 @@ export const ChainHistory = () => {
 		setState({ ...state, page: newPage })
 	}
 
+	const renderRows = fixedRowPerPage || rowsPerPage
+
 	return (
-		<ChainHistoryContainer>
+		<>
 			<Typography variant="h6" gutterBottom>
 				Chain History
 			</Typography>
@@ -147,7 +156,7 @@ export const ChainHistory = () => {
 				<Table aria-label="history-chain" style={{ tableLayout: 'fixed' }}>
 					<TableBody style={{ whiteSpace: 'nowrap' }}>
 						{records
-							.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+							.slice(page * renderRows, page * renderRows + renderRows)
 							.map(({ pair, quoteAmount, baseAmount, buyOrSell, price, time }) => {
 								const [first, second] = pair.split('-')
 								const unitPrice = Number(price)
@@ -190,7 +199,7 @@ export const ChainHistory = () => {
 							</TableRow>
 						)}
 					</TableBody>
-					<TableFooter>
+					<StyledTableFooter>
 						<TableRow>
 							<TablePagination
 								style={{ borderBottom: 'none' }}
@@ -198,18 +207,62 @@ export const ChainHistory = () => {
 								colSpan={6}
 								align="right"
 								count={records.length}
-								rowsPerPage={rowsPerPage}
+								rowsPerPage={renderRows}
 								page={page}
 								onChangePage={handleChangePage}
 								ActionsComponent={TablePaginationActions}
 							/>
 						</TableRow>
-					</TableFooter>
+					</StyledTableFooter>
 				</Table>
 			</TableContainer>
+		</>
+	)
+}
+
+export const ChainHistory = () => {
+	const [showDialog, setDialog] = React.useState(false)
+	const hiddenTable = useMediaQuery('(min-width:1440px)')
+
+	const handleOpenDialog = () => {
+		setDialog(true)
+	}
+
+	const handleCloseDialog = () => {
+		setDialog(false)
+	}
+
+	return (
+		<ChainHistoryContainer>
+			{hiddenTable ? (
+				<HistoryTable />
+			) : (
+				<Center>
+					<Button variant="outlined" color="primary" onClick={handleOpenDialog}>
+						Show Histories
+					</Button>
+				</Center>
+			)}
+			<Dialog open={showDialog} aria-labelledby="chain-history-dialog" onBackdropClick={handleCloseDialog}>
+				<DialogTitle id="form-dialog-title">Chain History</DialogTitle>
+				<DialogContent>
+					<HistoryTable fixedRowPerPage={10} />
+				</DialogContent>
+				<DialogActions>
+					<Button onClick={handleCloseDialog} color="primary">
+						Cancel
+					</Button>
+				</DialogActions>
+			</Dialog>
 		</ChainHistoryContainer>
 	)
 }
+
+const Center = styled.div`
+	display: flex;
+	justify-content: center;
+	margin: 32px 0px;
+`
 
 const Meta = styled.div`
 	display: grid;
@@ -252,5 +305,11 @@ const StyledIconButton = styled(IconButton)`
 			color: #294698;
 			background: transparent;
 		}
+	}
+`
+
+const StyledTableFooter = styled(TableFooter)`
+	.MuiTablePagination-toolbar {
+		min-height: 42px;
 	}
 `

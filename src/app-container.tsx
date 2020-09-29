@@ -1,17 +1,18 @@
 import React from 'react'
-import { ReactQueryDevtools } from 'react-query-devtools'
-import { QueryCache, ReactQueryCacheProvider } from 'react-query'
-import { Provider, useDispatch } from 'react-redux'
 import styled from 'styled-components'
+import { ReactQueryDevtools } from 'react-query-devtools'
+import { ReactQueryCacheProvider } from 'react-query'
+import { Provider, useDispatch } from 'react-redux'
+import { useDictionaryTokenIds } from 'services/token-collections'
 
-import { REACT_REQUEST_CONFIG } from 'constants/api'
-import { PersistGate } from 'redux-persist/integration/react'
+import { queryCache } from 'services/query-cache'
 import { AppRouter } from './app-router'
 import { store } from './stores'
 
 const AppRenderContainer = styled.div``
 
 const AppRender = ({ children }) => {
+
 	// const dispatch = useDispatch()
 	// const isSDKLoaded = useWalletState((s) => s.sdkLoaded)
 	// React.useEffect(() => {
@@ -28,8 +29,6 @@ const AppRender = ({ children }) => {
 }
 
 export const AppContainer = () => {
-	const queryCache = new QueryCache(REACT_REQUEST_CONFIG)
-
 	return (
 		<Provider store={store}>
 			<ReactQueryCacheProvider queryCache={queryCache}>

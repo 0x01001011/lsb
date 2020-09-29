@@ -1,6 +1,5 @@
 import * as i from 'incognito-js'
 import { WALLET_CONSTANTS } from 'constants/wallet'
-import BN from 'bn.js'
 
 export interface AccountInfoInterface {
 	accountName: string
@@ -15,6 +14,7 @@ export interface AccountInfoInterface {
 	BLSPublicKeyB58CheckEncode: string
 	isImport: boolean
 	balances: any
+	nativeTokenId: string
 }
 
 export class WalletService {
@@ -27,6 +27,10 @@ export class WalletService {
 		return this.walletInstance.masterAccount
 	}
 
+	get currentAccount() {
+		return this.walletInstance?.masterAccount.getAccountByName(WALLET_CONSTANTS.ONE_TIME_WALLET_NAME)
+	}
+
 	async getAccountInfo(accountName: string): Promise<AccountInfoInterface> {
 		const account = this.masterAccount.getAccountByName(accountName)
 		account.serializeKeys()
@@ -36,8 +40,19 @@ export class WalletService {
 		console.log(account.privacyTokenIds)
 
 		const PRV = await account.nativeToken.getTotalBalance()
-		const balances = {
-			PRV: PRV.divn(1000000000).toString(),
+		let balances: any = {
+			PRV: PRV.toString(),
+		}
+
+		const followers = (await account.getFollowingPrivacyToken(null)) as i.PrivacyTokenInstance[]
+		if (followers) {
+			await Promise.all(
+				followers.map(async (t) => {
+					const balance = await t.getTotalBalance(t.tokenId)
+					balances = { ...balances, [t.bridgeInfo.pSymbol]: balance.toString() }
+					return 1
+				}),
+			)
 		}
 
 		return {
@@ -51,6 +66,7 @@ export class WalletService {
 				validatorKey: account.key.keySet.validatorKey,
 			},
 			privacyTokenIds: account.privacyTokenIds,
+			nativeTokenId: account.nativeToken.tokenId,
 			BLSPublicKeyB58CheckEncode,
 			balances,
 		}
@@ -98,6 +114,31 @@ export class WalletService {
 	async backupWallet(password: string) {
 		return this.walletInstance.backup(password)
 	}
+
+	async followTokenById(tokenId: string) {
+		this.currentAccount.followTokenById(tokenId)
+	}
+
+	/**
+	 * requestBuyToken
+	 * tokenIdBuy string
+	 * amount number
+	 * fromToken optional - default is native token
+	 */
+	async requestBuyToken(tokenIdBuy: string, amount: number, fromToken?: string) {
+		// Trade from native token
+		if (!fromToken) {
+			const tx = await this.currentAccount.nativeToken.requestTrade(tokenIdBuy, amount, 0, 10, 10)
+			return tx
+		}
+
+		this.currentAccount.followTokenById(fromToken)
+		const fromTokenInstace = (await this.currentAccount.getFollowingPrivacyToken(fromToken)) as i.PrivacyTokenInstance
+		const tx = await fromTokenInstace.requestTrade(tokenIdBuy, amount, amount, 0, 10, 10)
+		return tx
+	}
 }
 
 export const walletService = new WalletService()
+
+console.log(walletService)

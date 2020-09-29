@@ -4,12 +4,11 @@ import styled from 'styled-components'
 import { FilterListRounded, SearchRounded } from '@material-ui/icons'
 import { Alert, ToggleButton, ToggleButtonGroup } from '@material-ui/lab'
 import { Skeleton } from 'antd'
-import { usePairOverview } from 'services/token-collections'
+import { usePairDetails } from 'services/token-collections'
 
-import { Button, Divider, IconButton, List, ListItem, TextField, Typography } from '@material-ui/core'
-import { PerPair } from 'models/incscan-api'
+import { Divider, IconButton, List, ListItem, TextField, Typography } from '@material-ui/core'
+import { PairDetail } from 'models/token'
 import { useHistory } from 'react-router-dom'
-import { sortedIndex } from 'lodash'
 import { StyledOption } from './option'
 import { ListboxComponent } from './virtualized-sizer'
 
@@ -19,16 +18,16 @@ const TokenListContainer = styled.div`
 `
 
 enum SortType {
-	ByVolume,
 	ByPair,
-	ByLiquidity,
+	ByDay,
+	ByWeek,
 }
 
 const initialState = {
 	pattern: '',
 	isSearch: false,
 	isSort: false,
-	sortType: SortType.ByVolume,
+	sortType: SortType.ByDay,
 }
 
 export const TokenList = () => {
@@ -37,24 +36,24 @@ export const TokenList = () => {
 	const timerRef = React.useRef<number>(null)
 	const [localState, setLocalState] = React.useState(initialState)
 	const { pattern, isSearch, sortType, isSort } = localState
-	const { isFetching, data, isError } = usePairOverview()
+	const { isFetching, data, isError } = usePairDetails()
 
 	const handleSortFn = React.useCallback(
-		(a: PerPair, b: PerPair) => {
+		(a: PairDetail, b: PairDetail) => {
 			if (sortType === SortType.ByPair) {
 				return a.pair.localeCompare(b.pair)
 			}
-			if (sortType === SortType.ByVolume) {
-				return b.volume - a.volume
+			if (sortType === SortType.ByDay) {
+				return b.exchange24hPercent - a.exchange24hPercent
 			}
-			return b.liquidity - a.liquidity
+			return b.exchangeWeekPercent - a.exchangeWeekPercent
 		},
 		[sortType],
 	)
 
 	const displayedItems = React.useMemo(() => {
 		if (!data || !handleSortFn) return []
-		return data.perPair.filter((opt) => opt.pair.toLowerCase().includes(pattern)).sort(handleSortFn)
+		return data.filter((opt) => opt.pair.toLowerCase().includes(pattern)).sort(handleSortFn)
 	}, [data, pattern, handleSortFn])
 
 	if (isError) {
@@ -126,11 +125,11 @@ export const TokenList = () => {
 					inputRef={searchRef}
 				/>
 
-				<StyledOptionGroup style={isSort ? { width: 'calc(100% - 64px)' } : { width: 0 }}>
+				<StyledOptionGroup style={isSort ? { transform: 'translateX(48px)' } : { transform: 'translateX(-200%)' }}>
 					<ToggleButtonGroup value={SortType[sortType]} exclusive onChange={handleSortSelect}>
-						<StyledSortOption value="ByPair">P</StyledSortOption>
-						<StyledSortOption value="ByVolume">V</StyledSortOption>
-						<StyledSortOption value="ByLiquidity">L</StyledSortOption>
+						<StyledSortOption value="ByPair">AZ</StyledSortOption>
+						<StyledSortOption value="ByDay">1D</StyledSortOption>
+						<StyledSortOption value="ByWeek">7D</StyledSortOption>
 					</ToggleButtonGroup>
 				</StyledOptionGroup>
 			</Header>
@@ -153,7 +152,7 @@ export const TokenList = () => {
 				</>
 			) : (
 				<List component={ListboxComponent as React.ComponentType<React.HTMLAttributes<HTMLElement>>}>
-					{displayedItems.map((pair: PerPair) => (
+					{displayedItems.map((pair: PairDetail) => (
 						<StyledListItem key={pair.pair} button onClick={() => handleItemClick(pair.pair)} disableGutters>
 							<StyledOption {...pair} />
 						</StyledListItem>
@@ -198,7 +197,7 @@ const StyledInput = styled(TextField)`
 `
 
 const StyledOptionGroup = styled.div`
-	transition: width 0.2s ease;
+	transition: all 0.2s ease;
 	display: flex;
 	justify-content: flex-end;
 	position: absolute;

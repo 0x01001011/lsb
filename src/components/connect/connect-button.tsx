@@ -55,6 +55,7 @@ export const ConnectButton: React.FC<{ handleClickOpen: () => void }> = ({ handl
 	// 		</>
 	// 	)
 	// }
+
 	return (
 		<Button variant="outlined" color="primary" onClick={handleClickOpen}>
 			Scan To Connect Wallet

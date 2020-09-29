@@ -5,8 +5,7 @@ import { useDispatch } from 'react-redux'
 import { changeToken, resetTrading } from 'stores/implements/trading'
 
 import { usePairsFromUrl } from 'utils/hooks'
-import { SwapBox as Other, TokenList, SwapBoxInfo, CandleStock, ChainHistory } from './components'
-import { SwapBox } from './components/swap-box/swap-box'
+import { TokenList, CandleStock, SwapBoxInfo, ChainHistory, SwapBox } from './components'
 
 const SwapboxContainer = styled.div`
 	padding: 8px;
@@ -23,6 +22,9 @@ const CandleChartContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	min-height: calc(60vh - 90px);
+	height: 100%;
+  justify-content: space-between;
+}
 `
 
 export const HomePage = () => {

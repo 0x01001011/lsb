@@ -14,5 +14,9 @@ export const getPairOverwiew = async (): Promise<MarketOverViewModel> => {
 }
 
 export const usePairOverview = () => {
-	return useQuery(getPairOverwiew.name, () => getPairOverwiew())
+	return useQuery(getPairOverwiew.name, () => getPairOverwiew(), {
+		cacheTime: 60 * 60 * 1000,
+		refetchOnMount: false,
+		refetchInterval: 60 * 60 * 1000,
+	})
 }

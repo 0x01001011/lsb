@@ -9,8 +9,19 @@ export class SDK {
 		if (this.isWASMRunned) {
 			return
 		}
-		incognitos.setConfig({ wasmPath, apiURL: API_CONFIG.API_BASE_URL, chainURL: MAINNET_FULLNODE, mainnet: false })
-		await incognitos.goServices.implementGoMethodUseWasm()
+		incognitos.setConfig({ wasmPath, apiURL: API_CONFIG.API_BASE_URL, chainURL: MAINNET_FULLNODE, mainnet: true })
+		incognitos.storageService.implement({
+			setMethod: (key: string, data: any) => {
+				return window.sessionStorage.setItem(key, data)
+			},
+			getMethod: (key: string) => {
+				return window.sessionStorage.getItem(key)
+			},
+			removeMethod: (key: string) => window.sessionStorage.removeItem(key),
+			namespace: 'WALLET',
+		} as any)
+		const output = await incognitos.goServices.implementGoMethodUseWasm()
+		console.log(output)
 		this.isWASMRunned = true
 	}
 

@@ -11,6 +11,7 @@ import { SingleColumnLayout } from 'components/layouts/single-column-layout'
 
 const featureTokens: TokenUiModel[] = [
 	{
+		tokenId: '',
 		tokenSymbol: 'PRV',
 		tokenName: 'Privacy Coin',
 		icon: Incognito,
@@ -18,6 +19,7 @@ const featureTokens: TokenUiModel[] = [
 		gradients: ['rgb(238, 238, 238)', 'rgb(194, 194, 194)'],
 	},
 	{
+		tokenId: '',
 		tokenSymbol: 'pETH',
 		tokenName: 'Ethereum',
 		icon: Eth,
@@ -25,6 +27,7 @@ const featureTokens: TokenUiModel[] = [
 		gradients: ['rgb(228, 234, 253)', 'rgb(188, 200, 241)'],
 	},
 	{
+		tokenId: '',
 		tokenSymbol: 'pBTC',
 		tokenName: 'Bitcoin',
 		icon: Btc,
