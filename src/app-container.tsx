@@ -8,23 +8,22 @@ import { useDictionaryTokenIds } from 'services/token-collections'
 import { queryCache } from 'services/query-cache'
 import { AppRouter } from './app-router'
 import { store } from './stores'
-import { loadWalletFromSessionIfExisted, loadWalletWebAssembly, useWalletState } from './stores/implements/wallet'
 
 const AppRenderContainer = styled.div``
 
 const AppRender = ({ children }) => {
-	const dispatch = useDispatch()
-	const isSDKLoaded = useWalletState((s) => s.sdkLoaded)
-	const _ = useDictionaryTokenIds()
-	React.useEffect(() => {
-		dispatch(loadWalletWebAssembly())
-	}, [dispatch])
 
-	React.useEffect(() => {
-		if (isSDKLoaded) {
-			dispatch(loadWalletFromSessionIfExisted())
-		}
-	}, [isSDKLoaded])
+	// const dispatch = useDispatch()
+	// const isSDKLoaded = useWalletState((s) => s.sdkLoaded)
+	// React.useEffect(() => {
+	// 	dispatch(loadWalletWebAssembly())
+	// }, [dispatch])
+
+	// React.useEffect(() => {
+	// 	if (isSDKLoaded) {
+	// 		dispatch(loadWalletFromSessionIfExisted())
+	// 	}
+	// }, [isSDKLoaded])
 
 	return <AppRenderContainer>{children}</AppRenderContainer>
 }

@@ -40,10 +40,10 @@ export const ConnectWalletModal = () => {
 	return (
 		<div>
 			<ConnectButton handleClickOpen={handleClickOpen} />
-			<Dialog open={open} aria-labelledby="form-dialog-title">
+			<Dialog open={open} aria-labelledby="form-dialog-title" keepMounted={false}>
 				<DialogTitle id="form-dialog-title">Scan QR Code</DialogTitle>
 				<DialogContent>
-					<DialogContentText>
+					{/* <DialogContentText>
 						Enter your private key or scan by camera. The private key only use one time and do not store anythings.
 					</DialogContentText>
 					{accountName ? (
@@ -63,7 +63,8 @@ export const ConnectWalletModal = () => {
 						label="Private Key"
 						type="text"
 						fullWidth
-					/>
+					/> */}
+					<DialogContentText id="alert-dialog-slide-description">COMING SOON!</DialogContentText>
 				</DialogContent>
 				<DialogActions>
 					{accountName ? (
@@ -72,7 +73,7 @@ export const ConnectWalletModal = () => {
 						</Button>
 					) : (
 						<Button onClick={handleCancel} color="primary">
-							Cancel
+							OK
 						</Button>
 					)}
 				</DialogActions>
